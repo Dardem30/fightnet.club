@@ -1,6 +1,4 @@
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <style>
   .profile-sidebar {
     padding: 20px 0 10px 0;
@@ -29,14 +27,6 @@
     margin-bottom: 7px;
   }
 
-  .profile-usertitle-job {
-    text-transform: uppercase;
-    color: #5b9bd1;
-    font-size: 12px;
-    font-weight: 600;
-    margin-bottom: 15px;
-  }
-
   .profile-userbuttons {
     text-align: center;
     margin-top: 10px;
@@ -50,8 +40,18 @@
     margin-right: 5px;
   }
 
+  .profile-userbuttons input[type=file] {
+    font-size: 100px;
+    width: 50%;
+    height: 35%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+  }
+
   .profile-userbuttons .btn:last-child {
-    margin-right: 0px;
+    margin-right: 0;
   }
 
   .profile-usermenu {
@@ -123,10 +123,6 @@
     float: right;
   }
 
-  .pull-left {
-    float: left;
-  }
-
   .clear-fix {
     clear: both;
   }
@@ -147,7 +143,17 @@
   }
 
   #formWrapper {
-    background: url(https://images.pexels.com/photos/1229861/pexels-photo-1229861.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500) center fixed;
+    background: url(assets/images/fight.jpg) center fixed;
+    background-size: 100% 100%;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: all .3s ease;
+  }
+
+  #formWrapper2 {
     background-size: 100% 100%;
     width: 100%;
     height: 100%;
@@ -205,18 +211,29 @@
     letter-spacing: .8px;
   }
 
+  select.form-style {
+    color: #8a8a8a;
+    display: block;
+    width: 90%;
+    height: 44px;
+    padding: 5px 5%;
+    border: 1px solid #ccc;
+    -moz-border-radius: 27px;
+    -webkit-border-radius: 27px;
+    border-radius: 27px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    background-color: #fff;
+    font-family: 'HelveticaNeue', 'Arial', sans-serif;
+    font-size: 105%;
+    letter-spacing: .8px;
+  }
+
   div.form-item .form-style:focus {
     outline: none;
     border: 1px solid #58bff6;
     color: #AC0A0A;
-  }
-
-  div.form-item p.formLabel {
-    position: absolute;
-    left: 26px;
-    top: 2px;
-    transition: all .4s ease;
-    color: #bbb;
   }
 
   .formTop {
@@ -226,10 +243,6 @@
     padding: 0 5px;
     font-size: 14px;
     color: #58bff6 !important;
-  }
-
-  .formStatus {
-    color: #8a8a8a !important;
   }
 
   input[type="submit"].login {
@@ -244,7 +257,6 @@
     background-clip: padding-box;
     background-color: #55b1df;
     border: 1px solid #55b1df;
-    border: none;
     color: #fff;
     font-weight: bold;
   }
@@ -260,7 +272,44 @@
     outline: none;
   }
 
+  form {
+    outline: 0;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    float: left;
+    width: 117px;
+    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+  }
 
+  form > .textbox {
+    outline: 0;
+    height: 32px;
+    width: 100%;
+    line-height: 42px;
+    padding: 0 16px;
+    background-color: rgba(255, 255, 255, 0.8);
+    color: #212121;
+    border: 0;
+    float: left;
+    -webkit-border-radius: 4px 0 0 4px;
+    border-radius: 4px 0 0 4px;
+  }
+
+  form > .textbox:focus {
+    outline: 0;
+    background-color: #FFF;
+  }
+
+  #elem {
+    position: absolute;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
 </style>
 <script>
   $(document).ready(function () {
@@ -281,8 +330,26 @@
       $(this).parent().children('.form-style').focus();
     });
   });
+  $(document).ready(function () {
+    var formInputs = $('input[type="email"],input[type="password"]');
+    formInputs.focus(function () {
+      $(this).parent().children('p.formLabel').addClass('formTop');
+      $('div#formWrapper2').addClass('darken-bg');
+      $('div.logo').addClass('logo-active');
+    });
+    formInputs.focusout(function () {
+      if ($.trim($(this).val()).length == 0) {
+        $(this).parent().children('p.formLabel').removeClass('formTop');
+      }
+      $('div#formWrapper2').removeClass('darken-bg');
+      $('div.logo').removeClass('logo-active');
+    });
+    $('p.formLabel').click(function () {
+      $(this).parent().children('.form-style').focus();
+    });
+  });
+  document.querySelector("#today").valueAsDate = new Date();
 </script>
-<script src="https://code.jquery.com/jquery-2.1.0.min.js"></script>
 <body>
 <div id="formWrapper">
   <div class="container">
@@ -290,24 +357,32 @@
       <div class="col-md-3">
         <div class="profile-sidebar">
           <div class="profile-userpic">
-            <img src="http://keenthemes.com/preview/metronic/theme/assets/admin/pages/media/profile/profile_user.jpg"
-                 class="img-responsive" alt="">
+            <!-- pic -->
           </div>
 
           <div class="profile-usertitle">
-            <div class="profile-usertitle-name">
+            <div class="profile-usertitle-name" *ngIf="user != null">
               {{user.name}} {{user.surname}}
             </div>
           </div>
 
           <div class="profile-userbuttons">
-            <button type="button" class="btn btn-success btn-sm">Challenge</button>
-            <button type="button" class="btn btn-danger btn-sm">Message</button>
+            <button type="button" class="btn btn-success btn-sm">Upload video</button>
+            <input type="file" (change)="onFileChange($event)" #fileInput/>
+            <button type="button" class="btn btn-danger btn-sm" (click)="logout()">Log out</button>
+            <br>
+            <form method="post">
+              <select class="textbox" (change)="onChangeFighter($event.target.value)">
+                <option></option>
+                <option *ngFor="let user of users" [value]="user.email">{{user.name}} {{user.surname}}</option>
+              </select>
+            </form>
+            <br>
           </div>
           <div class="profile-usermenu">
             <ul class="nav">
               <li class="active">
-                <a (click)="changeRoute('overview', user)">
+                <a (click)="changeRoute('overview')">
                   <i class="glyphicon glyphicon-home"></i>
                   Overview </a>
               </li>
@@ -317,14 +392,19 @@
                   Map </a>
               </li>
               <li>
-                <a href="/profile" target="_blank">
+                <a (click)="changeRoute('search')">
                   <i class="glyphicon glyphicon-ok"></i>
-                  Tasks </a>
+                  Search </a>
               </li>
               <li>
-                <a href="/profile">
+                <a (click)="changeRoute('bookedUsers')">
                   <i class="glyphicon glyphicon-flag"></i>
-                  Help </a>
+                  Booked users </a>
+              </li>
+              <li>
+                <a (click)="changeRoute('invites')">
+                  <i class="glyphicon glyphicon-flag"></i>
+                  Invites </a>
               </li>
             </ul>
           </div>
@@ -333,6 +413,50 @@
       <div class="col-md-9">
         <div class="profile-content">
           <div #div></div>
+        </div>
+      </div>
+    </div>
+    <div [ngStyle]="invitationStyle" #invitation>
+      <div id='container' style="width: 600px;height: 400px;top:50px;left:50px;">
+        <div id="elem" onmousedown='mydragg.startMoving(this,"container",event);'
+             onmouseup='mydragg.stopMoving("container");' style="width: 300px;height: 300px;">
+          <div style='width:90%;height:90%;padding:10px'>
+            <div id="formWrapper2">
+
+              <div id="form">
+                <div class="logo">
+                  <img src="http://x-lines.ru/letters/i/cyrillicfancy/1329/000000/30/0/jfz8c4mwcf4g155q.png">
+                </div>
+                <div class="form-item">
+                  <input type="text" placeholder="Name" class="form-style" disabled #invitationName/>
+                </div>
+                <div class="form-item">
+                  <input type="text" placeholder="Surname" class="form-style" disabled #invitationSurname/>
+                </div>
+                <div class="form-item">
+                  <select class="form-style" #invitationFightStyle>
+                    <option></option>
+                    <option>Aikido</option>
+                    <option>Boxing</option>
+                    <option>Muay Thai</option>
+                    <option>Greco-Roman wrestling</option>
+                    <option>Freestyle wrestling</option>
+                    <option>Taekwondo</option>
+                    <option>Jujutsu</option>
+                    <option>Krav Maga</option>
+                    <option>Wing Chun</option>
+                  </select>
+                </div>
+                <div class="form-item">
+                  <input class="form-style" id="today" type="datetime-local" #invitationDate>
+                </div>
+                <div class="form-item">
+                  <input type="submit" class="login pull-right" value="Invite" (click)="invite()">
+                  <div class="clear-fix"></div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

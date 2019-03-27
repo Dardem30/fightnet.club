@@ -1,5 +1,6 @@
-import {Component, ComponentFactoryResolver} from '@angular/core';
-import {UserService} from "../../services/userService";
+import {Component} from '@angular/core';
+import {UserService} from '../../services/userService';
+import {User} from '../../models/user';
 
 @Component({
   selector: 'overview-component',

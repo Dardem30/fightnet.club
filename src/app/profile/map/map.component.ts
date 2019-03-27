@@ -1,10 +1,34 @@
 import {Component} from '@angular/core';
+import {AppComponent} from '../../app.component';
+import {UserService} from '../../services/userService';
 
 @Component({
   selector: 'map-component',
   templateUrl: './map.component.html'
 })
 export class MapComponent {
-  lat: number = 51.678418;
-  lng: number = 7.809007;
+  latitude = 15;
+  longitude = 15;
+  invitationStyle;
+  userMarkers = [];
+  markers = [];
+
+  constructor(private userService: UserService) {
+
+  }
+
+  ngOnInit() {
+    this.userService.getMarkers().subscribe(markers => this.markers = markers);
+  }
+
+  placeMarker(position: any) {
+    if (this.invitationStyle == null) { // if invitation is visible
+      this.userMarkers = [];
+      const lat = position.coords.lat;
+      const lng = position.coords.lng;
+      AppComponent.invite.latitude = lat;
+      AppComponent.invite.longitude = lng;
+      this.userMarkers.push({latitude: lat, longitude: lng});
+    }
+  }
 }

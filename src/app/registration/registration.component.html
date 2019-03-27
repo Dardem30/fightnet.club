@@ -46,7 +46,7 @@
   }
 
   #formWrapper {
-    background: url(http://sport-kosa.ru/wp-content/uploads/2017/08/mma.jpg) no-repeat center fixed;
+    background: url(assets/images/gloves.jpg) center fixed;
     background-size: 100% 100%;
     width: 100%;
     height: 100%;
@@ -290,18 +290,19 @@
     </div>
     <div class="form-item">
       <span class="custom-dropdown big">
-      <select (change)="onChangeCountry($event.target.value, country.name)" name="country" #country="ngModel"
-              [(ngModel)]="model.country">
-        <option *ngFor="let country of countries" [value]="country.transientJSONField" [label]="country.name"></option>
-      </select>
+        <select class="textbox" (change)="onChangeCountry($event.target.value)">
+          <option></option>
+          <option *ngFor="let country of countries" [value]="country.name">{{country.name}}</option>
+        </select>
       </span>
     </div>
     <div class="form-item">
-           <span class="custom-dropdown big">
- <select (change)="onChangeCity($event.target.value)" name="city" #city="ngModel" [(ngModel)]="model.city">
-        <option *ngFor="let city of cities" [value]="city.name" [label]="city.name"></option>
-      </select>
-           </span>
+      <span class="custom-dropdown big">
+        <select class="textbox" (change)="onChangeCity($event.target.value)">
+          <option></option>
+          <option *ngFor="let city of cities" [value]="city.name">{{city.name}}</option>
+        </select>
+      </span>
     </div>
     <div class="form-item">
       <textarea placeholder="Description" name="description" id="description" class="form-style"

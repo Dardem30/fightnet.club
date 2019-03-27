@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import 'rxjs/add/operator/map';
 import {HttpClient} from '@angular/common/http';
+import {AppComponent} from '../app.component';
 
 @Injectable()
 export class UtilService {
@@ -9,7 +10,7 @@ export class UtilService {
   }
 
   countries(): Promise<Country[]> {
-    return this.http.get('https://fightnet.herokuapp.com/util/getCountries')
+    return this.http.get(AppComponent.apiEndpoint + 'util/getCountries')
       .toPromise()
       .then((response: Country[]) => {
         response.forEach(country => country.transientJSONField = JSON.stringify(country.cities));

@@ -3,6 +3,7 @@ import {Http, Response} from '@angular/http';
 import 'rxjs/add/operator/map';
 import {Observable} from 'rxjs';
 import {Router} from '@angular/router';
+import {AppComponent} from '../app.component';
 
 @Injectable()
 export class AuthService {
@@ -12,7 +13,7 @@ export class AuthService {
   }
 
   login(email: string, password: string): Observable<boolean> {
-    return this.http.post('https://fightnet.herokuapp.com/security/login', {'email': email, 'password': password})
+    return this.http.post(AppComponent.apiEndpoint + 'security/login', {'email': email, 'password': password})
       .map((response: Response) => {
         let token = response.headers.get('Authorization');
         console.log(token);
@@ -27,7 +28,7 @@ export class AuthService {
   }
 
   registration(username: string, code: string) {
-    this.http.post('https://fightnet.herokuapp.com/security/sign-up?email=' + username + '&code=' + code, {})
+    this.http.post(AppComponent.apiEndpoint + 'security/sign-up?email=' + username + '&code=' + code, {})
       .subscribe(res=> {
         if (res.text() == 'false') {
           alert('Wrong code')
@@ -38,7 +39,7 @@ export class AuthService {
   }
   sendCode(model: any) {
     model.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    this.http.post('https://fightnet.herokuapp.com/security/sendCode', model)
+    this.http.post(AppComponent.apiEndpoint + 'security/sendCode', model)
       .subscribe(res => {
         if (res.text() == 'false') {
           alert('Sorry but user with this email already exists')
@@ -46,10 +47,5 @@ export class AuthService {
           this.router.navigate(['confirmCode', model.email]);
         }
       });
-  }
-
-  logout() {
-    localStorage.removeItem('currentUser');
-    this.router.navigate(['']);
   }
 }

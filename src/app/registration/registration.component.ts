@@ -12,8 +12,6 @@ export class RegistrationComponent {
   error = '';
   countries: Country[];
   cities: City[];
-  city: City;
-  country: Country;
 
   constructor(private router: Router,
               private authenticationService: AuthService,
@@ -25,27 +23,22 @@ export class RegistrationComponent {
   }
 
   registration() {
-    this.model.city = this.city;
-    this.model.country = this.country;
     this.authenticationService.sendCode(this.model);
   }
 
-  onChangeCountry(cities, countryName) {//fuck Brandon Aik
-    //TODO find the way to convert [object] to normal JSON country
+  onChangeCountry(countryName, tet) {
     for (let country of this.countries) {
-      if (country.name = countryName) {
-        this.country = country;
+      if (country.name === countryName) {
+        this.model.country = country;
+        this.cities = JSON.parse(country.transientJSONField);
         break;
       }
     }
-    this.cities = JSON.parse(cities);
   }
-
-  onChangeCity(cityName) {//fuck Brandon Aik
-    //TODO find the way to convert [object] to normal JSON city
+  onChangeCity(cityName) {
     for (let city of this.cities) {
-      if (city.name = cityName) {
-        this.city = city;
+      if (city.name === cityName) {
+        this.model.city = city;
         break;
       }
     }

@@ -1,0 +1,94 @@
+<style>
+  h2 {
+    text-align: center;
+    padding: 20px 0;
+  }
+
+  .table-bordered {
+    border: 1px solid #ddd !important;
+  }
+
+  table caption {
+    padding: .5em 0;
+  }
+
+  @media screen and (max-width: 767px) {
+    table caption {
+      display: none;
+    }
+  }
+
+  .p {
+    text-align: center;
+    padding-top: 140px;
+    font-size: 14px;
+  }
+</style>
+<style type="text/scss">
+  .btn {
+    display: inline-block;
+    margin-bottom: 0;
+    text-align: center;
+    text-transform: uppercase;
+    vertical-align: middle;
+    cursor: pointer;
+    background-image: none;
+    whitespace: nowrap;
+    padding: 6px 12px;
+    font-size: 1.4rem;
+    border-radius: 3px;
+    border: 1px solid transparent;
+    text-decoration: none;
+    user-select: none;
+
+    &,
+    &:active,
+    &.active {
+      &:focus {
+        outline: thin dotted;
+        outline: 5px auto -webkit-focus-ring-color;
+        outline-offset: -2px;
+      }
+    }
+
+    &:hover,
+    &:focus,
+    &.focus {
+      text-decoration: none;
+      color: #2a2a2b;
+    }
+
+    &:active,
+    &.active {
+      outline: 0;
+      background-image: none;
+    }
+  }
+</style>
+<div class="row">
+  <div class="col-xs-12">
+    <div class="table-responsive" data-pattern="priority-columns">
+      <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+          <th>Email</th>
+          <th>Name</th>
+          <th>Surname</th>
+          <th>Fight</th>
+          <th>Unbook</th>
+        </tr>
+        </thead>
+        <tbody *ngFor="let user of users">
+          <tr>
+            <th>{{user.email}}</th>
+            <th>{{user.name}}</th>
+            <th>{{user.surname}}</th>
+            <th><button class="btn btn-default hover" (click)="inviteToFight(user)">Fight</button></th>
+            <th><button class="btn btn-default hover" (click)="unBookPerson(user.email)">Remove</button></th>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+

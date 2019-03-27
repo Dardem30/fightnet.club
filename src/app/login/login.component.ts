@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthService} from '../services/authService';
 
@@ -15,7 +15,8 @@ export class LoginComponent {
     private authenticationService: AuthService) { }
 
   ngOnInit() {
-    this.authenticationService.logout();
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('email');
   }
 
   login() {

@@ -3,6 +3,7 @@
     height: 500px;
   }
 </style>
-<agm-map [latitude]="lat" [longitude]="lng">
-  <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+<agm-map [latitude]="latitude" [longitude]="longitude" (mapClick)="placeMarker($event)">
+  <agm-marker *ngFor="let marker of userMarkers" [latitude]="marker.latitude" [longitude]="marker.longitude"></agm-marker>
+  <agm-marker *ngFor="let marker of markers" [latitude]="marker.latitude" [longitude]="marker.longitude"></agm-marker>
 </agm-map>

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {User} from './models/user';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'app';
+  public static user: User;
+  public static invite;
+  public static fighter2Email;
+  public static apiEndpoint = 'http://localhost:8080/';
 }

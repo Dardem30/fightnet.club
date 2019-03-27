@@ -1,7 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 
-
 import {AppComponent} from './app.component';
 import {AuthGuard} from './guard/authGuard';
 import {RouterModule, Routes} from '@angular/router';
@@ -16,8 +15,11 @@ import {ConfirmCodeComponent} from './registration/confirmCode/confirmCode.compo
 import {ProfileComponent} from './profile/profile.component';
 import {UserService} from './services/userService';
 import {AgmCoreModule} from '@agm/core';
-import {MapComponent} from "./profile/map/map.component";
-import {OverviewComponent} from "./profile/overview/overview.component";
+import {MapComponent} from './profile/map/map.component';
+import {OverviewComponent} from './profile/overview/overview.component';
+import {SearchComponent} from './profile/search/search.component';
+import {BookedUsersComponent} from './profile/bookedUsers/bookedUsers.component';
+import {InvitesComponent} from './profile/Invites/invites.component';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -34,9 +36,12 @@ const routes: Routes = [
     ConfirmCodeComponent,
     ProfileComponent,
     MapComponent,
-    OverviewComponent
+    OverviewComponent,
+    SearchComponent,
+    BookedUsersComponent,
+    InvitesComponent
   ],
-  entryComponents: [MapComponent, OverviewComponent],
+  entryComponents: [MapComponent, OverviewComponent, SearchComponent, BookedUsersComponent, InvitesComponent],
   imports: [
     BrowserModule,
     HttpModule,
@@ -51,4 +56,5 @@ const routes: Routes = [
   bootstrap: [AppComponent]
 })
 export class AppModule {
+
 }

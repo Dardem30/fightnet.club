@@ -1,5 +1,5 @@
 class Country {
-  id: number;
+  id: any;
   name: string;
   cities: City[];
   transientJSONField: string;
