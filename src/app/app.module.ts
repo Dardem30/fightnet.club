@@ -20,6 +20,9 @@ import {OverviewComponent} from './profile/overview/overview.component';
 import {SearchComponent} from './profile/search/search.component';
 import {BookedUsersComponent} from './profile/bookedUsers/bookedUsers.component';
 import {InvitesComponent} from './profile/Invites/invites.component';
+import {NotificationComponent} from './profile/notification/notification.component';
+import {FightsComponent} from './profile/fights/fights.component';
+import {VideosComponent} from './profile/videos/videos.component';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -39,9 +42,21 @@ const routes: Routes = [
     OverviewComponent,
     SearchComponent,
     BookedUsersComponent,
-    InvitesComponent
+    InvitesComponent,
+    NotificationComponent,
+    FightsComponent,
+    VideosComponent
   ],
-  entryComponents: [MapComponent, OverviewComponent, SearchComponent, BookedUsersComponent, InvitesComponent],
+  entryComponents: [
+    MapComponent,
+    OverviewComponent,
+    SearchComponent,
+    BookedUsersComponent,
+    InvitesComponent,
+    NotificationComponent,
+    FightsComponent,
+    VideosComponent
+  ],
   imports: [
     BrowserModule,
     HttpModule,

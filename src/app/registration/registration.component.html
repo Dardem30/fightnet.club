@@ -1,6 +1,5 @@
 <style>
   body {
-    background: url(http://www.timurtek.com/wp-content/uploads/2014/10/form-bg.jpg) no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -46,8 +45,6 @@
   }
 
   #formWrapper {
-    background: url(assets/images/gloves.jpg) center fixed;
-    background-size: 100% 100%;
     width: 100%;
     height: 100%;
     position: absolute;
@@ -101,6 +98,44 @@
     background-color: #fff;
     font-family: 'HelveticaNeue', 'Arial', sans-serif;
     font-size: 105%;
+    letter-spacing: .8px;
+  }
+
+  select.form-style {
+    color: #8a8a8a;
+    display: block;
+    width: 100%;
+    height: 44px;
+    padding: 5px 5%;
+    border: 1px solid #ccc;
+    -moz-border-radius: 27px;
+    -webkit-border-radius: 27px;
+    border-radius: 27px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    background-color: #fff;
+    font-family: 'HelveticaNeue', 'Arial', sans-serif;
+    font-size: 105%;
+    letter-spacing: .8px;
+  }
+
+  textarea.form-style {
+    color: #8a8a8a;
+    display: block;
+    width: 90%;
+    height: 100px;
+    padding: 5px 5%;
+    border: 1px solid #ccc;
+    -moz-border-radius: 27px;
+    -webkit-border-radius: 27px;
+    border-radius: 27px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    background-color: #fff;
+    font-family: 'HelveticaNeue', 'Arial', sans-serif;
+    font-size: 80%;
     letter-spacing: .8px;
   }
 
@@ -289,23 +324,19 @@
              #surname="ngModel" required/>
     </div>
     <div class="form-item">
-      <span class="custom-dropdown big">
-        <select class="textbox" (change)="onChangeCountry($event.target.value)">
-          <option></option>
-          <option *ngFor="let country of countries" [value]="country.name">{{country.name}}</option>
-        </select>
-      </span>
+      <select class="form-style" (change)="onChangeCountry($event.target.value)">
+        <option></option>
+        <option *ngFor="let country of countries" [value]="country.name">{{country.name}}</option>
+      </select>
     </div>
     <div class="form-item">
-      <span class="custom-dropdown big">
-        <select class="textbox" (change)="onChangeCity($event.target.value)">
-          <option></option>
-          <option *ngFor="let city of cities" [value]="city.name">{{city.name}}</option>
-        </select>
-      </span>
+      <select class="form-style" (change)="onChangeCity($event.target.value)">
+        <option></option>
+        <option *ngFor="let city of cities" [value]="city.name">{{city.name}}</option>
+      </select>
     </div>
     <div class="form-item">
-      <textarea placeholder="Description" name="description" id="description" class="form-style"
+      <textarea class="form-style" placeholder="Description" name="description" id="description" class="form-style"
                 [(ngModel)]="model.description"
                 #description="ngModel" required></textarea>
     </div>

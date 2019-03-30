@@ -367,17 +367,8 @@
           </div>
 
           <div class="profile-userbuttons">
-            <button type="button" class="btn btn-success btn-sm">Upload video</button>
-            <input type="file" (change)="onFileChange($event)" #fileInput/>
+            <button type="button" class="btn btn-success btn-sm" style="display: none" [ngStyle]="adminStyle" (click)="fileInput.click()">Upload video</button>
             <button type="button" class="btn btn-danger btn-sm" (click)="logout()">Log out</button>
-            <br>
-            <form method="post">
-              <select class="textbox" (change)="onChangeFighter($event.target.value)">
-                <option></option>
-                <option *ngFor="let user of users" [value]="user.email">{{user.name}} {{user.surname}}</option>
-              </select>
-            </form>
-            <br>
           </div>
           <div class="profile-usermenu">
             <ul class="nav">
@@ -406,6 +397,21 @@
                   <i class="glyphicon glyphicon-flag"></i>
                   Invites </a>
               </li>
+              <li>
+                <a (click)="changeRoute('notification')">
+                  <i class="glyphicon glyphicon-flag"></i>
+                  Notification </a>
+              </li>
+              <li>
+                <a (click)="changeRoute('fights')">
+                  <i class="glyphicon glyphicon-flag"></i>
+                  Fights </a>
+              </li>
+              <li>
+                <a (click)="changeRoute('videos')">
+                  <i class="glyphicon glyphicon-flag"></i>
+                  Videos </a>
+              </li>
             </ul>
           </div>
         </div>
@@ -417,7 +423,7 @@
       </div>
     </div>
     <div [ngStyle]="invitationStyle" #invitation>
-      <div id='container' style="width: 600px;height: 400px;top:50px;left:50px;">
+      <div id='container' style="width: 600px;height: 400px;position: absolute;top:50px;left:50px;">
         <div id="elem" onmousedown='mydragg.startMoving(this,"container",event);'
              onmouseup='mydragg.stopMoving("container");' style="width: 300px;height: 300px;">
           <div style='width:90%;height:90%;padding:10px'>
@@ -463,3 +469,4 @@
   </div>
 </div>
 </body>
+<input type="file" (change)="onFileChange($event)" #fileInput style="display: none"/>

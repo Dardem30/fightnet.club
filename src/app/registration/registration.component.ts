@@ -26,7 +26,7 @@ export class RegistrationComponent {
     this.authenticationService.sendCode(this.model);
   }
 
-  onChangeCountry(countryName, tet) {
+  onChangeCountry(countryName) {
     for (let country of this.countries) {
       if (country.name === countryName) {
         this.model.country = country;

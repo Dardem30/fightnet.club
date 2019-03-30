@@ -7,6 +7,7 @@ import {AppComponent} from '../app.component';
 import {BookedUser} from '../models/bookedUser';
 import {User} from '../models/user';
 import {Invite} from '../models/invite';
+import {UserNotification} from '../models/notification';
 
 @Injectable()
 export class UserService {
@@ -41,11 +42,12 @@ export class UserService {
       .map((response: BookedUser[]) => response);
   }
 
-  uploadVideo(file: File) {
+  uploadVideo(file: File, email1, email2, inviteId) {
     const formdata: FormData = new FormData();
     formdata.append('file', file, file.name);
-    formdata.append('fighterEmail1', localStorage.getItem('email'));
-    formdata.append('fighterEmail2', AppComponent.fighter2Email);
+    formdata.append('fighterEmail1', email1);
+    formdata.append('fighterEmail2', email2);
+    formdata.append('inviteId', inviteId);
 
     return this.http.post(AppComponent.apiEndpoint + 'user/uploadVideo', formdata, {
       headers: {
@@ -71,11 +73,36 @@ export class UserService {
 
   }
 
-  updateInvite(invite: any) {
-    return this.http.post(AppComponent.apiEndpoint + 'util/updateInvite', invite);
+  acceptInvite(invite: any) {
+    return this.http.post(AppComponent.apiEndpoint + 'util/acceptInvite', invite);
   }
 
   getMarkers() {
-    return this.http.get(AppComponent.apiEndpoint + 'util/getMarkers');
+    return this.http.get(AppComponent.apiEndpoint + 'util/getMarkers')
+      .map((response: Invite[]) => response);
+  }
+
+  getNotification(email: string) {
+    return this.http.get(AppComponent.apiEndpoint + 'util/getNotifications?email=' + email)
+      .map((response: UserNotification[]) => response);
+  }
+
+  getPlannedFights(email: string) {
+    return this.http.get(AppComponent.apiEndpoint + 'util/getPlannedFights?email=' + email)
+      .map((response: Invite[]) => response);
+  }
+
+  uploadVideoAdmin(file: File) {
+    const formdata: FormData = new FormData();
+    formdata.append('file', file, file.name);
+
+    return this.http.post(AppComponent.apiEndpoint + 'admin/uploadVideoToFacebook', formdata, {
+      headers: {
+        'Authorization': localStorage.getItem('currentUser')
+      }
+    });
+  }
+  getVideos() {
+    return this.http.get(AppComponent.apiEndpoint + 'util/getVideos');
   }
 }

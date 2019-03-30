@@ -11,4 +11,6 @@ export class User {
   country: string;
   city: string;
   bookedUsers: BookedUser[];
+  roles;
+  isAdmin;
 }

@@ -31,7 +31,7 @@ export class SearchComponent {
     this.userService.search(this.model).subscribe(users => this.users = users);
   }
 
-  onChangeCountry(countryName, tet) {
+  onChangeCountry(countryName) {
     if (countryName != null && countryName != '') {
       for (let country of this.countries) {
         if (country.name === countryName) {

@@ -24,14 +24,15 @@ export class InvitesComponent {
     let ref = this.div.createComponent(factory);
     ref.instance.latitude = coordinateX;
     ref.instance.longitude = coordinateY;
-    ref.instance.markers.push({latitude: coordinateX, longitude: coordinateY});
+    ref.instance.userMarkers = [];
+    ref.instance.userMarkers.push({latitude: coordinateX, longitude: coordinateY});
     ref.changeDetectorRef.detectChanges();
   }
   acceptInvite(invite) {
-    invite.fighterInviter = {email: invite.fighterInviter.email}
-    invite.fighterInvited = {email: invite.fighterInvited.email}
+    invite.fighterInviter = {email: invite.fighterInviter.email, name: invite.fighterInviter.name, surname: invite.fighterInviter.surname};
+    invite.fighterInvited = {email: invite.fighterInvited.email, name: invite.fighterInvited.name, surname: invite.fighterInvited.surname};
     invite.accepted = true;
-    this.userService.updateInvite(invite).subscribe(response => {
+    this.userService.acceptInvite(invite).subscribe(response => {
       this.userService.getUserInvites().subscribe(invites => this.invites = invites);
     })
   }

@@ -123,22 +123,14 @@
   <table id="keywords" cellspacing="0" cellpadding="0">
     <thead>
     <tr>
-      <th><span>Name</span></th>
-      <th><span>Style</span></th>
-      <th><span>Date</span></th>
-      <th></th>
       <th></th>
       <th></th>
     </tr>
     </thead>
-    <tbody *ngFor="let invite of invites">
+    <tbody *ngFor="let notification of notifications">
     <tr>
-      <td>{{invite.fighterInviter.name}} {{invite.fighterInviter.surname}}</td>
-      <td>{{invite.fightStyle}}</td>
-      <td>{{invite.date | date: 'dd.MM.yyyy HH:mm'}}</td>
-      <th><button class="btn btn-default hover" (click)="showPlace(invite.latitude, invite.longitude)">Place</button></th>
-      <th><button class="btn btn-default hover" (click)="acceptInvite(invite)">Accept</button></th>
-      <th><button class="btn btn-default hover" (click)="declineInvite(invite.id)">Decline</button></th>
+      <td>{{notification.text}}</td>
+      <th><button class="btn btn-default hover" (click)="showPlace(notification.latitude, notification.longitude)">Show place</button></th>
     </tr>
     </tbody>
   </table>

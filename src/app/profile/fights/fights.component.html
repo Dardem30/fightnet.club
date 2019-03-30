@@ -123,9 +123,8 @@
   <table id="keywords" cellspacing="0" cellpadding="0">
     <thead>
     <tr>
-      <th><span>Name</span></th>
-      <th><span>Style</span></th>
-      <th><span>Date</span></th>
+      <th></th>
+      <th></th>
       <th></th>
       <th></th>
       <th></th>
@@ -134,12 +133,13 @@
     <tbody *ngFor="let invite of invites">
     <tr>
       <td>{{invite.fighterInviter.name}} {{invite.fighterInviter.surname}}</td>
+      <td>{{invite.fighterInvited.name}} {{invite.fighterInvited.surname}}</td>
       <td>{{invite.fightStyle}}</td>
       <td>{{invite.date | date: 'dd.MM.yyyy HH:mm'}}</td>
-      <th><button class="btn btn-default hover" (click)="showPlace(invite.latitude, invite.longitude)">Place</button></th>
-      <th><button class="btn btn-default hover" (click)="acceptInvite(invite)">Accept</button></th>
-      <th><button class="btn btn-default hover" (click)="declineInvite(invite.id)">Decline</button></th>
+      <th><button class="btn btn-default hover" (click)="showPlace(invite.latitude, invite.longitude)">Show place</button></th>
+      <th><button class="btn btn-default hover" (click)="setFighters(invite)">Upload video</button></th>
     </tr>
     </tbody>
   </table>
 </div>
+<input type="file" accept="image/*" (change)="onFileChange($event)" #file style="display: none">
