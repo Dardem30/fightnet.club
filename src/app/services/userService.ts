@@ -8,6 +8,7 @@ import {BookedUser} from '../models/bookedUser';
 import {User} from '../models/user';
 import {Invite} from '../models/invite';
 import {UserNotification} from '../models/notification';
+import {Message} from '../models/message';
 
 @Injectable()
 export class UserService {
@@ -111,6 +112,6 @@ export class UserService {
       headers: {
         'Authorization': localStorage.getItem('currentUser')
       }
-    });
+    }).map((response: Message[]) => response);
   }
 }
