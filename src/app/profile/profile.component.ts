@@ -24,7 +24,7 @@ import {SocketService} from '../services/socketService';
 export class ProfileComponent {
   private serverUrl = AppComponent.apiEndpoint + 'socket';
   isCustomSocketOpened = false;
-  private stompClient;
+  private static stompClient;
   messages: Message[] = [];
   user: User;
   open = true;
@@ -33,7 +33,7 @@ export class ProfileComponent {
   static showDialog;
   static dialogUser = new User();
   users: BookedUser[];
-  socketConnectionIsOpen = false;
+  static socketConnectionIsOpen = false;
   invitationStyle = {
     'display': 'none'
   };
@@ -170,8 +170,8 @@ export class ProfileComponent {
   }
 
   closeChat() {
-    this.stompClient.disconnect();
-    this.socketConnectionIsOpen = false;
+    ProfileComponent.stompClient.disconnect();
+    ProfileComponent.socketConnectionIsOpen = false;
     ProfileComponent.showDialog = false;
   }
 
@@ -192,13 +192,17 @@ export class ProfileComponent {
   }
 
   static toggle(user) {
+    if (ProfileComponent.stompClient != null) {
+      ProfileComponent.stompClient.disconnect();
+    }
+    ProfileComponent.socketConnectionIsOpen = false;
     this.dialogUser = user;
     this.showDialog = true;
   }
 
   checkOpen() {
-    if (ProfileComponent.showDialog == true && this.socketConnectionIsOpen == false) {
-      this.socketConnectionIsOpen = true;
+    if (ProfileComponent.showDialog == true && ProfileComponent.socketConnectionIsOpen == false) {
+      ProfileComponent.socketConnectionIsOpen = true;
       this.initializeWebSocketConnection();
     }
     return ProfileComponent.showDialog;
@@ -228,9 +232,9 @@ export class ProfileComponent {
       this.messages = messages
     });
     let ws = new SockJS(this.serverUrl);
-    this.stompClient = Stomp.over(ws);
+    ProfileComponent.stompClient = Stomp.over(ws);
     let that = this;
-    this.stompClient.connect({
+    ProfileComponent.stompClient.connect({
       'Authorization': localStorage.getItem('currentUser')
     }, function () {
       that.openSocket();
@@ -239,7 +243,7 @@ export class ProfileComponent {
 
   openSocket() {
     this.isCustomSocketOpened = true;
-    this.stompClient.subscribe('/socket-publisher/' + this.user.email, (messageJson) => {
+    ProfileComponent.stompClient.subscribe('/socket-publisher/' + this.user.email, (messageJson) => {
       let message = JSON.parse(messageJson.body);
       if (message.userSender == this.user.email) {
         message.userSender = this.user.name + ' ' + this.user.surname;
