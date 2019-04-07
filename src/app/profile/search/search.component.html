@@ -87,7 +87,7 @@
   }
 
   th {
-    background: url(https://jackrugile.com/images/misc/noise-diagonal.png), linear-gradient(#777, #444);
+    background: linear-gradient(#777, #444);
     border-left: 1px solid #555;
     border-right: 1px solid #777;
     border-top: 1px solid #555;
@@ -140,12 +140,9 @@
     box-shadow: inset -1px 0 0 #fff;
   }
 
-  tr {
-    background: url(https://jackrugile.com/images/misc/noise-diagonal.png);
-  }
 
   tr:nth-child(odd) td {
-    background: #f1f1f1 url(https://jackrugile.com/images/misc/noise-diagonal.png);
+    background: #f1f1f1;
   }
 
   tr:last-of-type td {
@@ -249,15 +246,17 @@
     <th>Surname</th>
     <th>Country, city</th>
     <th>Description</th>
+    <th>Dialog</th>
     <th>Book user</th>
   </tr>
   </thead>
   <tbody *ngFor="let user of users">
     <tr>
-      <td>{{user.name}}</td>
-      <td>{{user.surname}}</td>
-      <td>{{user.country}}, {{user.city}}</td>
-      <td>{{user.description}}</td>
+      <td (click)="showProfile(user.email)">{{user.name}}</td>
+      <td (click)="showProfile(user.email)">{{user.surname}}</td>
+      <td (click)="showProfile(user.email)">{{user.country}}, {{user.city}}</td>
+      <td (click)="showProfile(user.email)">{{user.description}}</td>
+      <td><button class="btn btn-default hover" (click)="dialog(user.email)">Dialog</button></td>
       <td>
         <button class="btn btn-default hover" (click)="bookPerson(user.email)" *ngIf="isPersonBooked(user.email); else bookedPerson">Book</button>
         <ng-template #bookedPerson>Booked</ng-template>

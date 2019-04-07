@@ -1,9 +1,11 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
+import {Component, ComponentFactoryResolver, ElementRef, ViewChild} from '@angular/core';
 import {UserService} from '../../services/userService';
 import {UtilService} from '../../services/utilService';
 import {Router} from '@angular/router';
 import {BookedUser} from '../../models/bookedUser';
 import {User} from '../../models/user';
+import {UserProfileComponent} from '../seeProfile/userProfile.component';
+import {ProfileComponent} from '../profile.component';
 
 @Component({
   selector: 'search-component',
@@ -11,6 +13,7 @@ import {User} from '../../models/user';
 })
 export class SearchComponent {
   model: any = {};
+  div;
   countries: Country[];
   cities: City[];
   users: User[];
@@ -19,7 +22,8 @@ export class SearchComponent {
 
   constructor(private router: Router,
               private userService: UserService,
-              private utilService: UtilService) {
+              private utilService: UtilService,
+              private componentFactoryResolver: ComponentFactoryResolver) {
   }
 
   ngOnInit() {
@@ -48,7 +52,6 @@ export class SearchComponent {
     if (cityName != null && cityName != '') {
       for (let city of this.cities) {
         if (city.name === cityName) {
-          console.log(city)
           this.model.city = city.id;
           break;
         }
@@ -57,7 +60,7 @@ export class SearchComponent {
       delete this.model.city;
     }
   }
-  bookPerson(email) {
+  bookPerson(email: string) {
     let modalUser = new BookedUser();
     modalUser.email = email;
     this.bookedUsers.push(modalUser);
@@ -72,4 +75,20 @@ export class SearchComponent {
     }
     return true;
   }
+  showProfile(email: string) {
+    this.div.remove(1);
+    this.userService.findUserByEmail(email).subscribe(user => {
+      let factory = this.componentFactoryResolver.resolveComponentFactory(UserProfileComponent);
+      let ref = this.div.createComponent(factory);
+      ref.instance.user = user;
+      ref.changeDetectorRef.detectChanges();
+    });
+  }
+
+  dialog(email: string) {
+    this.userService.findUserByEmail(email).subscribe(user => {
+      ProfileComponent.toggle(user)
+    });
+  }
+  
 }

@@ -16,7 +16,6 @@ export class AuthService {
     return this.http.post(AppComponent.apiEndpoint + 'security/login', {'email': email, 'password': password})
       .map((response: Response) => {
         let token = response.headers.get('Authorization');
-        console.log(token);
         if (token) {
           localStorage.setItem('currentUser', token);
           localStorage.setItem('email', email);

@@ -23,6 +23,9 @@ import {InvitesComponent} from './profile/Invites/invites.component';
 import {NotificationComponent} from './profile/notification/notification.component';
 import {FightsComponent} from './profile/fights/fights.component';
 import {VideosComponent} from './profile/videos/videos.component';
+import {UserProfileComponent} from './profile/seeProfile/userProfile.component';
+import {ToastrModule} from 'ngx-toastr';
+import {SocketService} from './services/socketService';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -45,7 +48,8 @@ const routes: Routes = [
     InvitesComponent,
     NotificationComponent,
     FightsComponent,
-    VideosComponent
+    VideosComponent,
+    UserProfileComponent
   ],
   entryComponents: [
     MapComponent,
@@ -55,19 +59,21 @@ const routes: Routes = [
     InvitesComponent,
     NotificationComponent,
     FightsComponent,
-    VideosComponent
+    VideosComponent,
+    UserProfileComponent
   ],
   imports: [
     BrowserModule,
     HttpModule,
     FormsModule,
+    ToastrModule.forRoot({ timeOut: 3000 }),
     HttpClientModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDitSMGPO5DNKKpDcILf7-3_aOOWeZStCw'
     }),
     RouterModule.forRoot(routes)
   ],
-  providers: [AuthGuard, AuthService, UtilService, UserService],
+  providers: [AuthGuard, SocketService, AuthService, UtilService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

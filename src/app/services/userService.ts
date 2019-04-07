@@ -105,4 +105,12 @@ export class UserService {
   getVideos() {
     return this.http.get(AppComponent.apiEndpoint + 'util/getVideos');
   }
+
+  getDialog(email1, email2) {
+    return this.http.get(AppComponent.apiEndpoint + 'message/getDialog?email1=' + email1 + '&email2=' + email2, {
+      headers: {
+        'Authorization': localStorage.getItem('currentUser')
+      }
+    });
+  }
 }
