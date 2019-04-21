@@ -823,7 +823,7 @@
 </body>
 <input type="file" (change)="onFileChange($event)" #fileInput style="display: none"/>
 <div id="live-chat" [class.show]="checkOpen()">
-  <header class="clearfix" (click)="slideToggle()">
+  <header class="clearfix" (click)="slideToggle('null')">
     <a class="chat-close" (click)="closeChat()">x</a>
     <h4>{{getDialogUser().name}} {{getDialogUser().surname}}</h4>
     <span class="chat-message-counter">3</span>

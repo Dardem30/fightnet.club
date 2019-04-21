@@ -10,14 +10,14 @@ import {ChartOptions, ChartType} from 'chart.js';
 })
 export class OverviewComponent {
   user: User;
-  private hasNoWins = true;
-  private hasNoLoses = true;
-  private pieChartLabelsWins: Label[] = [];
-  private pieChartDataWins: number[] = [];
-  private pieChartLabelsLoses: Label[] = [];
-  private pieChartDataLoses: number[] = [];
-  private pieChartType: ChartType = 'pie';
-  private pieChartColors = [
+  public hasNoWins = true;
+  public hasNoLoses = true;
+  public pieChartLabelsWins: Label[] = [];
+  public pieChartDataWins: number[] = [];
+  public pieChartLabelsLoses: Label[] = [];
+  public pieChartDataLoses: number[] = [];
+  public pieChartType: ChartType = 'pie';
+  public pieChartColors = [
     {
       backgroundColor: ['#546e7a', '#F4511E', '#AC0A0A', '#1a8a34', '#673ab7', '#566375', '#E64A19', '#212121', '#e62727'],
     },
