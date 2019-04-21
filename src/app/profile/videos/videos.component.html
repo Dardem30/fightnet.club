@@ -1,10 +1,12 @@
 <div *ngFor = "let video of videos">
-  {{video.url}}
   <iframe
     [src]="video.safeUrl"
     width="560" height="315"
     style="border:none;overflow:hidden"
     scrolling="no" frameborder="0" allowTransparency="true" allowFullScreen="true"></iframe>
   <br>
+  <button class="btn btn-default btn-sm" style="background-color: #293239; color: #f6f9fb" (click)="voteForFighter1(video)">{{video.fighter1.name}} {{video.fighter1.surname}} ({{video.votes1.length}})</button>
+  <button class="btn btn-default btn-sm" style="background-color: #293239; color: #f6f9fb" (click)="comments(video)">Comments</button>
+  <button class="btn btn-default btn-sm" style="background-color: #293239; color: #f6f9fb" (click)="voteForFighter2(video)">{{video.fighter2.name}} {{video.fighter2.surname}} ({{video.votes2.length}})</button>
   <br>
 </div>

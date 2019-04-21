@@ -1,3 +1,46 @@
+<style>
+  .column {
+    float: left;
+    width: 50%;
+    padding: 10px;
+    height: 300px; /* Should be removed. Only for demonstration */
+  }
+
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+</style>
+<h3 style="text-align: left;font-family: 'Times New Roman';color: #AC0A0A">Description</h3>
+<hr>
 <div *ngIf="user != null">
   {{user.description}}
+</div>
+<h3 style="text-align: left;font-family: 'Times New Roman';color: #AC0A0A">Statistics</h3>
+<hr>
+<div class="row">
+  <div class="column">
+    <h4 style="font-family: 'Times New Roman';color: #AC0A0A">Wins</h4>
+    <canvas baseChart style="width: 120px" height="120px" id = 'wins'
+            [data]="pieChartDataWins"
+            [labels]="pieChartLabelsWins"
+            [chartType]="pieChartType"
+            [options]="pieChartOptions"
+            [colors]="pieChartColors">
+    </canvas>
+    <h3 style="font-family: 'Times New Roman';color: #AC0A0A" *ngIf="hasNoWins">You have no wins, yet</h3>
+  </div>
+  <div class="column">
+    <h4 style="font-family: 'Times New Roman';color: #AC0A0A">Loses</h4>
+    <canvas baseChart style="width: 120px" height="120px" id = 'loses'
+            [data]="pieChartDataLoses"
+            [labels]="pieChartLabelsLoses"
+            [chartType]="pieChartType"
+            [options]="pieChartOptions"
+            [colors]="pieChartColors">
+    </canvas>
+    <h3 style="font-family: 'Times New Roman';color: #AC0A0A" *ngIf="hasNoLoses">You have no loses, yet</h3>
+  </div>
 </div>

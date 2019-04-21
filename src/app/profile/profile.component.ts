@@ -15,6 +15,8 @@ import {Message} from '../models/message';
 import {Stomp} from '@stomp/stompjs';
 import * as SockJS from 'sockjs-client';
 import {SocketService} from '../services/socketService';
+import {Comment} from '../models/comment';
+import {Video} from '../models/video';
 
 
 @Component({
@@ -31,9 +33,13 @@ export class ProfileComponent {
   heightChecked = false;
   initHeight = 0;
   static showDialog;
+  static showComments;
+  static videoId;
   static dialogUser = new User();
   users: BookedUser[];
   static socketConnectionIsOpen = false;
+  static comments: Comment[];
+  commentsToShow: Comment[] = [];
   invitationStyle = {
     'display': 'none'
   };
@@ -49,6 +55,7 @@ export class ProfileComponent {
   @ViewChild('invitationFightStyle') invitationFightStyle;
   @ViewChild('invitationDate') invitationDate;
   @Input() textMessage;
+  @Input() textComment;
 
   constructor(private userService: UserService,
               private componentFactoryResolver: ComponentFactoryResolver,
@@ -175,8 +182,8 @@ export class ProfileComponent {
     ProfileComponent.showDialog = false;
   }
 
-  slideToggle() {
-    const chat = document.getElementById('chat');
+  slideToggle(el: string) {
+    const chat = el == 'comments' ? document.getElementById('chatComments') : document.getElementById('chat');
     if (!this.heightChecked) {
       this.initHeight = chat.offsetHeight;
       this.heightChecked = true;
@@ -213,7 +220,7 @@ export class ProfileComponent {
   }
 
   sendMessage() {
-    let message: Message = new Message()
+    const message: Message = new Message();
     message.text = this.textMessage;
     message.userSender = this.user.email;
     message.userResiver = this.getDialogUser().email;
@@ -244,7 +251,7 @@ export class ProfileComponent {
   openSocket() {
     this.isCustomSocketOpened = true;
     ProfileComponent.stompClient.subscribe('/socket-publisher/' + this.user.email, (messageJson) => {
-      let message = JSON.parse(messageJson.body);
+      const message = JSON.parse(messageJson.body);
       if (message.userSender == this.user.email) {
         message.userSender = this.user.name + ' ' + this.user.surname;
       } else {
@@ -252,5 +259,56 @@ export class ProfileComponent {
       }
       this.messages.push(message);
     });
+  }
+
+
+
+  static toggleCommentsDialog(video: Video) {
+    if (ProfileComponent.stompClient != null) {
+      ProfileComponent.stompClient.disconnect();
+    }
+    ProfileComponent.socketConnectionIsOpen = false;
+    ProfileComponent.comments = video.comments;
+    ProfileComponent.videoId = video.url;
+    ProfileComponent.showComments = true;
+  }
+
+  checkOpenComments() {
+    if (ProfileComponent.showComments == true && ProfileComponent.socketConnectionIsOpen == false) {
+      ProfileComponent.socketConnectionIsOpen = true;
+      this.commentsToShow = ProfileComponent.comments == null ? [] : ProfileComponent.comments;
+      this.initializeWebSocketConnectionForComments();
+    }
+    return ProfileComponent.showComments;
+  }
+
+  initializeWebSocketConnectionForComments() {
+    let ws = new SockJS(this.serverUrl);
+    ProfileComponent.stompClient = Stomp.over(ws);
+    let that = this;
+    ProfileComponent.stompClient.connect({
+      'Authorization': localStorage.getItem('currentUser')
+    }, function () {
+      that.openCommentsSocket();
+    });
+  }
+
+  sendComment() {
+    const video: Video = new Video();
+    const comment: Comment = new Comment();
+    video.url = ProfileComponent.videoId;
+    comment.text = this.textComment;
+    comment.email = this.user.email;
+    comment.video = video;
+    comment.userFullName = this.user.name + ' ' + this.user.surname;
+    for (let uComment of this.commentsToShow) {
+      comment.emails.push(uComment.email);
+    }
+    console.log(comment);
+    this.socketService.postComment(comment).subscribe()
+  }
+  openCommentsSocket() {
+    this.isCustomSocketOpened = true;
+    ProfileComponent.stompClient.subscribe('/socket-publisher/' + ProfileComponent.videoId, (commentJson) => this.commentsToShow.push(JSON.parse(commentJson.body)));
   }
 }

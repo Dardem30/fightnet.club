@@ -409,6 +409,53 @@
     outline: none;
     width: 234px;
   }
+  #live-chat-comments {
+    bottom: 0;
+    font-size: 12px;
+    left: 24px;
+    position: fixed;
+    width: 300px;
+    opacity: 0;
+    transition: .5s ease-in-out all;
+  }
+
+  #live-chat-comments header {
+    background: #293239;
+    border-radius: 5px 5px 0 0;
+    color: #fff;
+    cursor: pointer;
+    padding: 16px 24px;
+  }
+
+  #live-chat-comments h4:before {
+    background: #1a8a34;
+    border-radius: 50%;
+    content: "";
+    display: inline-block;
+    height: 8px;
+    margin: 0 8px 0 0;
+    width: 8px;
+  }
+
+  #live-chat-comments h4 {
+    font-size: 12px;
+  }
+
+  #live-chat-comments h5 {
+    font-size: 10px;
+  }
+
+  #live-chat-comments form {
+    padding: 24px;
+  }
+
+  #live-chat-comments input[type="text"] {
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 8px;
+    outline: none;
+    width: 234px;
+  }
 
   .chat-message-counter {
     background: #e62727;
@@ -430,7 +477,7 @@
   .chat-close {
     background: #1b2126;
     border-radius: 50%;
-    color: #fff;
+    color: #e62727;
     display: block;
     float: right;
     font-size: 10px;
@@ -662,7 +709,7 @@
       <div class="col-md-3">
         <div class="profile-sidebar">
           <div class="profile-userpic">
-            <!-- pic -->
+            <img src="../../assets/images/noPhoto.jpeg">
           </div>
 
           <div class="profile-usertitle">
@@ -783,15 +830,6 @@
   </header>
   <div class="chat" id="chat">
     <div class="chat-history">
-      <!--<div class="chat-message clearfix">-->
-        <!--<img src="http://gravatar.com/avatar/2c0ad52fc5943b78d6abe069cc08f320?s=32" alt="" width="32" height="32">-->
-        <!--<div class="chat-message-content clearfix">-->
-          <!--<span class="chat-time">13:37</span>-->
-          <!--<h5>Marco Biedermann</h5>-->
-          <!--<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis, nulla accusamus magni vel debitis numquam qui tempora rem voluptatem delectus!</p>-->
-        <!--</div>-->
-      <!--</div>-->
-      <!--<hr>-->
       <div class="chat-message clearfix" *ngFor="let message of messages">
         <!--<img src="http://gravatar.com/avatar/2c0ad52fc5943b78d6abe069cc08f320?s=32" alt="" width="32" height="32">-->
         <div class="chat-message-content clearfix">
@@ -804,6 +842,30 @@
     </div>
       <fieldset>
         <input type="text" placeholder="Type your message…" (input)="textMessage = $event.target.value" autofocus> <button class="btn btn-default btn-xs" (click)="sendMessage()" style="background-color: #293239; color: #f6f9fb">Send</button>
+        <input type="hidden">
+      </fieldset>
+  </div>
+</div>
+<div id="live-chat-comments" [class.show]="checkOpenComments()">
+  <header class="clearfix" (click)="slideToggle('comments')">
+    <a class="chat-close" (click)="closeChat()">x</a>
+    <h4>Comments</h4>
+    <span class="chat-message-counter">3</span>
+  </header>
+  <div class="chat" id="chatComments">
+    <div class="chat-history">
+    <div class="chat-message clearfix" *ngFor="let comment of commentsToShow">
+        <!--<img src="http://gravatar.com/avatar/2c0ad52fc5943b78d6abe069cc08f320?s=32" alt="" width="32" height="32">-->
+        <div class="chat-message-content clearfix">
+          <!--<span class="chat-time">13:37</span>-->
+          <h5>{{comment.userFullName}}</h5>
+          <p>{{comment.text}}</p>
+        </div>
+      </div>
+      <hr>
+    </div>
+      <fieldset>
+        <input type="text" placeholder="Type your message…" (input)="textComment = $event.target.value" autofocus> <button class="btn btn-default btn-xs" (click)="sendComment()" style="background-color: #293239; color: #f6f9fb">Send</button>
         <input type="hidden">
       </fieldset>
   </div>

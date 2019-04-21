@@ -9,6 +9,9 @@ import {User} from '../models/user';
 import {Invite} from '../models/invite';
 import {UserNotification} from '../models/notification';
 import {Message} from '../models/message';
+import {Video} from '../models/video';
+import {ProfileComponent} from '../profile/profile.component';
+import {Comment} from '../models/comment';
 
 @Injectable()
 export class UserService {
@@ -43,12 +46,13 @@ export class UserService {
       .map((response: BookedUser[]) => response);
   }
 
-  uploadVideo(file: File, email1, email2, inviteId) {
+  uploadVideo(file: File, email1, email2, inviteId, style) {
     const formdata: FormData = new FormData();
     formdata.append('file', file, file.name);
     formdata.append('fighterEmail1', email1);
     formdata.append('fighterEmail2', email2);
     formdata.append('inviteId', inviteId);
+    formdata.append('style', style);
 
     return this.http.post(AppComponent.apiEndpoint + 'user/uploadVideo', formdata, {
       headers: {
@@ -113,5 +117,12 @@ export class UserService {
         'Authorization': localStorage.getItem('currentUser')
       }
     }).map((response: Message[]) => response);
+  }
+
+  updateVideo(video: Video) {
+    this.http.post(AppComponent.apiEndpoint + 'util/vote', video).subscribe();
+  }
+  static getComments(): Comment[] {
+    return ProfileComponent.comments;
   }
 }

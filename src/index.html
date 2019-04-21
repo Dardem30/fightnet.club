@@ -14,7 +14,7 @@
     }
   </style>
   <script>
-    var mydragg = function(){
+    let mydragg = function(){
       return {
         move : function(divid,xpos,ypos){
           divid.style.left = xpos + 'px';
@@ -22,7 +22,7 @@
         },
         startMoving : function(divid,container,evt){
           evt = evt || window.event;
-          var posX = evt.clientX,
+          let posX = evt.clientX,
             posY = evt.clientY,
             divTop = divid.style.top,
             divLeft = divid.style.left,
@@ -33,11 +33,11 @@
           document.getElementById(container).style.cursor='move';
           divTop = divTop.replace('px','');
           divLeft = divLeft.replace('px','');
-          var diffX = posX - divLeft,
+          let diffX = posX - divLeft,
             diffY = posY - divTop;
           document.onmousemove = function(evt){
             evt = evt || window.event;
-            var posX = evt.clientX,
+            let posX = evt.clientX,
               posY = evt.clientY,
               aX = posX - diffX,
               aY = posY - diffY;
@@ -49,7 +49,7 @@
           }
         },
         stopMoving : function(container){
-          var a = document.createElement('script');
+          let a = document.createElement('script');
           document.getElementById(container).style.cursor='default';
           document.onmousemove = function(){}
         },

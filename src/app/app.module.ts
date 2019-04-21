@@ -2,6 +2,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
+import {ChartsModule} from 'ng2-charts';
 import {AuthGuard} from './guard/authGuard';
 import {RouterModule, Routes} from '@angular/router';
 import {LoginComponent} from './login/login.component';
@@ -64,9 +65,10 @@ const routes: Routes = [
   ],
   imports: [
     BrowserModule,
+    ChartsModule,
     HttpModule,
     FormsModule,
-    ToastrModule.forRoot({ timeOut: 3000 }),
+    ToastrModule.forRoot({timeOut: 3000}),
     HttpClientModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDitSMGPO5DNKKpDcILf7-3_aOOWeZStCw'

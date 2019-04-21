@@ -12,6 +12,7 @@ export class FightsComponent {
   div;
   fighterInviter;
   fighterInvited;
+  style;
   @ViewChild('file') file: ElementRef;
   inviteId;
 
@@ -38,7 +39,7 @@ export class FightsComponent {
     let reader = new FileReader();
     let file: File = event.target.files[0];
     if (file.type === 'video/mp4') {
-      this.userService.uploadVideo(file, this.fighterInviter, this.fighterInvited, this.inviteId).subscribe(result => {
+      this.userService.uploadVideo(file, this.fighterInviter, this.fighterInvited, this.inviteId, this.style).subscribe(result => {
         this.userService.getPlannedFights(localStorage.getItem('email')).subscribe(invites => this.invites = invites);
         if (result === 'success') {
           alert('Successfully')
@@ -55,6 +56,7 @@ export class FightsComponent {
     this.fighterInviter = invite.fighterInviter.email;
     this.fighterInvited = invite.fighterInvited.email;
     this.inviteId = invite.id;
+    this.style = invite.fightStyle;
     (this.file.nativeElement as HTMLElement).click();
   }
 }

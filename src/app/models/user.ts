@@ -13,4 +13,6 @@ export class User {
   bookedUsers: BookedUser[];
   roles;
   isAdmin;
+  wins;
+  loses;
 }
