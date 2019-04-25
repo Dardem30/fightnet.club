@@ -18,7 +18,10 @@ export class MapComponent {
   }
 
   ngOnInit() {
-    this.userService.getMarkers().subscribe(markers => this.markers = markers);
+    this.userService.getMarkers().subscribe(markers => {
+      console.log(markers);
+      this.markers = markers
+    });
   }
 
   placeMarker(position: any) {
@@ -30,5 +33,8 @@ export class MapComponent {
       AppComponent.invite.longitude = lng;
       this.userMarkers.push({latitude: lat, longitude: lng});
     }
+  }
+  markerClick(infoWindow) {
+    infoWindow.open();
   }
 }

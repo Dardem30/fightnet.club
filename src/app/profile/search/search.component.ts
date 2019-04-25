@@ -48,6 +48,7 @@ export class SearchComponent {
       delete this.model.country;
     }
   }
+
   onChangeCity(cityName) {
     if (cityName != null && cityName != '') {
       for (let city of this.cities) {
@@ -60,6 +61,7 @@ export class SearchComponent {
       delete this.model.city;
     }
   }
+
   bookPerson(email: string) {
     let modalUser = new BookedUser();
     modalUser.email = email;
@@ -67,6 +69,7 @@ export class SearchComponent {
     this.userService.bookPerson(email);
     this.search();
   }
+
   isPersonBooked(email) {
     for (var index = 0; index < this.bookedUsers.length; index++) {
       if (this.bookedUsers[index].email == email) {
@@ -75,14 +78,13 @@ export class SearchComponent {
     }
     return true;
   }
+
   showProfile(email: string) {
     this.div.remove(1);
-    this.userService.findUserByEmail(email).subscribe(user => {
-      let factory = this.componentFactoryResolver.resolveComponentFactory(UserProfileComponent);
-      let ref = this.div.createComponent(factory);
-      ref.instance.user = user;
-      ref.changeDetectorRef.detectChanges();
-    });
+    let factory = this.componentFactoryResolver.resolveComponentFactory(UserProfileComponent);
+    let ref = this.div.createComponent(factory);
+    ref.instance.email = email;
+    ref.changeDetectorRef.detectChanges();
   }
 
   dialog(email: string) {
@@ -90,5 +92,5 @@ export class SearchComponent {
       ProfileComponent.toggle(user)
     });
   }
-  
+
 }
