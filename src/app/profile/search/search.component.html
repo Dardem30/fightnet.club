@@ -250,8 +250,7 @@
   <thead>
   <tr>
     <th></th>
-    <th>Name</th>
-    <th>Surname</th>
+    <th>Name, Surname</th>
     <th>Country, city</th>
     <th>Description</th>
     <th>Dialog</th>
@@ -261,8 +260,7 @@
   <tbody *ngFor="let user of users">
     <tr>
       <td (click)="showProfile(user.email)" class="profile-userpic"><img height=150 width=150 src="assets/images/noPhoto.jpeg"></td>
-      <td (click)="showProfile(user.email)">{{user.name}}</td>
-      <td (click)="showProfile(user.email)">{{user.surname}}</td>
+      <td (click)="showProfile(user.email)">{{user.name}} {{user.surname}}</td>
       <td (click)="showProfile(user.email)">{{user.country}}, {{user.city}}</td>
       <td (click)="showProfile(user.email)">{{user.description.substr(0, 50)}}...</td>
       <td><button class="btn btn-default hover" (click)="dialog(user.email)">Dialog</button></td>
