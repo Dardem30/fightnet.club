@@ -255,7 +255,7 @@
       <td (click)="showProfile(user.email)">{{user.name}}</td>
       <td (click)="showProfile(user.email)">{{user.surname}}</td>
       <td (click)="showProfile(user.email)">{{user.country}}, {{user.city}}</td>
-      <td (click)="showProfile(user.email)">{{user.description}}</td>
+      <td (click)="showProfile(user.email)">{{user.description.substr(0, 50)}}</td>
       <td><button class="btn btn-default hover" (click)="dialog(user.email)">Dialog</button></td>
       <td>
         <button class="btn btn-default hover" (click)="bookPerson(user.email)" *ngIf="isPersonBooked(user.email); else bookedPerson">Book</button>
@@ -264,3 +264,4 @@
     </tr>
   </tbody>
 </table>
+<ngb-pagination [collectionSize]="collectionSize" [(page)]="page" (pageChange)="search()"></ngb-pagination>

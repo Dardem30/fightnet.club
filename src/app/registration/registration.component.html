@@ -324,13 +324,13 @@
              #surname="ngModel" required/>
     </div>
     <div class="form-item">
-      <select class="form-style" (change)="onChangeCountry($event.target.value)">
+      <select class="form-style" (change)="onChangeCountry($event.target.value)" name="country" id="country" [(ngModel)]="model.country" #country="ngModel">
         <option></option>
         <option *ngFor="let country of countries" [value]="country.name">{{country.name}}</option>
       </select>
     </div>
     <div class="form-item">
-      <select class="form-style" (change)="onChangeCity($event.target.value)">
+      <select class="form-style" name="city" id="city" [(ngModel)]="model.city" #city="ngModel">
         <option></option>
         <option *ngFor="let city of cities" [value]="city.name">{{city.name}}</option>
       </select>

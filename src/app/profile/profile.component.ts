@@ -48,6 +48,7 @@ export class ProfileComponent {
   };
   file: File;
   @ViewChild('fileInput') fileInput: ElementRef;
+  @ViewChild('imageInput') imageInput: ElementRef;
   @ViewChild('div', {read: ViewContainerRef}) div;
   @ViewChild('invitation', {read: ViewContainerRef}) invitation;
   @ViewChild('invitationName') invitationName;
@@ -144,19 +145,17 @@ export class ProfileComponent {
 
   onFileChange(event) {
     let file: File = event.target.files[0];
-    if (file.type === 'video/mp4') {
-      this.userService.uploadVideoAdmin(file).subscribe(result => {
-        if (result === 'success') {
-          alert('Successfully')
-        } else {
-          alert('Ooops something went wrong please contact with administrator (Sergey)')
-        }
-      })
-    } else {
-      alert('Wrong file format')
-    }
+    this.userService.uploadVideoAdmin(file).subscribe(result => {
+        alert('Successfully')
+    })
   }
 
+  imageAdminUpload(event) {
+    let file: File = event.target.files[0];
+    this.userService.uploadImageAdmin(file).subscribe(result => {
+      alert('Successfully')
+    })
+  }
   updateBookedUsers() {
     this.userService.getBookedPersons().subscribe(users => this.users = users);
   }
@@ -262,7 +261,6 @@ export class ProfileComponent {
   }
 
 
-
   static toggleCommentsDialog(video: Video) {
     if (ProfileComponent.stompClient != null) {
       ProfileComponent.stompClient.disconnect();
@@ -307,6 +305,7 @@ export class ProfileComponent {
     console.log(comment);
     this.socketService.postComment(comment).subscribe()
   }
+
   openCommentsSocket() {
     this.isCustomSocketOpened = true;
     ProfileComponent.stompClient.subscribe('/socket-publisher/' + ProfileComponent.videoId, (commentJson) => this.commentsToShow.push(JSON.parse(commentJson.body)));

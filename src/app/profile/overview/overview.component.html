@@ -1,4 +1,59 @@
 <style>
+  @import url('https://fonts.googleapis.com/css?family=Nunito+Sans|Playfair+Display:400,400i,700,700i,900,900i');
+
+  .body {
+    margin: 0;
+    height: 500px;
+    background-color: #eee;
+    background-image: url('https://artwalls.com.ua/image/catalog/fpz/5aa697c28ee373D-287_ham_o.jpg');
+    background-size: cover;
+    overflow: scroll;
+  }
+
+  main {
+    height: 20vh;
+    display: grid;
+    grid-template-columns: 20vw 20vw 20vw;
+    width: 75vw;
+    justify-content: center;
+    align-items: center;
+    padding-top: 40px;
+  }
+
+  figure {
+    max-width: 50vw;
+    max-height: 50vw;
+    margin-left: 30px;
+    background: rgba(255,255,255,0.8);
+    padding: 2em;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 2em -0.5em #aaa;
+    position: relative;
+    transition: transform .2s; /* Animation */
+  }
+  figure:hover {
+    transform: scale(2); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+  }
+
+  figure img {
+    max-width: 100%;
+    max-height: 70vh;
+  }
+
+  figure figcaption {
+    font-family: "Playfair Display";
+    font-weight: 900;
+    font-size: 3em;
+    font-style: italic;
+    text-align: right;
+    text-shadow: 0 0 1em #555;
+    text-shadow: 0 0 0.5em white;
+    position: absolute;
+    right: -2rem;
+    right: -2rem;
+    bottom: -2rem;
+  }
+
   .column {
     float: left;
     width: 50%;
@@ -11,6 +66,85 @@
     content: "";
     display: table;
     clear: both;
+  }
+  .button.large{
+    padding: 12px 30px;
+    text-transform: uppercase;
+  }
+
+  .button.large:active{
+    top: 2px;
+  }
+  .button.red {
+    color: #fff;
+    text-shadow: 0 1px 0 rgba(0,0,0,.2);
+
+    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,.3)), to(rgba(255,255,255,0)));
+    background-image: -webkit-linear-gradient(top, rgba(255,255,255,.3), rgba(255,255,255,0));
+    background-image: -moz-linear-gradient(top, rgba(255,255,255,.3), rgba(255,255,255,0));
+    background-image: -ms-linear-gradient(top, rgba(255,255,255,.3), rgba(255,255,255,0));
+    background-image: -o-linear-gradient(top, rgba(255,255,255,.3), rgba(255,255,255,0));
+    background-image: linear-gradient(top, rgba(255,255,255,.3), rgba(255,255,255,0));
+  }
+  .button.red{
+    background-color: #ca3535;
+    border-color: #c43c35;
+  }
+
+  .button.red:hover{
+    background-color: #ee5f5b;
+  }
+
+  .button.red:active{
+    background: #c43c35;
+  }
+  .red[disabled], .red[disabled]:hover, .red[disabled]:active{
+    border-color: #C43C35;
+    background: #C43C35;
+    color: #FFD3D3;
+  }
+  .button{
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    padding: 6px 20px;
+    margin: 0;
+    cursor: pointer;
+    border: 1px solid #bbb;
+    overflow: visible;
+    font: bold 13px arial, helvetica, sans-serif;
+    text-decoration: none;
+    white-space: nowrap;
+    color: #555;
+
+    background-color: #ddd;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,1)), to(rgba(255,255,255,0)));
+    background-image: -webkit-linear-gradient(top, rgba(255,255,255,1), rgba(255,255,255,0));
+    background-image: -moz-linear-gradient(top, rgba(255,255,255,1), rgba(255,255,255,0));
+    background-image: -ms-linear-gradient(top, rgba(255,255,255,1), rgba(255,255,255,0));
+    background-image: -o-linear-gradient(top, rgba(255,255,255,1), rgba(255,255,255,0));
+    background-image: linear-gradient(top, rgba(255,255,255,1), rgba(255,255,255,0));
+
+    -webkit-transition: background-color .2s ease-out;
+    -moz-transition: background-color .2s ease-out;
+    -ms-transition: background-color .2s ease-out;
+    -o-transition: background-color .2s ease-out;
+    transition: background-color .2s ease-out;
+    background-clip: padding-box; /* Fix bleeding */
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 2px 2px -1px rgba(0, 0, 0, .5), 0 1px 0 rgba(255, 255, 255, .3) inset;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 2px 2px -1px rgba(0, 0, 0, .5), 0 1px 0 rgba(255, 255, 255, .3) inset;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 2px 2px -1px rgba(0, 0, 0, .5), 0 1px 0 rgba(255, 255, 255, .3) inset;
+    text-shadow: 0 1px 0 rgba(255,255,255, .9);
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
   }
 </style>
 <h3 style="text-align: left;font-family: 'Times New Roman';color: #AC0A0A">Description</h3>
@@ -44,3 +178,28 @@
     <h3 style="font-family: 'Times New Roman';color: #AC0A0A" *ngIf="hasNoLoses">You have no loses, yet</h3>
   </div>
 </div>
+<h3 style="text-align: left;font-family: 'Times New Roman';color: #AC0A0A">Gallery
+  <button style="margin-left: 10px" class="red button" (click)="gallery()">View gallery</button>
+  <button style="margin-left: 10px" class="red button" (click)="imageInput.click()">Upload photo</button></h3>
+<hr>
+<div class="body" id="gallery">
+  <main>
+    <figure class="rellax">
+      <img src="https://source.unsplash.com/aiyBwbrWWlo" alt="Me coding">
+      <figcaption class="rellax" data-rellax-speed="1">Me coding</figcaption>
+    </figure>
+    <figure class="rellax">
+      <img src="https://source.unsplash.com/EaJm0ZfO84U" alt="Bronte Beach, Australia">
+      <figcaption class="rellax" data-rellax-speed="1">Bronte Beach, Australia</figcaption>
+    </figure>
+    <figure class="rellax">
+      <img src="https://source.unsplash.com/e9rkZKjdlSc" alt="The moon">
+      <figcaption class="rellax" data-rellax-speed="1">The moon</figcaption>
+    </figure>
+  </main>
+</div>
+<script src="https://cdn.rawgit.com/dixonandmoe/rellax/master/rellax.min.js"></script>
+<script>
+  var rellax = new Rellax('.rellax',{horizontal: true, vertical: false, speed: 1.5});
+</script>
+<input type="file" (change)="uploadPhoto($event)" #imageInput style="display: none" accept=".jpeg,.jpg,.png,.bmp,.gif,.tiff"/>

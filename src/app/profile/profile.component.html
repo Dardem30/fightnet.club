@@ -100,16 +100,6 @@
     min-height: 460px;
   }
 
-  body {
-    background: url(http://www.timurtek.com/wp-content/uploads/2014/10/form-bg.jpg) no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    font-family: 'HelveticaNeue', 'Arial', sans-serif;
-
-  }
-
   a {
     color: #58bff6;
     text-decoration: none;
@@ -143,8 +133,6 @@
   }
 
   #formWrapper {
-    background: url(assets/images/fight.jpg) center fixed;
-    background-size: 100% 100%;
     width: 100%;
     height: 100%;
     position: absolute;
@@ -702,9 +690,8 @@
 <script>
   document.querySelector("#today").valueAsDate = new Date();
 </script>
-<body>
 <div id="formWrapper">
-  <div class="container">
+  <div class="container" style="width: 75%">
     <div class="row profile">
       <div class="col-md-3">
         <div class="profile-sidebar">
@@ -719,10 +706,11 @@
           </div>
 
           <div class="profile-userbuttons">
-            <button type="button" class="btn btn-success btn-sm" style="display: none" [ngStyle]="adminStyle" (click)="fileInput.click()">Upload video</button>
-            <button type="button" class="btn btn-danger btn-sm" (click)="logout()">Log out</button>
+            <button type="button" class="btn btn-danger btn-sm" (click)="logout()">Log out</button><br>
+            <button type="button" class="btn btn-success btn-sm" style="display: none; margin-top: 2px; width: 100%" [ngStyle]="adminStyle" (click)="fileInput.click()">Upload video</button><br>
+            <button type="button" class="btn btn-warning btn-sm" style="display: none; margin-bottom: 2px; margin-top: 2px; width: 100%" [ngStyle]="adminStyle" (click)="imageInput.click()">Upload image</button>
           </div>
-          <div class="profile-usermenu">
+          <div class="profile-usermenu" style="margin-top: 0px">
             <ul class="nav">
               <li class="active">
                 <a (click)="changeRoute('overview')">
@@ -820,8 +808,8 @@
     </div>
   </div>
 </div>
-</body>
 <input type="file" (change)="onFileChange($event)" #fileInput style="display: none"/>
+<input type="file" (change)="imageAdminUpload($event)" #imageInput style="display: none"/>
 <div id="live-chat" [class.show]="checkOpen()">
   <header class="clearfix" (click)="slideToggle('null')">
     <a class="chat-close" (click)="closeChat()">x</a>

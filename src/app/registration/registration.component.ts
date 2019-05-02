@@ -29,16 +29,7 @@ export class RegistrationComponent {
   onChangeCountry(countryName) {
     for (let country of this.countries) {
       if (country.name === countryName) {
-        this.model.country = country;
         this.cities = JSON.parse(country.transientJSONField);
-        break;
-      }
-    }
-  }
-  onChangeCity(cityName) {
-    for (let city of this.cities) {
-      if (city.name === cityName) {
-        this.model.city = city;
         break;
       }
     }

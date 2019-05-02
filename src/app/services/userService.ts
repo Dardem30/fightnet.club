@@ -12,6 +12,7 @@ import {Message} from '../models/message';
 import {Video} from '../models/video';
 import {ProfileComponent} from '../profile/profile.component';
 import {Comment} from '../models/comment';
+import {SearchResponse} from '../models/searchResponse';
 
 @Injectable()
 export class UserService {
@@ -24,10 +25,10 @@ export class UserService {
       .map((response: User) => response);
   }
 
-  search(model): Observable<User[]> {
+  search(model): Observable<SearchResponse<User>> {
     model.searcherEmail = localStorage.getItem('email');
     return this.http.post(AppComponent.apiEndpoint + 'util/listUsers', model)
-      .map((response: User[]) => response);
+      .map((response: SearchResponse<User>) => response);
   }
 
   logout() {
@@ -55,6 +56,17 @@ export class UserService {
     formdata.append('style', style);
 
     return this.http.post(AppComponent.apiEndpoint + 'user/uploadVideo', formdata, {
+      headers: {
+        'Authorization': localStorage.getItem('currentUser')
+      }
+    });
+  }
+  uploadPhoto(file: File) {
+    const formdata: FormData = new FormData();
+    formdata.append('file', file, file.name);
+    formdata.append('email', localStorage.getItem("email"));
+
+    return this.http.post(AppComponent.apiEndpoint + 'user/uploadPhoto', formdata, {
       headers: {
         'Authorization': localStorage.getItem('currentUser')
       }
@@ -107,6 +119,16 @@ export class UserService {
       }
     });
   }
+  uploadImageAdmin(file: File) {
+    const formdata: FormData = new FormData();
+    formdata.append('file', file, file.name);
+
+    return this.http.post(AppComponent.apiEndpoint + 'admin/uploadPhotoToFacebook', formdata, {
+      headers: {
+        'Authorization': localStorage.getItem('currentUser')
+      }
+    });
+  }
   getVideos() {
     return this.http.get(AppComponent.apiEndpoint + 'util/getVideos');
   }
@@ -125,4 +147,6 @@ export class UserService {
   static getComments(): Comment[] {
     return ProfileComponent.comments;
   }
+
+
 }

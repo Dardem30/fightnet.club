@@ -13,6 +13,8 @@ import {ProfileComponent} from '../profile.component';
 })
 export class SearchComponent {
   model: any = {};
+  page = 1;
+  collectionSize = 0;
   div;
   countries: Country[];
   cities: City[];
@@ -32,7 +34,12 @@ export class SearchComponent {
   }
 
   search() {
-    this.userService.search(this.model).subscribe(users => this.users = users);
+    this.model.pageNum = this.page;
+    this.userService.search(this.model).subscribe(users => {
+      console.log(users);
+      this.collectionSize = users.count;
+      this.users = users.records;
+    });
   }
 
   onChangeCountry(countryName) {

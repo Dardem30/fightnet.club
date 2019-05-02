@@ -27,6 +27,7 @@ import {VideosComponent} from './profile/videos/videos.component';
 import {UserProfileComponent} from './profile/seeProfile/userProfile.component';
 import {ToastrModule} from 'ngx-toastr';
 import {SocketService} from './services/socketService';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -64,6 +65,7 @@ const routes: Routes = [
     UserProfileComponent
   ],
   imports: [
+    NgbModule,
     BrowserModule,
     ChartsModule,
     HttpModule,
