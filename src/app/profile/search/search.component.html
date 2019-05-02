@@ -220,6 +220,13 @@
       font-size: 1.6rem;
     }
   }
+  .profile-userpic img {
+    float: none;
+    margin: 0 auto;
+    -webkit-border-radius: 50% !important;
+    -moz-border-radius: 50% !important;
+    border-radius: 50% !important;
+  }
 </style>
 <form method="post">
   <input type="text" class="textbox" placeholder="Name" name="name" id="name" [(ngModel)]="model.name"
@@ -239,9 +246,10 @@
   </select>
   <input title="Search" value="" type="submit" class="button" (click)="search()">
 </form>
-<table style="padding-top: 10px">
+<table style="padding-top: 10px; width:100%">
   <thead>
   <tr>
+    <th></th>
     <th>Name</th>
     <th>Surname</th>
     <th>Country, city</th>
@@ -252,10 +260,11 @@
   </thead>
   <tbody *ngFor="let user of users">
     <tr>
+      <td (click)="showProfile(user.email)" class="profile-userpic"><img height=150 width=150 src="assets/images/noPhoto.jpeg"></td>
       <td (click)="showProfile(user.email)">{{user.name}}</td>
       <td (click)="showProfile(user.email)">{{user.surname}}</td>
       <td (click)="showProfile(user.email)">{{user.country}}, {{user.city}}</td>
-      <td (click)="showProfile(user.email)">{{user.description.substr(0, 50)}}</td>
+      <td (click)="showProfile(user.email)">{{user.description.substr(0, 50)}}...</td>
       <td><button class="btn btn-default hover" (click)="dialog(user.email)">Dialog</button></td>
       <td>
         <button class="btn btn-default hover" (click)="bookPerson(user.email)" *ngIf="isPersonBooked(user.email); else bookedPerson">Book</button>

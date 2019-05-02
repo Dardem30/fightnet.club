@@ -247,7 +247,7 @@
     box-shadow: 0 0 1px rgba(0, 0, 0, .2) inset, 5px 0 5px -3px rgba(0, 0, 0, .2) inset;
   }
 </style>
-<div class="row" style="overflow-x:hidden;">
+<div class="row" style="overflow-x:hidden;height: 360px">
   <div class="column">
     <h1 style="text-align: left;font-family: 'Times New Roman';color: #AC0A0A" *ngIf="user != null">{{user.name}} {{user.surname}}</h1>
     <h3 style="text-align: left;font-family: 'Times New Roman';color: #AC0A0A">Description</h3>
@@ -257,7 +257,7 @@
     </div>
   </div>
   <div class="column">
-    <img width="70%" height="90%" src="assets/images/noPhoto.jpeg"><br>
+    <img width="70%" height="100%" src="assets/images/noPhoto.jpeg"><br>
     <button style="margin-top: 5px;width: 70%"  class="large red button" (click)="dialog()">Message</button>
   </div>
 </div>
