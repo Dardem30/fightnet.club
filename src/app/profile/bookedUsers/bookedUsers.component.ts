@@ -4,6 +4,8 @@ import {BookedUser} from '../../models/bookedUser';
 import {AppComponent} from '../../app.component';
 import {MapComponent} from '../map/map.component';
 import {Invite} from '../../models/invite';
+import {UserProfileComponent} from '../seeProfile/userProfile.component';
+import {ProfileComponent} from '../profile.component';
 
 @Component({
   selector: 'booked-users-component',
@@ -40,5 +42,17 @@ export class BookedUsersComponent {
     let factory = this.componentFactoryResolver.resolveComponentFactory(MapComponent);
     let ref = this.div.createComponent(factory);
     ref.changeDetectorRef.detectChanges();
+  }
+  showProfile(email: string) {
+    this.div.remove(1);
+    let factory = this.componentFactoryResolver.resolveComponentFactory(UserProfileComponent);
+    let ref = this.div.createComponent(factory);
+    ref.instance.email = email;
+    ref.changeDetectorRef.detectChanges();
+  }
+  dialog(email: string) {
+    this.userService.findUserByEmail(email).subscribe(user => {
+      ProfileComponent.toggle(user)
+    });
   }
 }

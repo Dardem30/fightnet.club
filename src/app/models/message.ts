@@ -3,4 +3,5 @@ export class Message {
   userResiver;
   text: string;
   date: Date;
+  titleName: string;
 }

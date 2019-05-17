@@ -7,10 +7,9 @@ import {User} from './models/user';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
   public static user: User;
   public static invite;
   public static fighter2Email;
-  public static apiEndpoint = 'https://fightnet.herokuapp.com/';
-  //public static apiEndpoint = 'http://localhost:8080/';
+  //public static apiEndpoint = 'https://fightnet.herokuapp.com/';
+  public static apiEndpoint = 'http://localhost:8080/';
 }

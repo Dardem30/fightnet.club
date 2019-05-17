@@ -1,0 +1,117 @@
+<style>
+  form {
+    outline: 0;
+    width: 100%;
+    float: left;
+    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+  }
+
+  form > .textbox {
+    outline: 0;
+    height: 42px;
+    width: 90%;
+    line-height: 42px;
+    padding: 0 16px;
+    background-color: rgba(255, 255, 255, 0.8);
+    color: #212121;
+    border: 0;
+    float: left;
+    -webkit-border-radius: 4px 0 0 4px;
+    border-radius: 4px 0 0 4px;
+  }
+
+  form > .textbox:focus {
+    outline: 0;
+    background-color: #FFF;
+  }
+
+  form > .button {
+    outline: 0;
+    background: none;
+    background-color: rgba(38, 50, 56, 0.8);
+    float: right;
+    height: 42px;
+    width: 10%;
+    text-align: center;
+    line-height: 42px;
+    border: 0;
+    color: #FFF;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: 16px;
+    text-rendering: auto;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    -webkit-transition: background-color .4s ease;
+    transition: background-color .4s ease;
+    -webkit-border-radius: 0 4px 4px 0;
+    border-radius: 0 4px 4px 0;
+  }
+
+  form > .button:hover {
+    background-color: rgba(0, 150, 136, 0.8);
+  }
+
+  .container {
+    width: 100%;
+    border: 2px solid #dedede;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+  }
+
+  /* Darker chat container */
+  .darker {
+    border-color: #ccc;
+    background-color: #898989;
+  }
+
+  /* Clear floats */
+  .container::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+
+  /* Style images */
+  .container img {
+    float: left;
+    max-width: 60px;
+    width: 100%;
+    margin-right: 20px;
+    border-radius: 50%;
+  }
+
+  /* Style the right image */
+  .container img.right {
+    float: right;
+    margin-left: 20px;
+    margin-right: 0;
+  }
+
+  /* Style time text */
+  .time-right {
+    float: right;
+  }
+
+  /* Style time text */
+  .time-left {
+    float: left;
+  }
+</style>
+<div style="overflow-x: hidden;height: 600px;margin-bottom: 0px" #history [scrollTop]="history.scrollHeight">
+  <div *ngFor="let message of messages">
+    <div [class]="message.userSender == email ? 'container' : 'container darker'">
+      <img src="assets/images/noPhoto.jpeg" alt="Avatar" [class]="message.userSender == email ? 'left' : 'right'">
+      <p [class]="message.userSender == email ? 'time-left' : 'time-right'">{{message.text}}</p>
+      <span [class]="message.userSender == email ? 'time-right' : 'time-left'">{{message.date | date: 'dd.MM.yyyy HH:mm'}}</span>
+    </div>
+  </div>
+</div>
+<form method="post" style="font-style: normal">
+  <input type="text" (input)="convMessage = $event.target.value" class="textbox" placeholder="Message" [value]="convMessage">
+  <button class="button" (click)="sendMessage()"><i class="glyphicon glyphicon-pencil"></i></button>
+</form>
+<div style="margin-top: 30px"></div>

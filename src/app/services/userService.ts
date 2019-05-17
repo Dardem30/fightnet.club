@@ -76,9 +76,10 @@ export class UserService {
   unbookUser(email: any) {
     return this.http.get(AppComponent.apiEndpoint + 'util/unBookPerson?currentUserEmail=' + localStorage.getItem('email') + '&personEmail=' + email);
   }
-  getUserInvites() {
-    return this.http.get(AppComponent.apiEndpoint + 'util/getInvitesForUser?email=' + localStorage.getItem('email'))
-      .map((response: Invite[]) => response);
+
+  getUserInvites(page: number) {
+    return this.http.get(AppComponent.apiEndpoint + 'util/getInvitesForUser?email=' + localStorage.getItem('email') + '&page=' + page)
+      .map((response: SearchResponse<Invite>) => response);
   }
 
   invite() {
@@ -149,4 +150,24 @@ export class UserService {
   }
 
 
+  getConversations(email: string) {
+    return this.http.get(AppComponent.apiEndpoint + 'message/getConversations?email=' + email, {
+      headers: {
+        'Authorization': localStorage.getItem('currentUser')
+      }
+    }).map((response: Message[]) => response);
+  }
+
+  searchVideo(model: any) {
+    return this.http.post(AppComponent.apiEndpoint + 'util/getVideos', model)
+      .map((response: SearchResponse<Video>) => response);
+  }
+
+  resetNotifications(email: string) {
+    return this.http.get(AppComponent.apiEndpoint + 'util/resetNotifications?email=' + email);
+  }
+
+  resetMessages(email: string) {
+    return this.http.get(AppComponent.apiEndpoint + 'util/resetMessages?email=' + email);
+  }
 }

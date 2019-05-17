@@ -299,8 +299,9 @@
     user-select: none;
   }
 
-
-  a { text-decoration: none; }
+  a {
+    text-decoration: none;
+  }
 
   fieldset {
     border: 0;
@@ -339,14 +340,23 @@
     margin: 0;
   }
 
-  p { margin: 0; }
+  p {
+    margin: 0;
+  }
 
-  .clearfix { *zoom: 1; } /* For IE 6/7 */
+  .clearfix {
+    *zoom: 1;
+  }
+
+  /* For IE 6/7 */
   .clearfix:before, .clearfix:after {
     content: "";
     display: table;
   }
-  .clearfix:after { clear: both; }
+
+  .clearfix:after {
+    clear: both;
+  }
 
   /* ---------- LIVE-CHAT ---------- */
 
@@ -397,6 +407,7 @@
     outline: none;
     width: 234px;
   }
+
   #live-chat-comments {
     bottom: 0;
     font-size: 12px;
@@ -510,7 +521,8 @@
     font-style: italic;
     margin: 0 0 0 80px;
   }
-  .show{
+
+  .show {
     opacity: 1 !important;
   }
 </style>
@@ -582,14 +594,14 @@
     color: $color;
     border-color: $border;
     background: linear-gradient(to bottom, $from 0%, $to 100%);
-    box-shadow: inset 0 1px $gloss, 0 1px 2px rgba(0,0,0,.2);
+    box-shadow: inset 0 1px $gloss, 0 1px 2px rgba(0, 0, 0, .2);
 
     &:hover,
     &:focus,
     &.focus {
       border-color: $to;
       background: linear-gradient(to bottom, $hover-from 0%, $from 100%);
-      box-shadow: inset 0 1px $color, 0 2px 3px rgba(0,0,0,.2);
+      box-shadow: inset 0 1px $color, 0 2px 3px rgba(0, 0, 0, .2);
     }
 
     &:active,
@@ -686,6 +698,24 @@
       @include btn-flat(#F4511E, #FF8A65, #FF7043, #FFCCBC, #FBE9E7, #FFAB91);
     }
   }
+
+  .notification {
+    text-decoration: none;
+    padding: 9px 10px;
+    position: relative;
+    display: inline-block;
+    border-radius: 2px;
+  }
+
+  .notification .badge {
+    position: absolute;
+    top: -3px;
+    right: -3px;
+    padding: 3px 6px;
+    border-radius: 50%;
+    background-color: red;
+    color: white;
+  }
 </style>
 <script>
   document.querySelector("#today").valueAsDate = new Date();
@@ -696,7 +726,7 @@
       <div class="col-md-3">
         <div class="profile-sidebar">
           <div class="profile-userpic">
-            <img src="assets/images/noPhoto.jpeg">
+            <img [src]="user == null || user.mainPhoto == null ? 'assets/images/noPhoto.jpeg' : user.mainPhoto">
           </div>
 
           <div class="profile-usertitle">
@@ -706,9 +736,16 @@
           </div>
 
           <div class="profile-userbuttons">
-            <button type="button" class="btn btn-danger btn-sm" (click)="logout()">Log out</button><br>
-            <button type="button" class="btn btn-success btn-sm" style="display: none; margin-top: 2px; width: 100%" [ngStyle]="adminStyle" (click)="fileInput.click()">Upload video</button><br>
-            <button type="button" class="btn btn-warning btn-sm" style="display: none; margin-bottom: 2px; margin-top: 2px; width: 100%" [ngStyle]="adminStyle" (click)="imageInput.click()">Upload image</button>
+            <button type="button" class="btn btn-danger btn-sm" (click)="logout()">Log out</button>
+            <br>
+            <button type="button" class="btn btn-success btn-sm" style="display: none; margin-top: 2px; width: 100%"
+                    [ngStyle]="adminStyle" (click)="fileInput.click()">Upload video
+            </button>
+            <br>
+            <button type="button" class="btn btn-warning btn-sm"
+                    style="display: none; margin-bottom: 2px; margin-top: 2px; width: 100%" [ngStyle]="adminStyle"
+                    (click)="imageInput.click()">Upload image
+            </button>
           </div>
           <div class="profile-usermenu" style="margin-top: 0px">
             <ul class="nav">
@@ -718,29 +755,42 @@
                   Overview </a>
               </li>
               <li>
+                <a (click)="changeRoute('messages')">
+                  <i class="glyphicon glyphicon-envelope"></i>
+                  <span>Messages</span>
+                  <a class="notification" *ngIf="unreadedMessages > 0">
+                    <span class="badge">{{unreadedMessages}}</span>
+                  </a>
+                </a>
+              </li>
+              <li>
+                <a (click)="changeRoute('notifications')">
+                  <i class="glyphicon glyphicon-bell"></i>
+                  <span>Notifications</span>
+                  <a class="notification" *ngIf="notifications > 0">
+                    <span class="badge">{{notifications}}</span>
+                  </a>
+                </a>
+              </li>
+              <li>
                 <a (click)="changeRoute('map')">
-                  <i class="glyphicon glyphicon-user"></i>
+                  <i class="glyphicon glyphicon-map-marker"></i>
                   Map </a>
               </li>
               <li>
                 <a (click)="changeRoute('search')">
-                  <i class="glyphicon glyphicon-ok"></i>
+                  <i class="glyphicon glyphicon-search"></i>
                   Search </a>
               </li>
               <li>
                 <a (click)="changeRoute('bookedUsers')">
-                  <i class="glyphicon glyphicon-flag"></i>
-                  Booked users </a>
+                  <i class="glyphicon glyphicon-user"></i>
+                  Notebook </a>
               </li>
               <li>
                 <a (click)="changeRoute('invites')">
-                  <i class="glyphicon glyphicon-flag"></i>
+                  <i class="glyphicon glyphicon-fire"></i>
                   Invites </a>
-              </li>
-              <li>
-                <a (click)="changeRoute('notification')">
-                  <i class="glyphicon glyphicon-flag"></i>
-                  Notification </a>
               </li>
               <li>
                 <a (click)="changeRoute('fights')">
@@ -749,7 +799,7 @@
               </li>
               <li>
                 <a (click)="changeRoute('videos')">
-                  <i class="glyphicon glyphicon-flag"></i>
+                  <i class="glyphicon glyphicon-film"></i>
                   Videos </a>
               </li>
             </ul>
@@ -817,8 +867,8 @@
     <span class="chat-message-counter">3</span>
   </header>
   <div class="chat" id="chat">
-    <div class="chat-history">
-      <div class="chat-message clearfix" *ngFor="let message of messages">
+    <div class="chat-history" #chatHistory [scrollTop]="chatHistory.scrollHeight">
+      <div class="chat-message clearfix" *ngFor="let message of messages" id="chatHistory">
         <!--<img src="http://gravatar.com/avatar/2c0ad52fc5943b78d6abe069cc08f320?s=32" alt="" width="32" height="32">-->
         <div class="chat-message-content clearfix">
           <!--<span class="chat-time">13:37</span>-->
@@ -828,21 +878,24 @@
       </div>
       <hr>
     </div>
-      <fieldset>
-        <input type="text" placeholder="Type your message…" (input)="textMessage = $event.target.value" autofocus> <button class="btn btn-default btn-xs" (click)="sendMessage()" style="background-color: #293239; color: #f6f9fb">Send</button>
-        <input type="hidden">
-      </fieldset>
+    <fieldset>
+      <input type="text" placeholder="Type your message…" (input)="textMessage = $event.target.value" autofocus>
+      <button class="btn btn-default btn-xs" (click)="sendMessage()" style="background-color: #293239; color: #f6f9fb">
+        Send
+      </button>
+      <input type="hidden">
+    </fieldset>
   </div>
 </div>
 <div id="live-chat-comments" [class.show]="checkOpenComments()">
   <header class="clearfix" (click)="slideToggle('comments')">
-    <a class="chat-close" (click)="closeChat()">x</a>
+    <a class="chat-close" (click)="closeComments()">x</a>
     <h4>Comments</h4>
     <span class="chat-message-counter">3</span>
   </header>
   <div class="chat" id="chatComments">
-    <div class="chat-history">
-    <div class="chat-message clearfix" *ngFor="let comment of commentsToShow">
+    <div class="chat-history" #commentsHistory [scrollTop]="commentsHistory.scrollHeight">
+      <div class="chat-message clearfix" *ngFor="let comment of commentsToShow">
         <!--<img src="http://gravatar.com/avatar/2c0ad52fc5943b78d6abe069cc08f320?s=32" alt="" width="32" height="32">-->
         <div class="chat-message-content clearfix">
           <!--<span class="chat-time">13:37</span>-->
@@ -852,9 +905,12 @@
       </div>
       <hr>
     </div>
-      <fieldset>
-        <input type="text" placeholder="Type your message…" (input)="textComment = $event.target.value" autofocus> <button class="btn btn-default btn-xs" (click)="sendComment()" style="background-color: #293239; color: #f6f9fb">Send</button>
-        <input type="hidden">
-      </fieldset>
+    <fieldset>
+      <input type="text" placeholder="Type your message…" (input)="textComment = $event.target.value" autofocus>
+      <button class="btn btn-default btn-xs" (click)="sendComment()" style="background-color: #293239; color: #f6f9fb">
+        Send
+      </button>
+      <input type="hidden">
+    </fieldset>
   </div>
 </div>

@@ -1,137 +1,31 @@
 <style>
-  @import url('https://fonts.googleapis.com/css?family=Amarante');
-
-  ::selection { background: #5f74a0; color: #fff; }
-  ::-moz-selection { background: #5f74a0; color: #fff; }
-
-  br { display: block; line-height: 1.6em; }
-
-  article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { display: block; }
-  ol, ul { list-style: none; }
-
-  input, textarea {
-    -webkit-font-smoothing: antialiased;
-    -webkit-text-size-adjust: 100%;
-    -ms-text-size-adjust: 100%;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    outline: none;
+  .column1 {
+    float: left;
+    width: 5%;
+    padding: 10px;
   }
 
-  blockquote, q { quotes: none; }
-  blockquote:before, blockquote:after, q:before, q:after { content: ''; content: none; }
-  strong, b { font-weight: bold; }
-
-  table { border-collapse: collapse; border-spacing: 0; }
-  img { border: 0; max-width: 100%; }
-
-  /** page structure **/
-  #wrapper {
-    display: block;
-    background: #fff;
-    margin: 0 auto;
-    padding: 10px 17px;
-    -webkit-box-shadow: 2px 2px 3px -1px rgba(0,0,0,0.35);
+  .column2 {
+    float: left;
+    width: 95%;
+    padding: 10px;
   }
-
-  #keywords {
-    margin: 0 auto;
-    font-size: 1.2em;
-    margin-bottom: 15px;
+  .row-notif {
+    height: 50px;
   }
-
-
-  #keywords thead {
-    cursor: pointer;
-    background: #AC0A0A;
-  }
-  #keywords thead tr {
-    color: olivedrab;
-    font-style: oblique;
-  }
-  #keywords thead tr th {
-    font-weight: bold;
-    padding: 12px 30px;
-    padding-left: 42px;
-  }
-  #keywords thead tr th span {
-    padding-right: 20px;
-    background-repeat: no-repeat;
-    background-position: 100% 100%;
-  }
-
-  #keywords thead tr th.headerSortUp, #keywords thead tr th.headerSortDown {
-    background: #AC0A0A;
-  }
-
-
-  #keywords tbody tr {
-    color: #AC0A0A;
-  }
-  #keywords tbody tr td {
-    text-align: center;
-    padding: 15px 10px;
-  }
-  #keywords tbody tr td.lalign {
-    text-align: left;
+  .row-notif:hover {
+    background-color: #f6f9fb;
   }
 </style>
-<style type="text/scss">
-  .btn {
-    display: inline-block;
-    margin-bottom: 0;
-    text-align: center;
-    text-transform: uppercase;
-    vertical-align: middle;
-    cursor: pointer;
-    background-image: none;
-    whitespace: nowrap;
-    padding: 6px 12px;
-    font-size: 1.4rem;
-    border-radius: 3px;
-    border: 1px solid transparent;
-    text-decoration: none;
-    user-select: none;
-
-    &,
-    &:active,
-    &.active {
-      &:focus {
-        outline: thin dotted;
-        outline: 5px auto -webkit-focus-ring-color;
-        outline-offset: -2px;
-      }
-    }
-
-    &:hover,
-    &:focus,
-    &.focus {
-      text-decoration: none;
-      color: #2a2a2b;
-    }
-
-    &:active,
-    &.active {
-      outline: 0;
-      background-image: none;
-    }
-  }
-</style>
-<div id="wrapper">
-
-  <table id="keywords" cellspacing="0" cellpadding="0">
-    <thead>
-    <tr>
-      <th></th>
-      <th></th>
-    </tr>
-    </thead>
-    <tbody *ngFor="let notification of notifications">
-    <tr>
-      <td>{{notification.text}}</td>
-      <th><button class="btn btn-default hover" (click)="showPlace(notification.latitude, notification.longitude)">Show place</button></th>
-    </tr>
-    </tbody>
-  </table>
+<h1 style="font-family: 'Times New Roman';color: #AC0A0A" *ngIf="notifications.length == 0">You have no notifications, yet</h1>
+<div *ngFor="let notification of notifications">
+  <div class="row-notif" (click)="showPlace(notification.latitude, notification.longitude)">
+    <div class="column1">
+      <a style="font-size: 20px;"><i class="glyphicon glyphicon-fire"></i></a>
+    </div>
+    <div class="column2">
+      <div style="font-style: oblique; font-size: 20px; color: #AC0A0A">{{notification.text}}</div>
+    </div>
+  </div>
+  <hr>
 </div>

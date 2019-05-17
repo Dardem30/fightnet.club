@@ -28,6 +28,8 @@ import {UserProfileComponent} from './profile/seeProfile/userProfile.component';
 import {ToastrModule} from 'ngx-toastr';
 import {SocketService} from './services/socketService';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {MessagesComponent} from './profile/messages/messages.component';
+import {DialogComponent} from './profile/messages/dialog/dialog.component';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -51,7 +53,9 @@ const routes: Routes = [
     NotificationComponent,
     FightsComponent,
     VideosComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    MessagesComponent,
+    DialogComponent
   ],
   entryComponents: [
     MapComponent,
@@ -62,7 +66,9 @@ const routes: Routes = [
     NotificationComponent,
     FightsComponent,
     VideosComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    MessagesComponent,
+    DialogComponent
   ],
   imports: [
     NgbModule,

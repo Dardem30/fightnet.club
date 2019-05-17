@@ -10,13 +10,16 @@ import {MapComponent} from '../map/map.component';
 export class InvitesComponent {
   invites: Invite[];
   div;
+  page: number = 1;
+  isLoading: boolean = true;
+  collectionSize = 0;
 
   constructor(private userService: UserService,
               private componentFactoryResolver: ComponentFactoryResolver) {
   }
 
   ngOnInit() {
-    this.userService.getUserInvites().subscribe(invites => this.invites = invites);
+    this.nextPage();
   }
   showPlace(coordinateX, coordinateY) {
     this.div.remove(1);
@@ -33,8 +36,21 @@ export class InvitesComponent {
     invite.fighterInvited = {email: invite.fighterInvited.email, name: invite.fighterInvited.name, surname: invite.fighterInvited.surname};
     invite.accepted = true;
     this.userService.acceptInvite(invite).subscribe(response => {
-      this.userService.getUserInvites().subscribe(invites => this.invites = invites);
-    })
+      this.userService.getUserInvites(this.page).subscribe(invites => {
+        this.collectionSize = invites.count;
+        this.invites = invites.records;
+        this.isLoading = false;
+      });
+    });
+    this.showPlace(invite.latitude, invite.longitude);
+  }
+  nextPage() {
+    this.isLoading = true;
+    this.userService.getUserInvites(this.page).subscribe(invites => {
+      this.collectionSize = invites.count;
+      this.invites = invites.records;
+      this.isLoading = false;
+    });
   }
   declineInvite(inviteId) {
     console.log('decline')

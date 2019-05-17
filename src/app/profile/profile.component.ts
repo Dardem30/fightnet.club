@@ -1,4 +1,4 @@
-import {Component, ComponentFactoryResolver, ElementRef, Input, ViewChild, ViewContainerRef} from '@angular/core';
+import {Component, ComponentFactoryResolver, ElementRef, Input, OnDestroy, ViewChild, ViewContainerRef} from '@angular/core';
 import {UserService} from '../services/userService';
 import {MapComponent} from './map/map.component';
 import {OverviewComponent} from './overview/overview.component';
@@ -17,16 +17,22 @@ import * as SockJS from 'sockjs-client';
 import {SocketService} from '../services/socketService';
 import {Comment} from '../models/comment';
 import {Video} from '../models/video';
+import {MessagesComponent} from './messages/messages.component';
+import Swal from 'sweetalert2';
+import {DialogComponent} from './messages/dialog/dialog.component';
 
 
 @Component({
   selector: 'profile',
   templateUrl: './profile.component.html'
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnDestroy {
   private serverUrl = AppComponent.apiEndpoint + 'socket';
   isCustomSocketOpened = false;
-  private static stompClient;
+  public static stompClient;
+  public static stompClientComments;
+  public static stompClientNotifications;
+  public static stompClientMessages;
   messages: Message[] = [];
   user: User;
   open = true;
@@ -38,8 +44,11 @@ export class ProfileComponent {
   static dialogUser = new User();
   users: BookedUser[];
   static socketConnectionIsOpen = false;
+  static socketConnectionIsOpenComments = false;
   static comments: Comment[];
   commentsToShow: Comment[] = [];
+  notifications: number = 0;
+  unreadedMessages: number = 0;
   invitationStyle = {
     'display': 'none'
   };
@@ -64,7 +73,11 @@ export class ProfileComponent {
   }
 
   ngOnInit() {
+    this.initializeWebSocketConnectionForNotifications();
+    this.initializeWebSocketConnectionForMessages();
     this.userService.findUserByEmail(localStorage.getItem('email')).subscribe(user => {
+      this.notifications += user.notifications;
+      this.unreadedMessages += user.unreadedMessages;
       const roles = user.roles;
       for (let index = 0; index < roles.length; index++) {
         if (roles[index].name === 'ROLE_ADMIN') {
@@ -80,6 +93,10 @@ export class ProfileComponent {
     let ref = this.div.createComponent(factory);
     ref.changeDetectorRef.detectChanges();
     this.userService.getBookedPersons().subscribe(users => this.users = users);
+  }
+
+  ngOnDestroy(): void {
+    this.userService.findUserByEmail(localStorage.getItem('email')).subscribe();
   }
 
   changeRoute(navigate: string): void {
@@ -99,6 +116,9 @@ export class ProfileComponent {
       let factory = this.componentFactoryResolver.resolveComponentFactory(SearchComponent);
       let ref = this.div.createComponent(factory);
       ref.instance.div = this.div;
+      ref.instance.invitationStyle = this.invitationStyle;
+      ref.instance.invitationName = this.invitationName;
+      ref.instance.invitationSurname = this.invitationSurname;
       ref.changeDetectorRef.detectChanges();
     }
     if (navigate == 'bookedUsers') {
@@ -116,7 +136,17 @@ export class ProfileComponent {
       ref.instance.div = this.div;
       ref.changeDetectorRef.detectChanges();
     }
-    if (navigate == 'notification') {
+    if (navigate == 'messages') {
+      this.unreadedMessages = 0;
+      this.userService.resetMessages(this.user.email).subscribe();
+      let factory = this.componentFactoryResolver.resolveComponentFactory(MessagesComponent);
+      let ref = this.div.createComponent(factory);
+      ref.instance.div = this.div;
+      ref.changeDetectorRef.detectChanges();
+    }
+    if (navigate == 'notifications') {
+      this.notifications = 0;
+      this.userService.resetNotifications(this.user.email).subscribe();
       let factory = this.componentFactoryResolver.resolveComponentFactory(NotificationComponent);
       let ref = this.div.createComponent(factory);
       ref.instance.div = this.div;
@@ -136,6 +166,21 @@ export class ProfileComponent {
   }
 
   logout() {
+    if (ProfileComponent.stompClient != null) {
+      ProfileComponent.stompClient.disconnect();
+    }
+    if (ProfileComponent.stompClientComments != null) {
+      ProfileComponent.stompClientComments.disconnect();
+    }
+    if (DialogComponent.stompClient != null) {
+      DialogComponent.stompClient.disconnect();
+    }
+    if (ProfileComponent.stompClientNotifications != null) {
+      ProfileComponent.stompClientNotifications.disconnect();
+    }
+    if (ProfileComponent.stompClientMessages != null) {
+      ProfileComponent.stompClientMessages.disconnect();
+    }
     this.userService.logout();
   }
 
@@ -145,17 +190,16 @@ export class ProfileComponent {
 
   onFileChange(event) {
     let file: File = event.target.files[0];
-    this.userService.uploadVideoAdmin(file).subscribe(result => {
-        alert('Successfully')
-    })
+    this.userService.uploadVideoAdmin(file).subscribe();
+    alert('Successfully')
   }
 
   imageAdminUpload(event) {
     let file: File = event.target.files[0];
-    this.userService.uploadImageAdmin(file).subscribe(result => {
-      alert('Successfully')
-    })
+    this.userService.uploadImageAdmin(file).subscribe();
+    alert('Successfully')
   }
+
   updateBookedUsers() {
     this.userService.getBookedPersons().subscribe(users => this.users = users);
   }
@@ -164,6 +208,13 @@ export class ProfileComponent {
     AppComponent.invite.fightStyle = this.invitationFightStyle.nativeElement.value;
     AppComponent.invite.date = new Date(this.invitationDate.nativeElement.value);
     AppComponent.invite.accepted = false;
+    Swal.fire({
+      title: "Success",
+      text: "You will receive notification when the user accept or decline your invitation",
+      type: 'success',
+      showConfirmButton: true,
+      width: 600
+    });
     this.userService.invite().subscribe(response => {
       if (response.date != null) {
         this.invitationStyle = {
@@ -179,6 +230,12 @@ export class ProfileComponent {
     ProfileComponent.stompClient.disconnect();
     ProfileComponent.socketConnectionIsOpen = false;
     ProfileComponent.showDialog = false;
+  }
+
+  closeComments() {
+    ProfileComponent.stompClientComments.disconnect();
+    ProfileComponent.socketConnectionIsOpenComments = false;
+    ProfileComponent.showComments = false;
   }
 
   slideToggle(el: string) {
@@ -219,11 +276,13 @@ export class ProfileComponent {
   }
 
   sendMessage() {
-    const message: Message = new Message();
-    message.text = this.textMessage;
-    message.userSender = this.user.email;
-    message.userResiver = this.getDialogUser().email;
-    this.socketService.post(message).subscribe()
+    if (this.textMessage != null && this.textMessage != '') {
+      const message: Message = new Message();
+      message.text = this.textMessage;
+      message.userSender = this.user.email;
+      message.userResiver = this.getDialogUser().email;
+      this.socketService.post(message).subscribe()
+    }
   }
 
   initializeWebSocketConnection() {
@@ -235,7 +294,7 @@ export class ProfileComponent {
           message.userSender = this.getDialogUser().name + ' ' + this.getDialogUser().surname;
         }
       }
-      this.messages = messages
+      this.messages = messages;
     });
     let ws = new SockJS(this.serverUrl);
     ProfileComponent.stompClient = Stomp.over(ws);
@@ -262,18 +321,18 @@ export class ProfileComponent {
 
 
   static toggleCommentsDialog(video: Video) {
-    if (ProfileComponent.stompClient != null) {
-      ProfileComponent.stompClient.disconnect();
+    if (ProfileComponent.stompClientComments != null) {
+      ProfileComponent.stompClientComments.disconnect();
     }
-    ProfileComponent.socketConnectionIsOpen = false;
+    ProfileComponent.socketConnectionIsOpenComments = false;
     ProfileComponent.comments = video.comments;
     ProfileComponent.videoId = video.url;
     ProfileComponent.showComments = true;
   }
 
   checkOpenComments() {
-    if (ProfileComponent.showComments == true && ProfileComponent.socketConnectionIsOpen == false) {
-      ProfileComponent.socketConnectionIsOpen = true;
+    if (ProfileComponent.showComments == true && ProfileComponent.socketConnectionIsOpenComments == false) {
+      ProfileComponent.socketConnectionIsOpenComments = true;
       this.commentsToShow = ProfileComponent.comments == null ? [] : ProfileComponent.comments;
       this.initializeWebSocketConnectionForComments();
     }
@@ -282,9 +341,9 @@ export class ProfileComponent {
 
   initializeWebSocketConnectionForComments() {
     let ws = new SockJS(this.serverUrl);
-    ProfileComponent.stompClient = Stomp.over(ws);
+    ProfileComponent.stompClientComments = Stomp.over(ws);
     let that = this;
-    ProfileComponent.stompClient.connect({
+    ProfileComponent.stompClientComments.connect({
       'Authorization': localStorage.getItem('currentUser')
     }, function () {
       that.openCommentsSocket();
@@ -292,22 +351,59 @@ export class ProfileComponent {
   }
 
   sendComment() {
-    const video: Video = new Video();
-    const comment: Comment = new Comment();
-    video.url = ProfileComponent.videoId;
-    comment.text = this.textComment;
-    comment.email = this.user.email;
-    comment.video = video;
-    comment.userFullName = this.user.name + ' ' + this.user.surname;
-    for (let uComment of this.commentsToShow) {
-      comment.emails.push(uComment.email);
+    if (this.textComment != null && this.textComment != '') {
+      const video: Video = new Video();
+      const comment: Comment = new Comment();
+      video.url = ProfileComponent.videoId;
+      comment.text = this.textComment;
+      comment.email = this.user.email;
+      comment.video = video;
+      comment.userFullName = this.user.name + ' ' + this.user.surname;
+      for (let uComment of this.commentsToShow) {
+        comment.emails.push(uComment.email);
+      }
+      this.socketService.postComment(comment).subscribe();
     }
-    console.log(comment);
-    this.socketService.postComment(comment).subscribe()
   }
 
   openCommentsSocket() {
     this.isCustomSocketOpened = true;
-    ProfileComponent.stompClient.subscribe('/socket-publisher/' + ProfileComponent.videoId, (commentJson) => this.commentsToShow.push(JSON.parse(commentJson.body)));
+    ProfileComponent.stompClientComments.subscribe('/socket-publisher/' + ProfileComponent.videoId, (commentJson) => this.commentsToShow.push(JSON.parse(commentJson.body)));
+  }
+
+  initializeWebSocketConnectionForNotifications() {
+    let ws = new SockJS(this.serverUrl);
+    ProfileComponent.stompClientNotifications = Stomp.over(ws);
+    let that = this;
+    ProfileComponent.stompClientNotifications.connect({
+      'Authorization': localStorage.getItem('currentUser')
+    }, function () {
+      that.openNotificationSocket();
+    });
+  }
+
+  openNotificationSocket() {
+    ProfileComponent.stompClientNotifications.subscribe('/socket-publisher/invite/' + this.user.email, (notification) => {
+      if (notification)
+        this.notifications++
+    });
+  }
+
+  initializeWebSocketConnectionForMessages() {
+    let ws = new SockJS(this.serverUrl);
+    ProfileComponent.stompClientMessages = Stomp.over(ws);
+    let that = this;
+    ProfileComponent.stompClientMessages.connect({
+      'Authorization': localStorage.getItem('currentUser')
+    }, function () {
+      that.openMessagesSocket();
+    });
+  }
+
+  openMessagesSocket() {
+    ProfileComponent.stompClientMessages.subscribe('/socket-publisher/messages/' + this.user.email, (messages) => {
+      console.log(messages);
+      this.unreadedMessages++
+    });
   }
 }

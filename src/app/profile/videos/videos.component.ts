@@ -11,15 +11,19 @@ import {ProfileComponent} from '../profile.component';
   templateUrl: './videos.component.html'
 })
 export class VideosComponent {
+  page = 1;
+  collectionSize = 0;
   videos: Video[];
+  model: any = {};
 
   constructor(private userService: UserService,
               private sanitizer: DomSanitizer) {
   }
 
   ngOnInit() {
-    this.userService.getVideos().subscribe((videos: Video[]) => {
-      this.videos = videos;
+    this.userService.searchVideo(this.model).subscribe(videos => {
+      this.collectionSize = videos.count;
+      this.videos = videos.records;
       for (let video of this.videos) {
         video.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl('https://www.facebook.com/plugins/video.php?href=' + video.url + '/');
         if (video.votes1 != null) {
@@ -103,5 +107,12 @@ export class VideosComponent {
   }
   comments(video: Video) {
     ProfileComponent.toggleCommentsDialog(video)
+  }
+  search() {
+    this.model.pageNum = this.page;
+    this.userService.searchVideo(this.model).subscribe(videos => {
+      this.collectionSize = videos.count;
+      this.videos = videos.records;
+    });
   }
 }

@@ -15,4 +15,8 @@ export class User {
   isAdmin;
   wins;
   loses;
+  photos: string[];
+  mainPhoto: string;
+  notifications: number;
+  unreadedMessages: number;
 }

@@ -228,7 +228,20 @@
     border-radius: 50% !important;
   }
 </style>
-<form method="post">
+<style>
+  tr:hover {
+    background-color: #e62727;
+    color: #403E10;
+    box-shadow: #e62727 -1px 1px, #e62727 -2px 2px, #e62727 -3px 3px, #e62727 -4px 4px, #e62727 -5px 5px, #e62727 -6px 6px;
+    transform: translate3d(6px, -6px, 0);
+
+    transition-delay: 0s;
+    transition-duration: 0.4s;
+    transition-property: all;
+    transition-timing-function: line;
+  }
+</style>
+<form method="post" style="font-style: normal">
   <input type="text" class="textbox" placeholder="Name" name="name" id="name" [(ngModel)]="model.name"
          #name="ngModel">
   <input type="text" class="textbox" placeholder="Surname" name="surname" id="surname" [(ngModel)]="model.surname"
@@ -244,17 +257,18 @@
     <option></option>
     <option *ngFor="let city of cities" [value]="city.name">{{city.name}}</option>
   </select>
-  <input title="Search" value="" type="submit" class="button" (click)="search()">
+  <button class="button" (click)="search()"><i class="glyphicon glyphicon-search"></i></button>
 </form>
 <table style="padding-top: 10px; width:100%">
   <thead>
   <tr>
     <th></th>
-    <th>Name, Surname</th>
-    <th>Country, city</th>
-    <th>Description</th>
-    <th>Dialog</th>
-    <th>Book user</th>
+    <th style="font-style: normal">Name, Surname</th>
+    <th style="font-style: normal">Country, city</th>
+    <th style="font-style: normal">Description</th>
+    <th></th>
+    <th></th>
+    <th></th>
   </tr>
   </thead>
   <tbody *ngFor="let user of users">
@@ -263,10 +277,11 @@
       <td (click)="showProfile(user.email)">{{user.name}} {{user.surname}}</td>
       <td (click)="showProfile(user.email)">{{user.country}}, {{user.city}}</td>
       <td (click)="showProfile(user.email)">{{user.description.substr(0, 50)}}...</td>
+      <td><button class="btn btn-default hover" (click)="inviteToFight(user)">Fight</button></td>
       <td><button class="btn btn-default hover" (click)="dialog(user.email)">Dialog</button></td>
       <td>
-        <button class="btn btn-default hover" (click)="bookPerson(user.email)" *ngIf="isPersonBooked(user.email); else bookedPerson">Book</button>
-        <ng-template #bookedPerson>Booked</ng-template>
+        <button class="btn btn-default hover" (click)="bookPerson(user.email)" *ngIf="isPersonBooked(user.email); else bookedPerson">Write down</button>
+        <ng-template #bookedPerson>Tracked</ng-template>
       </td>
     </tr>
   </tbody>

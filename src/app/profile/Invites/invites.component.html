@@ -1,145 +1,187 @@
 <style>
-  @import url('https://fonts.googleapis.com/css?family=Amarante');
+  /*
+	Side Navigation Menu V2, RWD
+	===================
+	License:
+	https://goo.gl/EaUPrt
+	===================
+	Author: @PableraShow
 
-  ::selection { background: #5f74a0; color: #fff; }
-  ::-moz-selection { background: #5f74a0; color: #fff; }
+ */
 
-  br { display: block; line-height: 1.6em; }
+  @charset "UTF-8";
+  @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
 
-  article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { display: block; }
-  ol, ul { list-style: none; }
-
-  input, textarea {
-    -webkit-font-smoothing: antialiased;
-    -webkit-text-size-adjust: 100%;
-    -ms-text-size-adjust: 100%;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    outline: none;
+  body {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.42em;
+    color:#A7A1AE;
+    background-color:#1F2739;
   }
 
-  blockquote, q { quotes: none; }
-  blockquote:before, blockquote:after, q:before, q:after { content: ''; content: none; }
-  strong, b { font-weight: bold; }
-
-  table { border-collapse: collapse; border-spacing: 0; }
-  img { border: 0; max-width: 100%; }
-
-  /** page structure **/
-  #wrapper {
-    display: block;
-    background: #fff;
-    margin: 0 auto;
-    padding: 10px 17px;
-    -webkit-box-shadow: 2px 2px 3px -1px rgba(0,0,0,0.35);
-  }
-
-  #keywords {
-    margin: 0 auto;
-    font-size: 1.2em;
-    margin-bottom: 15px;
-  }
-
-
-  #keywords thead {
-    cursor: pointer;
-    background: #AC0A0A;
-  }
-  #keywords thead tr {
-    color: olivedrab;
-    font-style: oblique;
-  }
-  #keywords thead tr th {
-    font-weight: bold;
-    padding: 12px 30px;
-    padding-left: 42px;
-  }
-  #keywords thead tr th span {
-    padding-right: 20px;
-    background-repeat: no-repeat;
-    background-position: 100% 100%;
-  }
-
-  #keywords thead tr th.headerSortUp, #keywords thead tr th.headerSortDown {
-    background: #AC0A0A;
-  }
-
-
-  #keywords tbody tr {
-    color: #AC0A0A;
-  }
-  #keywords tbody tr td {
+  h1 {
+    font-size:3em;
+    font-weight: 300;
+    line-height:1em;
     text-align: center;
-    padding: 15px 10px;
+    color: #4DC3FA;
   }
-  #keywords tbody tr td.lalign {
+
+  h2 {
+    font-size:1em;
+    font-weight: 300;
+    text-align: center;
+    display: block;
+    line-height:1em;
+    padding-bottom: 2em;
+    color: #FB667A;
+  }
+
+  h2 a {
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #FB667A;
+    text-decoration: none;
+  }
+
+  .blue { color: #185875; }
+  .yellow { color: #FFF842; }
+
+  .container th h1 {
+    font-weight: bold;
+    font-size: 1em;
     text-align: left;
+    color: #185875;
+  }
+
+  .container td {
+    font-weight: normal;
+    font-size: 1em;
+    -webkit-box-shadow: 0 2px 2px -2px #0E1119;
+    -moz-box-shadow: 0 2px 2px -2px #0E1119;
+    box-shadow: 0 2px 2px -2px #0E1119;
+  }
+
+  .container {
+    text-align: left;
+    overflow: hidden;
+    width: 80%;
+    margin: 0 auto;
+    display: table;
+    padding: 0 0 8em 0;
+  }
+
+  .container td, .container th {
+    padding-bottom: 2%;
+    padding-top: 2%;
+    padding-left:2%;
+  }
+
+  .container th {
+    background-color: #e62727;
+  }
+
+  .container td:first-child { color: #FB667A; }
+
+  .container tr:hover {
+    background-color: #e62727;
+    color: #403E10;
+    font-weight: bold;
+
+    box-shadow: #212121 -1px 1px, #212121 -2px 2px, #212121 -3px 3px, #212121 -4px 4px, #212121 -5px 5px, #212121 -6px 6px;
+    transform: translate3d(6px, -6px, 0);
+
+    transition-delay: 0s;
+    transition-duration: 0.4s;
+    transition-property: all;
+    transition-timing-function: line;
+  }
+
+  @media (max-width: 800px) {
+    .container td:nth-child(4),
+    .container th:nth-child(4) { display: none; }
+  }
+  .profile-userpic {
+    width: 18%;
+  }
+  .profile-userpic img {
+    float: none;
+    margin: 0 auto;
+    -webkit-border-radius: 50% !important;
+    -moz-border-radius: 50% !important;
+    border-radius: 50% !important;
+  }
+  .button {
+    background-color: #AC0A0A;
+    border: none;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 50%;
   }
 </style>
 <style type="text/scss">
-  .btn {
+  .lds-circle {
     display: inline-block;
-    margin-bottom: 0;
-    text-align: center;
-    text-transform: uppercase;
-    vertical-align: middle;
-    cursor: pointer;
-    background-image: none;
-    whitespace: nowrap;
-    padding: 6px 12px;
-    font-size: 1.4rem;
-    border-radius: 3px;
-    border: 1px solid transparent;
-    text-decoration: none;
-    user-select: none;
-
-    &,
-    &:active,
-    &.active {
-      &:focus {
-        outline: thin dotted;
-        outline: 5px auto -webkit-focus-ring-color;
-        outline-offset: -2px;
-      }
+    transform: translateZ(1px);
+  }
+  .lds-circle > div {
+    display: inline-block;
+    width: 51px;
+    height: 51px;
+    margin: 6px;
+    border-radius: 50%;
+    background: #AC0A0A;
+    animation: lds-circle 2.4s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+  }
+  @keyframes lds-circle {
+    0%, 100% {
+      animation-timing-function: cubic-bezier(0.5, 0, 1, 0.5);
     }
-
-    &:hover,
-    &:focus,
-    &.focus {
-      text-decoration: none;
-      color: #2a2a2b;
+    0% {
+      transform: rotateY(0deg);
     }
-
-    &:active,
-    &.active {
-      outline: 0;
-      background-image: none;
+    50% {
+      transform: rotateY(1800deg);
+      animation-timing-function: cubic-bezier(0, 0.5, 0.5, 1);
+    }
+    100% {
+      transform: rotateY(3600deg);
     }
   }
 </style>
-<div id="wrapper">
-
-  <table id="keywords" cellspacing="0" cellpadding="0">
-    <thead>
-    <tr>
-      <th><span>Name</span></th>
-      <th><span>Style</span></th>
-      <th><span>Date</span></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-    </thead>
-    <tbody *ngFor="let invite of invites">
-    <tr>
-      <td>{{invite.fighterInviter.name}} {{invite.fighterInviter.surname}}</td>
-      <td>{{invite.fightStyle}}</td>
-      <td>{{invite.date | date: 'dd.MM.yyyy HH:mm'}}</td>
-      <th><button class="btn btn-default hover" (click)="showPlace(invite.latitude, invite.longitude)">Place</button></th>
-      <th><button class="btn btn-default hover" (click)="acceptInvite(invite)">Accept</button></th>
-      <th><button class="btn btn-default hover" (click)="declineInvite(invite.id)">Decline</button></th>
-    </tr>
-    </tbody>
-  </table>
+<table class="container" style="width: 100%">
+  <thead>
+  <tr>
+    <th></th>
+    <th><span>Name</span></th>
+    <th><span>Style</span></th>
+    <th><span>Date</span></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody *ngFor="let invite of invites; let i = index">
+  <tr [ngStyle]="{background: i % 2 == 0 ?  'white' : '#e62727'}">
+    <td (click)="showProfile(user.email)" class="profile-userpic"><img height=150 width=150 src="assets/images/noPhoto.jpeg"></td>
+    <td (click)="showProfile(user.email)">{{invite.fighterInviter.name}} {{invite.fighterInviter.surname}}</td>
+    <td (click)="showProfile(user.email)">{{invite.fightStyle}}</td>
+    <td (click)="showProfile(user.email)">{{invite.date | date: 'dd.MM.yyyy HH:mm'}}</td>
+    <td style="text-align: center"><button class="button" style="background-color: #1a8a34; width: 95px" (click)="acceptInvite(invite)">Accept</button></td>
+    <td style="text-align: center"><button class="button" style="background-color: orange; width: 95px" (click)="showPlace(invite.latitude, invite.longitude)">Show place</button></td>
+    <td style="text-align: center"><button class="button" style="width: 95px" (click)="declineInvite(invite.id)">Decline</button></td>
+  </tr>
+  </tbody>
+</table>
+<div *ngIf="isLoading">
+<div class="lds-circle"><div></div></div><br>
 </div>
+<ngb-pagination [collectionSize]="collectionSize" [(page)]="page" (pageChange)="nextPage()"></ngb-pagination>
