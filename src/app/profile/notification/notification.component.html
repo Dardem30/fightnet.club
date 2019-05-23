@@ -17,7 +17,7 @@
     background-color: #f6f9fb;
   }
 </style>
-<h1 style="font-family: 'Times New Roman';color: #AC0A0A" *ngIf="notifications.length == 0">You have no notifications, yet</h1>
+<h1 style="font-family: 'Times New Roman';color: #AC0A0A" *ngIf="notifications.length == 0">You have no any notifications, yet</h1>
 <div *ngFor="let notification of notifications">
   <div class="row-notif" (click)="showPlace(notification.latitude, notification.longitude)">
     <div class="column1">

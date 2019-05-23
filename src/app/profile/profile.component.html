@@ -879,7 +879,7 @@
       <hr>
     </div>
     <fieldset>
-      <input type="text" placeholder="Type your message…" (input)="textMessage = $event.target.value" autofocus>
+      <input type="text" placeholder="Type your message…" (input)="textMessage = $event.target.value" [value]="textMessage" (keyup.enter)="sendMessage()" autofocus>
       <button class="btn btn-default btn-xs" (click)="sendMessage()" style="background-color: #293239; color: #f6f9fb">
         Send
       </button>
@@ -906,7 +906,7 @@
       <hr>
     </div>
     <fieldset>
-      <input type="text" placeholder="Type your message…" (input)="textComment = $event.target.value" autofocus>
+      <input type="text" placeholder="Type your message…" (keyup.enter)="sendComment()" (input)="textComment = $event.target.value" [value]="textComment" autofocus>
       <button class="btn btn-default btn-xs" (click)="sendComment()" style="background-color: #293239; color: #f6f9fb">
         Send
       </button>

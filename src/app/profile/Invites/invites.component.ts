@@ -8,7 +8,7 @@ import {MapComponent} from '../map/map.component';
   templateUrl: './invites.component.html'
 })
 export class InvitesComponent {
-  invites: Invite[];
+  invites: Invite[] = [];
   div;
   page: number = 1;
   isLoading: boolean = true;

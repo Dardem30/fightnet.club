@@ -15,6 +15,7 @@ export class LoginComponent {
     private authenticationService: AuthService) { }
 
   ngOnInit() {
+    console.log('login1');
     localStorage.removeItem('currentUser');
     localStorage.removeItem('email');
   }

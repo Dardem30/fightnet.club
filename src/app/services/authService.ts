@@ -27,7 +27,7 @@ export class AuthService {
   }
 
   registration(username: string, code: string) {
-    this.http.post(AppComponent.apiEndpoint + 'security/sign-up?email=' + username + '&code=' + code, {})
+    this.http.post(AppComponent.apiEndpoint + 'security/sign-up', {email: username, code: code})
       .subscribe(res=> {
         if (res.text() == 'false') {
           alert('Wrong code')

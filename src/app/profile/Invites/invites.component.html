@@ -156,7 +156,8 @@
     }
   }
 </style>
-<table class="container" style="width: 100%">
+<h1 style="font-family: 'Times New Roman';color: #AC0A0A" *ngIf="invites.length == 0 && !isLoading">You have no any invites, yet</h1>
+<table *ngIf="invites.length != 0" class="container" style="width: 100%">
   <thead>
   <tr>
     <th></th>
@@ -184,4 +185,4 @@
 <div *ngIf="isLoading">
 <div class="lds-circle"><div></div></div><br>
 </div>
-<ngb-pagination [collectionSize]="collectionSize" [(page)]="page" (pageChange)="nextPage()"></ngb-pagination>
+<ngb-pagination *ngIf="invites.length != 0" [collectionSize]="collectionSize" [(page)]="page" (pageChange)="nextPage()"></ngb-pagination>

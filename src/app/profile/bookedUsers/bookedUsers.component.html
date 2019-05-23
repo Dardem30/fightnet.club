@@ -126,7 +126,8 @@
     border-radius: 50%;
   }
 </style>
-<table class="container" style="width: 100%">
+<h1 style="font-family: 'Times New Roman';color: #AC0A0A" *ngIf="users.length == 0">You have not book any person, yet</h1>
+<table *ngIf="users.length != 0" class="container" style="width: 100%">
   <thead>
   <tr>
     <th></th>

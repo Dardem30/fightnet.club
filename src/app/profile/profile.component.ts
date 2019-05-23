@@ -64,8 +64,8 @@ export class ProfileComponent implements OnDestroy {
   @ViewChild('invitationSurname') invitationSurname;
   @ViewChild('invitationFightStyle') invitationFightStyle;
   @ViewChild('invitationDate') invitationDate;
-  @Input() textMessage;
-  @Input() textComment;
+  @Input() textMessage = '';
+  @Input() textComment = '';
 
   constructor(private userService: UserService,
               private componentFactoryResolver: ComponentFactoryResolver,
@@ -73,8 +73,6 @@ export class ProfileComponent implements OnDestroy {
   }
 
   ngOnInit() {
-    this.initializeWebSocketConnectionForNotifications();
-    this.initializeWebSocketConnectionForMessages();
     this.userService.findUserByEmail(localStorage.getItem('email')).subscribe(user => {
       this.notifications += user.notifications;
       this.unreadedMessages += user.unreadedMessages;
@@ -88,6 +86,8 @@ export class ProfileComponent implements OnDestroy {
       }
       this.user = user;
       AppComponent.user = user;
+      this.initializeWebSocketConnectionForNotifications();
+      this.initializeWebSocketConnectionForMessages();
     });
     let factory = this.componentFactoryResolver.resolveComponentFactory(OverviewComponent);
     let ref = this.div.createComponent(factory);
@@ -205,25 +205,49 @@ export class ProfileComponent implements OnDestroy {
   }
 
   invite() {
+    if (AppComponent.invite.longitude == null) {
+      Swal.fire({
+        title: 'Show the meeting place on the map, please',
+        type: 'error',
+        showConfirmButton: true,
+        width: 600
+      });
+      return;
+    }
+    if (this.invitationFightStyle.nativeElement.value == null || this.invitationFightStyle.nativeElement.value == '') {
+      Swal.fire({
+        title: 'Choose the fight style, please',
+        type: 'error',
+        showConfirmButton: true,
+        width: 600
+      });
+      return;
+    }
     AppComponent.invite.fightStyle = this.invitationFightStyle.nativeElement.value;
     AppComponent.invite.date = new Date(this.invitationDate.nativeElement.value);
     AppComponent.invite.accepted = false;
-    Swal.fire({
-      title: "Success",
-      text: "You will receive notification when the user accept or decline your invitation",
-      type: 'success',
-      showConfirmButton: true,
-      width: 600
-    });
-    this.userService.invite().subscribe(response => {
-      if (response.date != null) {
+    console.log(AppComponent.invite);
+    this.userService.invite().subscribe(
+      result => {
         this.invitationStyle = {
           'display': 'none'
         };
-      } else {
-        alert('Ooops something went wrong please contact with administrator (Sergey)')
-      }
-    });
+        Swal.fire({
+          title: 'You will receive notification when the user accept or decline your invitation',
+          type: 'success',
+          showConfirmButton: true,
+          width: 600
+        });
+      },
+      error => {
+        Swal.fire({
+          title: 'Please fill all the fields in invitations (including time)',
+          type: 'error',
+          showConfirmButton: true,
+          width: 600
+        });
+      },
+    );
   }
 
   closeChat() {
@@ -281,6 +305,7 @@ export class ProfileComponent implements OnDestroy {
       message.text = this.textMessage;
       message.userSender = this.user.email;
       message.userResiver = this.getDialogUser().email;
+      this.textMessage = '';
       this.socketService.post(message).subscribe()
     }
   }
@@ -362,6 +387,7 @@ export class ProfileComponent implements OnDestroy {
       for (let uComment of this.commentsToShow) {
         comment.emails.push(uComment.email);
       }
+      this.textComment = '';
       this.socketService.postComment(comment).subscribe();
     }
   }

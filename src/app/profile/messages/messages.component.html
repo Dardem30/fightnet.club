@@ -24,6 +24,7 @@
     background-color: #f6f9fb;
   }
 </style>
+<h1 style="font-family: 'Times New Roman';color: #AC0A0A" *ngIf="conversations.length == 0">You have no any conversation, yet</h1>
 <div *ngFor="let conversation of conversations">
   <div class="row" style="margin: 0" (click)="dialog(conversation.userSender, conversation.userResiver, conversation.titleName)">
     <div class="column1">

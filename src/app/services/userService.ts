@@ -21,7 +21,7 @@ export class UserService {
   }
 
   findUserByEmail(email: string): Observable<User> {
-    return this.http.get(AppComponent.apiEndpoint + 'util/findUser?email=' + email)
+    return this.http.post(AppComponent.apiEndpoint + 'util/findUser', {email: email})
       .map((response: User) => response);
   }
 
@@ -38,35 +38,36 @@ export class UserService {
   }
 
   bookPerson(email: any) {
-    this.http.get(AppComponent.apiEndpoint + 'util/bookPerson?currentUserEmail=' + localStorage.getItem('email') + '&personEmail=' + email)
+    console.log(email);
+    this.http.post(AppComponent.apiEndpoint + 'util/bookPerson', {currentUserEmail: localStorage.getItem('email'), personEmail: email})
       .subscribe();
   }
 
   getBookedPersons(): Observable<BookedUser[]> {
-    return this.http.get(AppComponent.apiEndpoint + 'util/getBookedPersons?currentUserEmail=' + localStorage.getItem('email'))
+    return this.http.post(AppComponent.apiEndpoint + 'util/getBookedPersons', {currentUserEmail: localStorage.getItem('email')})
       .map((response: BookedUser[]) => response);
   }
 
   uploadVideo(file: File, email1, email2, inviteId, style) {
-    const formdata: FormData = new FormData();
-    formdata.append('file', file, file.name);
-    formdata.append('fighterEmail1', email1);
-    formdata.append('fighterEmail2', email2);
-    formdata.append('inviteId', inviteId);
-    formdata.append('style', style);
+    // const formdata: FormData = new FormData();
+    // formdata.append('file', file, file.name);
+    // formdata.append('fighterEmail1', email1);
+    // formdata.append('fighterEmail2', email2);
+    // formdata.append('inviteId', inviteId);
+    // formdata.append('style', style);
 
-    return this.http.post(AppComponent.apiEndpoint + 'user/uploadVideo', formdata, {
+    return this.http.post(AppComponent.apiEndpoint + 'user/uploadVideo', {file: file, fighterEmail1: email1, fighterEmail2: email2, inviteId: inviteId, style: style}, {
       headers: {
         'Authorization': localStorage.getItem('currentUser')
       }
     });
   }
   uploadPhoto(file: File) {
-    const formdata: FormData = new FormData();
-    formdata.append('file', file, file.name);
-    formdata.append('email', localStorage.getItem("email"));
+    // const formdata: FormData = new FormData();
+    // formdata.append('file', file, file.name);
+    // formdata.append('email', localStorage.getItem("email"));
 
-    return this.http.post(AppComponent.apiEndpoint + 'user/uploadPhoto', formdata, {
+    return this.http.post(AppComponent.apiEndpoint + 'user/uploadPhoto', {file: file, email: localStorage.getItem("email")}, {
       headers: {
         'Authorization': localStorage.getItem('currentUser')
       }
@@ -74,11 +75,11 @@ export class UserService {
   }
 
   unbookUser(email: any) {
-    return this.http.get(AppComponent.apiEndpoint + 'util/unBookPerson?currentUserEmail=' + localStorage.getItem('email') + '&personEmail=' + email);
+    return this.http.post(AppComponent.apiEndpoint + 'util/unBookPerson', {currentUserEmail: localStorage.getItem('email'), email: email});
   }
 
   getUserInvites(page: number) {
-    return this.http.get(AppComponent.apiEndpoint + 'util/getInvitesForUser?email=' + localStorage.getItem('email') + '&page=' + page)
+    return this.http.post(AppComponent.apiEndpoint + 'util/getInvitesForUser', {email: localStorage.getItem("email"), page: page})
       .map((response: SearchResponse<Invite>) => response);
   }
 
@@ -101,12 +102,12 @@ export class UserService {
   }
 
   getNotification(email: string) {
-    return this.http.get(AppComponent.apiEndpoint + 'util/getNotifications?email=' + email)
+    return this.http.post(AppComponent.apiEndpoint + 'util/getNotifications', {email: email})
       .map((response: UserNotification[]) => response);
   }
 
   getPlannedFights(email: string) {
-    return this.http.get(AppComponent.apiEndpoint + 'util/getPlannedFights?email=' + email)
+    return this.http.post(AppComponent.apiEndpoint + 'util/getPlannedFights', {email: email})
       .map((response: Invite[]) => response);
   }
 
@@ -135,7 +136,7 @@ export class UserService {
   }
 
   getDialog(email1, email2) {
-    return this.http.get(AppComponent.apiEndpoint + 'message/getDialog?email1=' + email1 + '&email2=' + email2, {
+    return this.http.post(AppComponent.apiEndpoint + 'message/getDialog', {email1: email1, email2: email2}, {
       headers: {
         'Authorization': localStorage.getItem('currentUser')
       }
@@ -151,7 +152,7 @@ export class UserService {
 
 
   getConversations(email: string) {
-    return this.http.get(AppComponent.apiEndpoint + 'message/getConversations?email=' + email, {
+    return this.http.post(AppComponent.apiEndpoint + 'message/getConversations', {email: email}, {
       headers: {
         'Authorization': localStorage.getItem('currentUser')
       }
@@ -164,10 +165,10 @@ export class UserService {
   }
 
   resetNotifications(email: string) {
-    return this.http.get(AppComponent.apiEndpoint + 'util/resetNotifications?email=' + email);
+    return this.http.post(AppComponent.apiEndpoint + 'util/resetNotifications', {email: email});
   }
 
   resetMessages(email: string) {
-    return this.http.get(AppComponent.apiEndpoint + 'util/resetMessages?email=' + email);
+    return this.http.post(AppComponent.apiEndpoint + 'util/resetMessages', {email: email});
   }
 }

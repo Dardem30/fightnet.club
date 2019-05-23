@@ -12,7 +12,7 @@ import {ProfileComponent} from '../profile.component';
   templateUrl: './bookedUsers.component.html'
 })
 export class BookedUsersComponent {
-  users: BookedUser[];
+  users: BookedUser[] = [];
   div;
   invitationStyle;
   invitationName;

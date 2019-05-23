@@ -8,7 +8,7 @@ import {MapComponent} from '../map/map.component';
   templateUrl: './notification.component.html'
 })
 export class NotificationComponent {
-  notifications: UserNotification[];
+  notifications: UserNotification[] = [];
   div;
   constructor(private userService: UserService,
               private componentFactoryResolver: ComponentFactoryResolver) {

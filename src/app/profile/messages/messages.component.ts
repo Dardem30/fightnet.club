@@ -9,7 +9,7 @@ import {Message} from '../../models/message';
 })
 export class MessagesComponent implements OnInit{
   div;
-  conversations: Message[];
+  conversations: Message[] = [];
 
   constructor(private userService: UserService,
               private componentFactoryResolver: ComponentFactoryResolver) {
