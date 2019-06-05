@@ -1,4 +1,12 @@
-import {Component, ComponentFactoryResolver, ElementRef, Input, OnDestroy, ViewChild, ViewContainerRef} from '@angular/core';
+import {
+  Component,
+  ComponentFactoryResolver,
+  ElementRef,
+  Input,
+  OnDestroy,
+  ViewChild,
+  ViewContainerRef
+} from '@angular/core';
 import {UserService} from '../services/userService';
 import {MapComponent} from './map/map.component';
 import {OverviewComponent} from './overview/overview.component';
@@ -161,6 +169,7 @@ export class ProfileComponent implements OnDestroy {
     if (navigate == 'videos') {
       let factory = this.componentFactoryResolver.resolveComponentFactory(VideosComponent);
       let ref = this.div.createComponent(factory);
+      ref.instance.div = this.div;
       ref.changeDetectorRef.detectChanges();
     }
   }
@@ -314,8 +323,11 @@ export class ProfileComponent implements OnDestroy {
     this.userService.getDialog(this.user.email, this.getDialogUser().email).subscribe(messages => {
       for (let message of messages) {
         if (message.userSender == this.user.email) {
+          message.isYou = true;
+          message.photo = this.user.mainPhoto;
           message.userSender = this.user.name + ' ' + this.user.surname;
         } else {
+          message.photo = this.getDialogUser().mainPhoto;
           message.userSender = this.getDialogUser().name + ' ' + this.getDialogUser().surname;
         }
       }
@@ -359,6 +371,20 @@ export class ProfileComponent implements OnDestroy {
     if (ProfileComponent.showComments == true && ProfileComponent.socketConnectionIsOpenComments == false) {
       ProfileComponent.socketConnectionIsOpenComments = true;
       this.commentsToShow = ProfileComponent.comments == null ? [] : ProfileComponent.comments;
+      const emails = [];
+      for (const com of this.commentsToShow) {
+        if (emails.indexOf(com.email) == -1) {
+          emails.push(com.email);
+        }
+        if (com.email == this.user.email) {
+          com.isYou = true;
+        }
+      }
+      this.userService.getCommentsPhotos(emails).subscribe(result => {
+        for (const com of this.commentsToShow) {
+          com.photo = result[com.email];
+        }
+      })
       this.initializeWebSocketConnectionForComments();
     }
     return ProfileComponent.showComments;

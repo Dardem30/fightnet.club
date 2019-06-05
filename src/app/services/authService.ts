@@ -38,13 +38,6 @@ export class AuthService {
   }
   sendCode(model: any) {
     model.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    this.http.post(AppComponent.apiEndpoint + 'security/sendCode', model)
-      .subscribe(res => {
-        if (res.text() == 'false') {
-          alert('Sorry but user with this email already exists')
-        } else {
-          this.router.navigate(['confirmCode', model.email]);
-        }
-      });
+    return this.http.post(AppComponent.apiEndpoint + 'security/sendCode', model);
   }
 }

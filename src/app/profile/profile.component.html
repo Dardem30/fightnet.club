@@ -869,14 +869,14 @@
   <div class="chat" id="chat">
     <div class="chat-history" #chatHistory [scrollTop]="chatHistory.scrollHeight">
       <div class="chat-message clearfix" *ngFor="let message of messages" id="chatHistory">
-        <!--<img src="http://gravatar.com/avatar/2c0ad52fc5943b78d6abe069cc08f320?s=32" alt="" width="32" height="32">-->
+        <img [src]="message.photo == null ? 'assets/images/noPhoto.jpeg' : message.photo"  alt="" width="32" height="32">
         <div class="chat-message-content clearfix">
-          <!--<span class="chat-time">13:37</span>-->
-          <h5>{{message.userSender}}</h5>
+          <span class="chat-time">{{message.date | date: 'HH:mm'}}</span>
+          <h5 [style.font-weight]="message.isYou == true ? '700' : 'normal'" [style.color]="message.isYou == true ? 'red' : 'black'">{{message.userSender}}</h5>
           <p>{{message.text}}</p>
         </div>
+        <hr style="margin-top: 5px">
       </div>
-      <hr>
     </div>
     <fieldset>
       <input type="text" placeholder="Type your message…" (input)="textMessage = $event.target.value" [value]="textMessage" (keyup.enter)="sendMessage()" autofocus>
@@ -896,14 +896,14 @@
   <div class="chat" id="chatComments">
     <div class="chat-history" #commentsHistory [scrollTop]="commentsHistory.scrollHeight">
       <div class="chat-message clearfix" *ngFor="let comment of commentsToShow">
-        <!--<img src="http://gravatar.com/avatar/2c0ad52fc5943b78d6abe069cc08f320?s=32" alt="" width="32" height="32">-->
+        <img [src]="comment.photo == null ? 'assets/images/noPhoto.jpeg' : message.photo"  alt="" width="32" height="32">
         <div class="chat-message-content clearfix">
-          <!--<span class="chat-time">13:37</span>-->
-          <h5>{{comment.userFullName}}</h5>
+          <span class="chat-time">{{comment.date | date: 'HH:mm'}}</span>
+          <h5 [style.font-weight]="comment == null || comment.isYou == true ? '700' : 'normal'" [style.color]="comment.isYou == true ? 'red' : 'black'">{{comment.userFullName}}</h5>
           <p>{{comment.text}}</p>
         </div>
+        <hr>
       </div>
-      <hr>
     </div>
     <fieldset>
       <input type="text" placeholder="Type your message…" (keyup.enter)="sendComment()" (input)="textComment = $event.target.value" [value]="textComment" autofocus>

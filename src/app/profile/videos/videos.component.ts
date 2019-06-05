@@ -1,10 +1,11 @@
-import {Component} from '@angular/core';
+import {Component, ComponentFactoryResolver} from '@angular/core';
 import {UserService} from '../../services/userService';
 import {Video} from '../../models/video';
 import {DomSanitizer} from '@angular/platform-browser';
 import {AppComponent} from '../../app.component';
 import {BookedUser} from '../../models/bookedUser';
 import {ProfileComponent} from '../profile.component';
+import {UserProfileComponent} from '../seeProfile/userProfile.component';
 
 @Component({
   selector: 'videos-component',
@@ -15,9 +16,11 @@ export class VideosComponent {
   collectionSize = 0;
   videos: Video[];
   model: any = {};
+  div;
 
   constructor(private userService: UserService,
-              private sanitizer: DomSanitizer) {
+              private sanitizer: DomSanitizer,
+              private componentFactoryResolver: ComponentFactoryResolver) {
   }
 
   ngOnInit() {
@@ -114,5 +117,12 @@ export class VideosComponent {
       this.collectionSize = videos.count;
       this.videos = videos.records;
     });
+  }
+  showProfile(email: string) {
+    this.div.remove(1);
+    let factory = this.componentFactoryResolver.resolveComponentFactory(UserProfileComponent);
+    let ref = this.div.createComponent(factory);
+    ref.instance.email = email;
+    ref.changeDetectorRef.detectChanges();
   }
 }

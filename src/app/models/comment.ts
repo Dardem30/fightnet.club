@@ -5,5 +5,8 @@ export class Comment {
   email: string;
   userFullName: string;
   emails: string[] = [];
+  date: Date;
+  photo: string;
+  isYou: boolean;
   video: Video;
 }

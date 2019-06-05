@@ -26,6 +26,7 @@ export class SearchComponent {
   invitationName;
   invitationSurname;
   bookedUsers: BookedUser[];
+  isLoading = false;
   @ViewChild('bookedPerson') bookedPerson: ElementRef;
 
   constructor(private router: Router,
@@ -51,30 +52,16 @@ export class SearchComponent {
   }
 
   onChangeCountry(countryName) {
-    if (countryName != null && countryName != '') {
-      for (let country of this.countries) {
-        if (country.name === countryName) {
-          this.model.country = country.id;
-          this.cities = JSON.parse(country.transientJSONField);
-          break;
-        }
-      }
-    } else {
-      delete this.model.country;
-    }
+    this.isLoading = true;
+    this.model.country = countryName;
+    this.utilService.cities(countryName).subscribe(cities => {
+      this.cities = cities;
+      this.isLoading = false;
+    });
   }
 
   onChangeCity(cityName) {
-    if (cityName != null && cityName != '') {
-      for (let city of this.cities) {
-        if (city.name === cityName) {
-          this.model.city = city.id;
-          break;
-        }
-      }
-    } else {
-      delete this.model.city;
-    }
+    this.model.city = cityName;
   }
 
   bookPerson(email: string) {

@@ -18,4 +18,8 @@ export class UtilService {
       })
       .then((response: Country[]) => response);
   }
+
+  cities(countryName: string) {
+    return this.http.get(AppComponent.apiEndpoint + "util/getCities?country=" + countryName).map((response:City[]) => response);
+  }
 }

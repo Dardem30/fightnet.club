@@ -171,4 +171,8 @@ export class UserService {
   resetMessages(email: string) {
     return this.http.post(AppComponent.apiEndpoint + 'util/resetMessages', {email: email});
   }
+
+  getCommentsPhotos(emails: string[]) {
+    return this.http.post(AppComponent.apiEndpoint + 'util/getCommentsPhotos', {emails: emails});
+  }
 }

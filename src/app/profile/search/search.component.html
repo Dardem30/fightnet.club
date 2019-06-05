@@ -227,6 +227,9 @@
     -moz-border-radius: 50% !important;
     border-radius: 50% !important;
   }
+  select:required:invalid {
+    color: gray;
+  }
 </style>
 <style>
   tr:hover {
@@ -241,6 +244,36 @@
     transition-timing-function: line;
   }
 </style>
+<style type="text/scss">
+  .lds-circle {
+    display: inline-block;
+    transform: translateZ(1px);
+  }
+  .lds-circle > div {
+    display: inline-block;
+    width: 51px;
+    height: 51px;
+    margin: 6px;
+    border-radius: 50%;
+    background: #673ab7;
+    animation: lds-circle 2.4s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+  }
+  @keyframes lds-circle {
+    0%, 100% {
+      animation-timing-function: cubic-bezier(0.5, 0, 1, 0.5);
+    }
+    0% {
+      transform: rotateY(0deg);
+    }
+    50% {
+      transform: rotateY(1800deg);
+      animation-timing-function: cubic-bezier(0, 0.5, 0.5, 1);
+    }
+    100% {
+      transform: rotateY(3600deg);
+    }
+  }
+</style>
 <form method="post" style="font-style: normal">
   <input type="text" class="textbox" placeholder="Name" name="name" id="name" [(ngModel)]="model.name"
          #name="ngModel">
@@ -248,13 +281,16 @@
          #name="ngModel">
   <input type="text" class="textbox" placeholder="Description" name="description" id="description" [(ngModel)]="model.description"
          #name="ngModel">
-  <input type="text" class="textbox" placeholder="Keywords">
-  <select class="textbox" (change)="onChangeCountry($event.target.value)">
-    <option></option>
+  <input type="text" class="textbox" placeholder="Keywords (coming soon)">
+  <select class="textbox" (change)="model.style = $event.target.value === '' ? null : onChangeCountry($event.target.value)" required>
+    <option value="" hidden>Country</option>
     <option *ngFor="let country of countries" [value]="country.name">{{country.name}}</option>
   </select>
-  <select class="textbox" (change)="onChangeCity($event.target.value)">
-    <option></option>
+  <div *ngIf="isLoading">
+    <div class="lds-circle"><div></div></div><br>
+  </div>
+  <select *ngIf="!isLoading" class="textbox" (change)="model.style = $event.target.value === '' ? null : onChangeCity($event.target.value)" required>
+    <option value="" hidden>City</option>
     <option *ngFor="let city of cities" [value]="city.name">{{city.name}}</option>
   </select>
   <button class="button" (click)="search()"><i class="glyphicon glyphicon-search"></i></button>
@@ -273,7 +309,7 @@
   </thead>
   <tbody *ngFor="let user of users">
     <tr>
-      <td (click)="showProfile(user.email)" class="profile-userpic"><img height=150 width=150 src="assets/images/noPhoto.jpeg"></td>
+      <td (click)="showProfile(user.email)" class="profile-userpic"><img height=150 width=150 [src]="user == null || user.mainPhoto == null ? 'assets/images/noPhoto.jpeg' : user.mainPhoto"></td>
       <td (click)="showProfile(user.email)">{{user.name}} {{user.surname}}</td>
       <td (click)="showProfile(user.email)">{{user.country}}, {{user.city}}</td>
       <td (click)="showProfile(user.email)">{{user.description.substr(0, 50)}}...</td>

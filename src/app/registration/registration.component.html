@@ -135,7 +135,6 @@
     background-clip: padding-box;
     background-color: #fff;
     font-family: 'HelveticaNeue', 'Arial', sans-serif;
-    font-size: 80%;
     letter-spacing: .8px;
   }
 
@@ -258,9 +257,6 @@
     height: auto;
     max-width: 600px;
     color: #999;
-    font-weight: 400;
-    font-size: 30px;
-    font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
     width: 70%;
     background: #fff;
     border-radius: 3px;
@@ -273,6 +269,101 @@
     -ms-transition: height 2s ease;
     -o-transition: height 2s ease;
     transition: height 2s ease;
+  }
+  .checkbox input[type="checkbox"] {
+    opacity: 0;
+  }
+
+  .checkbox label {
+    position: relative;
+    display: inline-block;
+
+    /*16px width of fake checkbox + 6px distance between fake checkbox and text*/
+    padding-left: 22px;
+  }
+
+  .checkbox label::before,
+  .checkbox label::after {
+    position: absolute;
+    content: "";
+
+    /*Needed for the line-height to take effect*/
+    display: inline-block;
+  }
+
+  /*Outer box of the fake checkbox*/
+  .checkbox label::before{
+    height: 16px;
+    width: 16px;
+
+    border: 1px solid;
+    left: 0px;
+
+    /*(24px line-height - 16px height of fake checkbox) / 2 - 1px for the border
+     *to vertically center it.
+     */
+    top: 3px;
+  }
+
+  /*Checkmark of the fake checkbox*/
+  .checkbox label::after {
+    height: 5px;
+    width: 9px;
+    border-left: 2px solid;
+    border-bottom: 2px solid;
+
+    transform: rotate(-45deg);
+
+    left: 4px;
+    top: 7px;
+  }
+
+  /*Hide the checkmark by default*/
+  .checkbox input[type="checkbox"] + label::after {
+    content: none;
+  }
+
+  /*Unhide on the checked state*/
+  .checkbox input[type="checkbox"]:checked + label::after {
+    content: "";
+  }
+
+  /*Adding focus styles on the outer-box of the fake checkbox*/
+  .checkbox input[type="checkbox"]:focus + label::before {
+    outline: rgb(59, 153, 252) auto 5px;
+  }
+  select:required:invalid {
+    color: gray;
+  }
+</style>
+<style type="text/scss">
+  .lds-circle {
+    display: inline-block;
+    transform: translateZ(1px);
+  }
+  .lds-circle > div {
+    display: inline-block;
+    width: 51px;
+    height: 51px;
+    margin: 6px;
+    border-radius: 50%;
+    background: #673ab7;
+    animation: lds-circle 2.4s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+  }
+  @keyframes lds-circle {
+    0%, 100% {
+      animation-timing-function: cubic-bezier(0.5, 0, 1, 0.5);
+    }
+    0% {
+      transform: rotateY(0deg);
+    }
+    50% {
+      transform: rotateY(1800deg);
+      animation-timing-function: cubic-bezier(0, 0.5, 0.5, 1);
+    }
+    100% {
+      transform: rotateY(3600deg);
+    }
   }
 </style>
 <script>
@@ -324,22 +415,34 @@
              #surname="ngModel" required/>
     </div>
     <div class="form-item">
-      <select class="form-style" (change)="onChangeCountry($event.target.value)" name="country" id="country" [(ngModel)]="model.country" #country="ngModel">
-        <option></option>
+      <select class="form-style" (change)="model.style = $event.target.value === '' ? null : onChangeCountry($event.target.value)" name="country" id="country" [(ngModel)]="model.country" #country="ngModel" required>
+        <option [ngValue]="null" hidden>Country</option>
         <option *ngFor="let country of countries" [value]="country.name">{{country.name}}</option>
       </select>
     </div>
     <div class="form-item">
-      <select class="form-style" name="city" id="city" [(ngModel)]="model.city" #city="ngModel">
-        <option></option>
-        <option *ngFor="let city of cities" [value]="city.name">{{city.name}}</option>
-      </select>
+      <div *ngIf="isLoading">
+        <div class="lds-circle"><div></div></div><br>
+      </div>
     </div>
     <div class="form-item">
-      <textarea class="form-style" placeholder="Description" name="description" id="description" class="form-style"
+      <div *ngIf="!isLoading">
+        <select class="form-style" (change)="model.style = $event.target.value === '' ? null : $event.target.value" name="city" id="city" [(ngModel)]="model.city" #city="ngModel" required>
+          <option [ngValue]="null" hidden>City</option>
+          <option *ngFor="let city of cities" [value]="city.name">{{city.name}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-item">
+      <textarea class="form-style" placeholder="Description" name="description" id="description"
                 [(ngModel)]="model.description"
                 #description="ngModel" required></textarea>
     </div>
+    <div class="checkbox">
+      <input type="checkbox" id="checkbox_1" [(ngModel)]="agreeWithTermsOfUse" >
+      <label for="checkbox_1">By signing in, you accept the <a href="https://www.termsofusegenerator.net/live.php?token=y2SM2T3l6Fo3TcBFFLqmdQrBYahSg0cU" target="_blank">Terms of Service</a> and <a href="https://www.freeprivacypolicy.com/privacy/view/2a8d3dd08f9f8428221c60bcc59e39f9" target="_blank">Privacy Policy</a>.</label>
+    </div>
+    <br>
     <div class="form-item">
       <input type="submit" class="login pull-right" (click)="registration()" value="Sign up">
       <div class="clear-fix"></div>
