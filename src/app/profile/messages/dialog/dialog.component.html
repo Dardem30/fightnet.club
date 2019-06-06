@@ -65,7 +65,7 @@
   /* Darker chat container */
   .darker {
     border-color: #ccc;
-    background-color: #898989;
+    background-color: #B4ABA9;
   }
 
   /* Clear floats */
@@ -105,13 +105,16 @@
   <div *ngFor="let message of messages">
     <div [class]="message.userSender == email ? 'container' : 'container darker'">
       <img src="assets/images/noPhoto.jpeg" alt="Avatar" [class]="message.userSender == email ? 'left' : 'right'">
-      <p [class]="message.userSender == email ? 'time-left' : 'time-right'">{{message.text}}</p>
       <span [class]="message.userSender == email ? 'time-right' : 'time-left'">{{message.date | date: 'dd.MM.yyyy HH:mm'}}</span>
+      <div style="width: 90%; word-wrap: break-word" [style.text-align]="message.userSender == email ? 'left' : 'right'"  [class]="message.userSender == email ? 'time-left' : 'time-right'">
+        <p>{{message.text}}</p>
+      </div>
     </div>
   </div>
 </div>
 <form method="post" style="font-style: normal">
-  <input type="text" (input)="convMessage = $event.target.value" class="textbox" placeholder="Message" [value]="convMessage">
+  <input type="text" (input)="convMessage = $event.target.value" class="textbox" placeholder="Message"
+         [value]="convMessage">
   <button class="button" (click)="sendMessage()"><i class="glyphicon glyphicon-pencil"></i></button>
 </form>
 <div style="margin-top: 30px"></div>

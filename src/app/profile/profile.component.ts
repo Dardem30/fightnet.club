@@ -2,8 +2,8 @@ import {
   Component,
   ComponentFactoryResolver,
   ElementRef,
+  HostListener,
   Input,
-  OnDestroy,
   ViewChild,
   ViewContainerRef
 } from '@angular/core';
@@ -34,7 +34,7 @@ import {DialogComponent} from './messages/dialog/dialog.component';
   selector: 'profile',
   templateUrl: './profile.component.html'
 })
-export class ProfileComponent implements OnDestroy {
+export class ProfileComponent {
   private serverUrl = AppComponent.apiEndpoint + 'socket';
   isCustomSocketOpened = false;
   public static stompClient;
@@ -74,6 +74,7 @@ export class ProfileComponent implements OnDestroy {
   @ViewChild('invitationDate') invitationDate;
   @Input() textMessage = '';
   @Input() textComment = '';
+  messageComponent: MessagesComponent;
 
   constructor(private userService: UserService,
               private componentFactoryResolver: ComponentFactoryResolver,
@@ -103,8 +104,23 @@ export class ProfileComponent implements OnDestroy {
     this.userService.getBookedPersons().subscribe(users => this.users = users);
   }
 
-  ngOnDestroy(): void {
-    this.userService.findUserByEmail(localStorage.getItem('email')).subscribe();
+  @HostListener('window:beforeunload', ['$event'])
+  unloadHandler(event) {
+    if (ProfileComponent.stompClient != null) {
+      ProfileComponent.stompClient.disconnect();
+    }
+    if (ProfileComponent.stompClientComments != null) {
+      ProfileComponent.stompClientComments.disconnect();
+    }
+    if (DialogComponent.stompClient != null) {
+      DialogComponent.stompClient.disconnect();
+    }
+    if (ProfileComponent.stompClientNotifications != null) {
+      ProfileComponent.stompClientNotifications.disconnect();
+    }
+    if (ProfileComponent.stompClientMessages != null) {
+      ProfileComponent.stompClientMessages.disconnect();
+    }
   }
 
   changeRoute(navigate: string): void {
@@ -150,6 +166,7 @@ export class ProfileComponent implements OnDestroy {
       let factory = this.componentFactoryResolver.resolveComponentFactory(MessagesComponent);
       let ref = this.div.createComponent(factory);
       ref.instance.div = this.div;
+      this.messageComponent = ref.instance;
       ref.changeDetectorRef.detectChanges();
     }
     if (navigate == 'notifications') {
@@ -348,6 +365,7 @@ export class ProfileComponent implements OnDestroy {
     ProfileComponent.stompClient.subscribe('/socket-publisher/' + this.user.email, (messageJson) => {
       const message = JSON.parse(messageJson.body);
       if (message.userSender == this.user.email) {
+        message.isYou = true;
         message.userSender = this.user.name + ' ' + this.user.surname;
       } else {
         message.userSender = this.getDialogUser().name + ' ' + this.getDialogUser().surname;
@@ -420,7 +438,13 @@ export class ProfileComponent implements OnDestroy {
 
   openCommentsSocket() {
     this.isCustomSocketOpened = true;
-    ProfileComponent.stompClientComments.subscribe('/socket-publisher/' + ProfileComponent.videoId, (commentJson) => this.commentsToShow.push(JSON.parse(commentJson.body)));
+    ProfileComponent.stompClientComments.subscribe('/socket-publisher/' + ProfileComponent.videoId, (commentJson) => {
+      const comment = JSON.parse(commentJson.body);
+      if (comment.email = this.user.email) {
+        comment.isYou = true;
+      }
+      this.commentsToShow.push(comment)
+    });
   }
 
   initializeWebSocketConnectionForNotifications() {
@@ -454,8 +478,10 @@ export class ProfileComponent implements OnDestroy {
 
   openMessagesSocket() {
     ProfileComponent.stompClientMessages.subscribe('/socket-publisher/messages/' + this.user.email, (messages) => {
-      console.log(messages);
-      this.unreadedMessages++
+      if (this.messageComponent != null && document.getElementById('messagesWindow') != null) {
+        this.messageComponent.setConvestaions();
+      }
+      this.unreadedMessages++;
     });
   }
 }

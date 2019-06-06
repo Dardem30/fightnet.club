@@ -25,7 +25,7 @@
   }
 </style>
 <h1 style="font-family: 'Times New Roman';color: #AC0A0A" *ngIf="conversations.length == 0">You have no any conversation, yet</h1>
-<div *ngFor="let conversation of conversations">
+<div *ngFor="let conversation of conversations" id="messagesWindow">
   <div class="row" style="margin: 0" (click)="dialog(conversation.userSender, conversation.userResiver, conversation.titleName)">
     <div class="column1">
       <div class="profile-userpic">
@@ -35,7 +35,7 @@
     <div class="column2" style="text-align: left">
       <h3 style="margin-bottom: 0">{{conversation.titleName}}</h3> <br>
       <br style="margin-top: 0; margin-bottom: 15px">
-      <h4 style="opacity: 0.7">{{conversation.text}}</h4>
+      <h4 style="opacity: 0.7">{{conversation.text.substr(0, 50)}}...</h4>
     </div>
   </div>
   <hr>

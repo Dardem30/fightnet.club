@@ -24,4 +24,7 @@ export class MessagesComponent implements OnInit{
     ref.instance.email = email1 === localStorage.getItem("email") ? email2 : email1;
     ref.changeDetectorRef.detectChanges();
   }
+  setConvestaions() {
+    this.userService.getConversations(localStorage.getItem("email")).subscribe(conversations => this.conversations = conversations);
+  }
 }
