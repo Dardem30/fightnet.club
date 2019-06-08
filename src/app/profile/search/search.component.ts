@@ -28,6 +28,7 @@ export class SearchComponent {
   bookedUsers: BookedUser[];
   isLoading = false;
   @ViewChild('bookedPerson') bookedPerson: ElementRef;
+  @ViewChild('countryField') countryField: ElementRef;
 
   constructor(private router: Router,
               private userService: UserService,
@@ -45,6 +46,12 @@ export class SearchComponent {
 
   search() {
     this.model.pageNum = this.page;
+    const countryName = this.countryField.nativeElement.value;
+    if (countryName != null && countryName != '') {
+      this.model.country = countryName;
+    } else {
+      this.model.country = null;
+    }
     this.userService.search(this.model).subscribe(users => {
       this.collectionSize = users.count;
       this.users = users.records;
@@ -53,7 +60,6 @@ export class SearchComponent {
 
   onChangeCountry(countryName) {
     this.isLoading = true;
-    this.model.country = countryName;
     this.utilService.cities(countryName).subscribe(cities => {
       this.cities = cities;
       this.isLoading = false;

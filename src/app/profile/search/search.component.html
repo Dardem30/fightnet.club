@@ -282,7 +282,7 @@
   <input type="text" class="textbox" placeholder="Description" name="description" id="description" [(ngModel)]="model.description"
          #name="ngModel">
   <input type="text" class="textbox" placeholder="Keywords (coming soon)">
-  <input placeholder="Country" type="text" list="countries" class="textbox" (change)="model.style = $event.target.value === '' ? null : onChangeCountry($event.target.value)" required>
+  <input placeholder="Country" type="text" list="countries" class="textbox" (change)="model.style = $event.target.value === '' ? null : onChangeCountry($event.target.value)" required #countryField>
   <datalist id="countries">
     <option *ngFor="let country of countries" [value]="country.name">{{country.name}}</option>
   </datalist>
