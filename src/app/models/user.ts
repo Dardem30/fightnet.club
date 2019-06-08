@@ -4,6 +4,8 @@ export class User {
   username: string;
   email: string;
   password: string;
+  weight: string;
+  growth: string;
   name: string;
   surname: string;
   description: string;

@@ -12,6 +12,8 @@ import {ProfileComponent} from '../profile.component';
 export class UserProfileComponent {
   user: User;
   email: string;
+  private countWins: number = 0;
+  private countLoses: number = 0;
   public hasNoWins = true;
   public hasNoLoses = true;
   public pieChartLabelsWins: Label[] = [];
@@ -30,6 +32,7 @@ export class UserProfileComponent {
     this.userService.findUserByEmail(this.email).subscribe(user => {
       for (let keyWins in user.wins) {
         this.hasNoWins = false;
+        this.countWins += user.wins[keyWins];
         this.pieChartLabelsWins.push(keyWins);
         this.pieChartDataWins.push(user.wins[keyWins]);
       }
@@ -38,6 +41,7 @@ export class UserProfileComponent {
       }
       for (let keyLoses in user.loses) {
         this.hasNoLoses = false;
+        this.countLoses += user.loses[keyLoses];
         this.pieChartLabelsLoses.push(keyLoses);
         this.pieChartDataLoses.push(user.loses[keyLoses]);
       }

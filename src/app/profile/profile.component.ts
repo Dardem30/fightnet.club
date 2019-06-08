@@ -28,6 +28,7 @@ import {Video} from '../models/video';
 import {MessagesComponent} from './messages/messages.component';
 import Swal from 'sweetalert2';
 import {DialogComponent} from './messages/dialog/dialog.component';
+import {UserProfileComponent} from './seeProfile/userProfile.component';
 
 
 @Component({
@@ -250,6 +251,7 @@ export class ProfileComponent {
       return;
     }
     AppComponent.invite.fightStyle = this.invitationFightStyle.nativeElement.value;
+    AppComponent.invite.fighterInviter = this.user;
     AppComponent.invite.date = new Date(this.invitationDate.nativeElement.value);
     AppComponent.invite.accepted = false;
     console.log(AppComponent.invite);
@@ -338,17 +340,18 @@ export class ProfileComponent {
 
   initializeWebSocketConnection() {
     this.userService.getDialog(this.user.email, this.getDialogUser().email).subscribe(messages => {
-      for (let message of messages) {
+      this.messages = messages;
+      for (let message of this.messages) {
         if (message.userSender == this.user.email) {
           message.isYou = true;
           message.photo = this.user.mainPhoto;
           message.userSender = this.user.name + ' ' + this.user.surname;
         } else {
+          message.email = message.userSender;
           message.photo = this.getDialogUser().mainPhoto;
           message.userSender = this.getDialogUser().name + ' ' + this.getDialogUser().surname;
         }
       }
-      this.messages = messages;
     });
     let ws = new SockJS(this.serverUrl);
     ProfileComponent.stompClient = Stomp.over(ws);
@@ -368,6 +371,7 @@ export class ProfileComponent {
         message.isYou = true;
         message.userSender = this.user.name + ' ' + this.user.surname;
       } else {
+        message.email = message.userSender;
         message.userSender = this.getDialogUser().name + ' ' + this.getDialogUser().surname;
       }
       this.messages.push(message);
@@ -395,6 +399,7 @@ export class ProfileComponent {
           emails.push(com.email);
         }
         if (com.email == this.user.email) {
+          com.email = null;
           com.isYou = true;
         }
       }
@@ -402,7 +407,7 @@ export class ProfileComponent {
         for (const com of this.commentsToShow) {
           com.photo = result[com.email];
         }
-      })
+      });
       this.initializeWebSocketConnectionForComments();
     }
     return ProfileComponent.showComments;
@@ -441,6 +446,7 @@ export class ProfileComponent {
     ProfileComponent.stompClientComments.subscribe('/socket-publisher/' + ProfileComponent.videoId, (commentJson) => {
       const comment = JSON.parse(commentJson.body);
       if (comment.email = this.user.email) {
+        comment.email = null;
         comment.isYou = true;
       }
       this.commentsToShow.push(comment)
@@ -483,5 +489,15 @@ export class ProfileComponent {
       }
       this.unreadedMessages++;
     });
+  }
+
+  openProfile(email: string) {
+    if (email != null) {
+      this.div.remove(1);
+      let factory = this.componentFactoryResolver.resolveComponentFactory(UserProfileComponent);
+      let ref = this.div.createComponent(factory);
+      ref.instance.email = email;
+      ref.changeDetectorRef.detectChanges();
+    }
   }
 }

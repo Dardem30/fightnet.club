@@ -146,11 +146,272 @@
     -ms-user-select: none;
     user-select: none;
   }
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+
+  /* Modal Content */
+  .modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 40%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s
+  }
+
+  /* Add Animation */
+  @-webkit-keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+  }
+
+  @keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+  }
+
+  /* The Close Button */
+  .close {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .modal-header {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+  }
+
+  .modal-body {padding: 2px 16px;}
+
+  .modal-footer {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+  }
+
+
+  input,
+  span,
+  label,
+  textarea {
+    font-family: 'Ubuntu', sans-serif;
+    display: block;
+    margin: 10px;
+    padding: 5px;
+    border: none;
+    font-size: 22px;
+  }
+
+  textarea:focus,
+  input:focus {
+    outline: 0;
+  }
+  /* Question */
+
+  input.question,
+  textarea.question {
+    border-radius: 2px;
+    margin: 0;
+    border: none;
+    width: 80%;
+    background: rgba(0, 0, 0, 0);
+    transition: padding-top 0.2s ease, margin-top 0.2s ease;
+    overflow-x: hidden; /* Hack to make "rows" attribute apply in Firefox. */
+  }
+  /* Underline and Placeholder */
+
+  input.question + label,
+  textarea.question + label {
+    display: block;
+    position: relative;
+    white-space: nowrap;
+    padding: 0;
+    margin: 0;
+    border-top: 1px solid red;
+    -webkit-transition: width 0.4s ease;
+    transition: width 0.4s ease;
+    height: 0px;
+  }
+
+  input.question:focus + label,
+  textarea.question:focus + label {
+    width: 80%;
+  }
+
+  input.question:focus,
+  input.question:valid {
+    padding-top: 35px;
+  }
+
+  textarea.question:valid,
+  textarea.question:focus {
+    margin-top: 35px;
+  }
+
+  input.question:focus + label > span,
+  input.question:valid + label > span {
+    top: -100px;
+    color: #333;
+  }
+
+  textarea.question:focus + label > span,
+  textarea.question:valid + label > span {
+    top: -150px;
+    color: #333;
+  }
+
+  input.question:valid + label,
+  textarea.question:valid + label {
+    border-color: green;
+  }
+
+  input.question:invalid,
+  textarea.question:invalid {
+    box-shadow: none;
+  }
+
+  input.question + label > span,
+  textarea.question + label > span {
+    margin: 0;
+    position: absolute;
+    color: #8F8F8F;
+    font-size: 48px;
+    top: -66px;
+    left: 0px;
+    z-index: -1;
+    -webkit-transition: top 0.2s ease, font-size 0.2s ease, color 0.2s ease;
+    transition: top 0.2s ease, font-size 0.2s ease, color 0.2s ease;
+  }
+
+  input[type="submit"] {
+    -webkit-transition: opacity 0.2s ease, background 0.2s ease;
+    transition: opacity 0.2s ease, background 0.2s ease;
+    display: block;
+    opacity: 0;
+    margin: 10px 0 0 0;
+    padding: 10px;
+    cursor: pointer;
+  }
+
+  input[type="submit"]:hover {
+    background: #EEE;
+  }
+
+  input[type="submit"]:active {
+    background: #999;
+  }
+
+  input.question:valid ~ input[type="submit"], textarea.question:valid ~ input[type="submit"] {
+    -webkit-animation: appear 1s forwards;
+    animation: appear 1s forwards;
+  }
+
+  input.question:invalid ~ input[type="submit"], textarea.question:invalid ~ input[type="submit"] {
+    display: none;
+  }
+
+  @-webkit-keyframes appear {
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes appear {
+    100% {
+      opacity: 1;
+    }
+  }
+
 </style>
-<h3 style="text-align: left;font-family: 'Times New Roman';color: #AC0A0A">Description</h3>
+<style type="text/scss">
+  .lds-circle {
+    display: inline-block;
+    transform: translateZ(1px);
+  }
+  .lds-circle > div {
+    display: inline-block;
+    width: 51px;
+    height: 51px;
+    margin: 6px;
+    border-radius: 50%;
+    background: #673ab7;
+    animation: lds-circle 2.4s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+  }
+  @keyframes lds-circle {
+    0%, 100% {
+      animation-timing-function: cubic-bezier(0.5, 0, 1, 0.5);
+    }
+    0% {
+      transform: rotateY(0deg);
+    }
+    50% {
+      transform: rotateY(1800deg);
+      animation-timing-function: cubic-bezier(0, 0.5, 0.5, 1);
+    }
+    100% {
+      transform: rotateY(3600deg);
+    }
+  }
+</style>
+<h3 style="text-align: left;font-family: 'Times New Roman';color: #AC0A0A">Description<button class="red button" style="margin-left: 10px" onclick="{
+  document.getElementById('desctiptionModal').style.display = 'block';
+}">Change</button></h3>
 <hr>
-<div *ngIf="user != null" style="text-align: left">
-  {{user.description}}
+<div *ngIf="user != null" style="text-align: left; padding-left: 5px">
+  {{user.description}}<br><br>
+  <div class="row" style="height: 245px;">
+    <div class="column" style="height: 245px;width: 15%">
+      <p><b>Place of residence:</b></p> <br>
+      <p><b>Weight:</b></p> <br>
+      <p><b>Growth:</b></p> <br>
+      <p><b>Wins:</b></p> <br>
+      <p><b>Loses:</b></p>
+    </div>
+    <div class="column" style="height: 245px;width: 15%">
+      <p>{{user.country}}, {{user.city}}</p><br>
+      <p *ngIf="user.weight != null">{{user.weight}}</p><p *ngIf="user.weight == null">Not specified</p><br>
+      <p *ngIf="user.growth != null">{{user.growth}}</p><p *ngIf="user.growth == null">Not specified</p><br>
+      <p>{{countWins}}</p><br>
+      <p>{{countLoses}}</p>
+    </div>
+    <div class="column" style="height: 245px;width: 10%">
+      <p><button class="red button" style="margin-top: -100px; margin-bottom:  -100px" onclick="{
+  document.getElementById('placeModal').style.display = 'block';
+}" (click)="setupPlace()">Change</button></p><br>
+      <p><button class="red button" style="margin-top: -100px; margin-bottom:  -100px" onclick="{
+  document.getElementById('widthModal').style.display = 'block';
+}" (click)="setupWidth()">Change</button></p><br>
+      <p><button class="red button" style="margin-top: -100px" onclick="{
+  document.getElementById('grouthModal').style.display = 'block';
+}" (click)="setupGrowth()">Change</button></p>
+    </div>
+  </div>
 </div>
 <h3 style="text-align: left;font-family: 'Times New Roman';color: #AC0A0A">Statistics</h3>
 <hr>
@@ -203,3 +464,99 @@
   var rellax = new Rellax('.rellax',{horizontal: true, vertical: false, speed: 1.5});
 </script>
 <input type="file" (change)="uploadPhoto($event)" #imageInput style="display: none" accept=".jpeg,.jpg,.png,.bmp,.gif,.tiff"/>
+<div id="desctiptionModal" class="modal" *ngIf="user != null">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Change description</h2>
+    </div>
+    <div class="modal-body" style="height: 250px">
+      <textarea id="changeDesctiption" style="width: 100%; height: 90%" type="text" placeholder="Content">{{user.description}}</textarea>
+    </div>
+    <div class="modal-footer">
+      <button onclick="{
+        document.getElementById('desctiptionModal').style.display = 'none';
+      }" (click)="updateDesctiption()">Save</button>
+      <button style="margin-left: 10px" onclick="{
+        document.getElementById('desctiptionModal').style.display = 'none';
+      }">Close</button>
+    </div>
+  </div>
+
+</div>
+<div id="widthModal" class="modal" *ngIf="user != null">
+
+  <!-- Modal content -->
+  <div class="modal-content" style="width: 25%">
+    <div class="modal-header">
+      <h2>Change width</h2>
+    </div>
+    <div class="modal-body">
+      <input type="number" placeholder="width" id="changeWidth" style="width: 100%">
+    </div>
+    <div class="modal-footer">
+      <button onclick="{
+        document.getElementById('widthModal').style.display = 'none';
+      }" (click)="updateWidth()">Save</button>
+      <button style="margin-left: 10px" onclick="{
+        document.getElementById('widthModal').style.display = 'none';
+      }">Close</button>
+    </div>
+  </div>
+
+</div>
+<div id="grouthModal" class="modal" *ngIf="user != null">
+
+  <!-- Modal content -->
+  <div class="modal-content" style="width: 25%">
+    <div class="modal-header">
+      <h2>Change growth</h2>
+    </div>
+    <div class="modal-body">
+      <input id="changeGrowth" type="number" placeholder="growth" style="width: 100%">
+    </div>
+    <div class="modal-footer">
+      <button onclick="{
+        document.getElementById('grouthModal').style.display = 'none';
+      }" (click)="updateGrowth()">Save</button>
+      <button style="margin-left: 10px" onclick="{
+        document.getElementById('grouthModal').style.display = 'none';
+      }">Close</button>
+    </div>
+  </div>
+
+</div>
+<div id="placeModal" class="modal" *ngIf="user != null">
+
+  <!-- Modal content -->
+  <div class="modal-content" style="width: 25%">
+    <div class="modal-header">
+      <h2>Change growth</h2>
+    </div>
+    <div class="modal-body">
+      <input list="countries" class="question" placeholder="Country" type="text" id="country" (change)="onChangeCountry($event.target.value)" required autocomplete="on" style="width: 100%">
+      <label for="country"><span style="opacity: 0.5">Country</span></label>
+      <datalist id="countries">
+        <option *ngFor="let country of countries" [value]="country.name">{{country.name}}</option>
+      </datalist>
+      <div *ngIf="isLoading">
+        <div class="lds-circle"><div></div></div><br>
+      </div>
+      <input type="text" class="question" placeholder="City" list="cities" id="city" required autocomplete="on" *ngIf="!isLoading" style="width: 100%">
+      <label for="city" *ngIf="!isLoading"><span style="opacity: 0.5">City</span></label>
+      <datalist id="cities">
+        <option *ngFor="let city of cities" [value]="city.name">{{city.name}}</option>
+      </datalist>
+    </div>
+    <div class="modal-footer">
+      <button onclick="{
+        document.getElementById('placeModal').style.display = 'none';
+      }" (click)="updatePlace()">Save</button>
+      <button style="margin-left: 10px" onclick="{
+        document.getElementById('placeModal').style.display = 'none';
+      }">Close</button>
+    </div>
+  </div>
+
+</div>

@@ -3,6 +3,7 @@ import {UserService} from '../../services/userService';
 import {User} from '../../models/user';
 import {Label} from 'ng2-charts';
 import {ChartOptions, ChartType} from 'chart.js';
+import {UtilService} from '../../services/utilService';
 
 @Component({
   selector: 'overview-component',
@@ -10,6 +11,11 @@ import {ChartOptions, ChartType} from 'chart.js';
 })
 export class OverviewComponent {
   user: User;
+  countries: Country[];
+  cities: City[];
+  isLoading: boolean = false;
+  private countWins: number = 0;
+  private countLoses: number = 0;
   public hasNoWins = true;
   public hasNoLoses = true;
   public pieChartLabelsWins: Label[] = [];
@@ -24,13 +30,15 @@ export class OverviewComponent {
   ];
   @ViewChild('imageInput') imageInput: ElementRef;
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService,
+              private utilService: UtilService) {
   }
 
   ngOnInit() {
     this.userService.findUserByEmail(localStorage.getItem('email')).subscribe(user => {
       for (let keyWins in user.wins) {
         this.hasNoWins = false;
+        this.countWins += user.wins[keyWins];
         this.pieChartLabelsWins.push(keyWins);
         this.pieChartDataWins.push(user.wins[keyWins]);
       }
@@ -39,6 +47,7 @@ export class OverviewComponent {
       }
       for (let keyLoses in user.loses) {
         this.hasNoLoses = false;
+        this.countLoses += user.loses[keyLoses];
         this.pieChartLabelsLoses.push(keyLoses);
         this.pieChartDataLoses.push(user.loses[keyLoses]);
       }
@@ -75,5 +84,44 @@ export class OverviewComponent {
     this.userService.uploadPhoto(file).subscribe(result => {
         alert('Successfully')
     })
+  }
+  setupPlace() {
+    this.utilService.countries().then(countries => this.countries = countries);
+    (<HTMLInputElement> document.getElementById('country')).value = this.user.country;
+    (<HTMLInputElement> document.getElementById('city')).value = this.user.city;
+  }
+  onChangeCountry(countryName) {
+    this.isLoading = true;
+    this.utilService.cities(countryName).subscribe(cities => {
+      this.cities = cities;
+      this.isLoading = false;
+    });
+  }
+  setupWidth() {
+    (<HTMLInputElement> document.getElementById('changeWidth')).value = this.user.weight
+  }
+  setupGrowth() {
+    (<HTMLInputElement> document.getElementById('changeGrowth')).value = this.user.growth
+  }
+  updateDesctiption() {
+    this.user.description = (<HTMLInputElement> document.getElementById('changeDesctiption')).value;
+    this.userService.updateUserChangableInfo(this.user);
+  }
+  updateWidth() {
+    this.user.weight = (<HTMLInputElement> document.getElementById('changeWidth')).value;
+    this.userService.updateUserChangableInfo(this.user);
+  }
+  updateGrowth() {
+    this.user.growth = (<HTMLInputElement> document.getElementById('changeGrowth')).value;
+    this.userService.updateUserChangableInfo(this.user);
+  }
+  updatePlace() {
+    const country = (<HTMLInputElement> document.getElementById('country')).value;
+    const city = (<HTMLInputElement> document.getElementById('city')).value;
+    if (city != null && city != '' && country != null && country != '') {
+      this.user.country = country;
+      this.user.city = city;
+      this.userService.updateUserChangableInfo(this.user);
+    }
   }
 }

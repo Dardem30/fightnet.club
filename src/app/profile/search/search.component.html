@@ -282,17 +282,17 @@
   <input type="text" class="textbox" placeholder="Description" name="description" id="description" [(ngModel)]="model.description"
          #name="ngModel">
   <input type="text" class="textbox" placeholder="Keywords (coming soon)">
-  <select class="textbox" (change)="model.style = $event.target.value === '' ? null : onChangeCountry($event.target.value)" required>
-    <option value="" hidden>Country</option>
+  <input placeholder="Country" type="text" list="countries" class="textbox" (change)="model.style = $event.target.value === '' ? null : onChangeCountry($event.target.value)" required>
+  <datalist id="countries">
     <option *ngFor="let country of countries" [value]="country.name">{{country.name}}</option>
-  </select>
+  </datalist>
   <div *ngIf="isLoading">
     <div class="lds-circle"><div></div></div><br>
   </div>
-  <select *ngIf="!isLoading" class="textbox" (change)="model.style = $event.target.value === '' ? null : onChangeCity($event.target.value)" required>
-    <option value="" hidden>City</option>
+  <input type="text" list="cities" placeholder="City" *ngIf="!isLoading" class="textbox" (change)="model.style = $event.target.value === '' ? null : onChangeCity($event.target.value)" required>
+  <datalist id="cities">
     <option *ngFor="let city of cities" [value]="city.name">{{city.name}}</option>
-  </select>
+  </datalist>
   <button class="button" (click)="search()"><i class="glyphicon glyphicon-search"></i></button>
 </form>
 <table style="padding-top: 10px; width:100%">

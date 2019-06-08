@@ -175,4 +175,8 @@ export class UserService {
   getCommentsPhotos(emails: string[]) {
     return this.http.post(AppComponent.apiEndpoint + 'util/getCommentsPhotos', {emails: emails});
   }
+
+  updateUserChangableInfo(user: User) {
+    this.http.post(AppComponent.apiEndpoint + 'util/updateChangableInfoToUser', user).subscribe();
+  }
 }

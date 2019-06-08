@@ -1,10 +1,11 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, ComponentFactoryResolver, OnDestroy, OnInit} from '@angular/core';
 import {UserService} from '../../../services/userService';
 import {Message} from '../../../models/message';
 import * as SockJS from 'sockjs-client';
 import {Stomp} from '@stomp/stompjs';
 import {AppComponent} from '../../../app.component';
 import {SocketService} from '../../../services/socketService';
+import {UserProfileComponent} from '../../seeProfile/userProfile.component';
 
 @Component({
   selector: 'dialog-component',
@@ -17,9 +18,11 @@ export class DialogComponent implements OnInit, OnDestroy {
   email;
   messages: Message[];
   convMessage = '';
+  div;
 
   constructor(private userService: UserService,
-              private socketService: SocketService) {
+              private socketService: SocketService,
+              private componentFactoryResolver: ComponentFactoryResolver) {
 
   }
 
@@ -36,6 +39,7 @@ export class DialogComponent implements OnInit, OnDestroy {
       that.openSocket();
     });
   }
+
   ngOnDestroy(): void {
     DialogComponent.stompClient.disconnect();
   }
@@ -49,6 +53,14 @@ export class DialogComponent implements OnInit, OnDestroy {
       this.socketService.post(message).subscribe();
       this.convMessage = '';
     }
+  }
+
+  openProfile() {
+    this.div.remove(1);
+    let factory = this.componentFactoryResolver.resolveComponentFactory(UserProfileComponent);
+    let ref = this.div.createComponent(factory);
+    ref.instance.email = this.email;
+    ref.changeDetectorRef.detectChanges();
   }
 
   openSocket() {

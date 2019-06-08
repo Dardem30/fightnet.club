@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {User} from './models/user';
+import {Invite} from './models/invite';
 
 @Component({
   selector: 'app-root',
@@ -8,8 +9,8 @@ import {User} from './models/user';
 })
 export class AppComponent {
   public static user: User;
-  public static invite;
+  public static invite: Invite;
   public static fighter2Email;
-  public static apiEndpoint = 'https://fightnet.herokuapp.com/';
-  //public static apiEndpoint = 'http://localhost:8080/';
+ // public static apiEndpoint = 'https://fightnet.herokuapp.com/';
+  public static apiEndpoint = 'http://localhost:8080/';
 }

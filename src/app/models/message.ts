@@ -6,4 +6,5 @@ export class Message {
   date: Date;
   titleName: string;
   isYou: boolean;
+  email: string;
 }

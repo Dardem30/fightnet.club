@@ -11,6 +11,8 @@ import Swal from "sweetalert2";
 export class RegistrationComponent {
   model: any = {
     email: null,
+    weight: null,
+    growth: null,
     password: null,
     name: null,
     surname: null,
@@ -79,7 +81,7 @@ export class RegistrationComponent {
         });
         this.router.navigate(['confirmCode', this.model.email]);
       }
-    });;
+    });
   }
 
   onChangeCountry(countryName) {
