@@ -3,6 +3,7 @@ import {UserService} from '../../services/userService';
 import {Invite} from '../../models/invite';
 import {MapComponent} from '../map/map.component';
 import {UserProfileComponent} from '../seeProfile/userProfile.component';
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'fights-component',
@@ -51,7 +52,13 @@ export class FightsComponent {
         } else {
           alert('Ooops something went wrong please contact with administrator (Sergey)')
         }
-      })
+      });
+      Swal.fire({
+        title: 'You successfully upload video. When it pass the review you will see this video on tab "Videos"',
+        type: 'success',
+        showConfirmButton: true,
+        width: 600
+      });
     } else {
       alert('Wrong file format')
     }

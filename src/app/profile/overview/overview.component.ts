@@ -4,6 +4,7 @@ import {User} from '../../models/user';
 import {Label} from 'ng2-charts';
 import {ChartOptions, ChartType} from 'chart.js';
 import {UtilService} from '../../services/utilService';
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'overview-component',
@@ -81,9 +82,13 @@ export class OverviewComponent {
 
   uploadPhoto(event) {
     let file: File = event.target.files[0];
-    this.userService.uploadPhoto(file).subscribe(result => {
-        alert('Successfully')
-    })
+    this.userService.uploadPhoto(file).subscribe();
+    Swal.fire({
+      title: 'You successfully upload photo. When photo pass the review you will see this photo in your gallery ',
+      type: 'success',
+      showConfirmButton: true,
+      width: 600
+    });
   }
   setupPlace() {
     this.utilService.countries().then(countries => this.countries = countries);
