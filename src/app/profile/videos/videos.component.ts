@@ -13,6 +13,7 @@ import {UserProfileComponent} from '../seeProfile/userProfile.component';
 })
 export class VideosComponent {
   page = 1;
+  isSearching: boolean = true;
   collectionSize = 0;
   videos: Video[];
   model: any = {};
@@ -52,6 +53,7 @@ export class VideosComponent {
           video.votes2 = [];
         }
       }
+      this.isSearching = false;
     });
   }
 
@@ -112,10 +114,12 @@ export class VideosComponent {
     ProfileComponent.toggleCommentsDialog(video)
   }
   search() {
+    this.isSearching = true;
     this.model.pageNum = this.page;
     this.userService.searchVideo(this.model).subscribe(videos => {
       this.collectionSize = videos.count;
       this.videos = videos.records;
+      this.isSearching = false;
     });
   }
   showProfile(email: string) {

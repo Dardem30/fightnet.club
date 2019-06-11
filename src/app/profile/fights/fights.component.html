@@ -126,7 +126,43 @@
     border-radius: 50%;
   }
 </style>
-<h1 style="font-family: 'Times New Roman';color: #AC0A0A" *ngIf="invites.length == 0">You have no any planned fights, yet</h1>
+<style type="text/scss">
+  .lds-circle {
+    display: inline-block;
+    transform: translateZ(1px);
+  }
+  .lds-circle > div {
+    display: inline-block;
+    width: 51px;
+    height: 51px;
+    margin: 6px;
+    border-radius: 50%;
+    background: #AC0A0A;
+    animation: lds-circle 2.4s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+  }
+  @keyframes lds-circle {
+    0%, 100% {
+      animation-timing-function: cubic-bezier(0.5, 0, 1, 0.5);
+    }
+    0% {
+      transform: rotateY(0deg);
+    }
+    50% {
+      transform: rotateY(1800deg);
+      animation-timing-function: cubic-bezier(0, 0.5, 0.5, 1);
+    }
+    100% {
+      transform: rotateY(3600deg);
+    }
+  }
+</style>
+<div style="align-content: center; width: 100%" *ngIf="invites.length == 0 && !isLoading">
+  <h1 style="font-family: 'Times New Roman';color: #AC0A0A">You have no any planned fights, yet</h1>
+  <img src="https://cdn.dribbble.com/users/16979/screenshots/183999/v_ipad.png" alt="">
+</div>
+<div *ngIf="isLoading">
+  <div class="lds-circle"><div></div></div><br>
+</div>
 <table *ngIf="invites.length != 0" class="container" style="width: 100%">
   <thead>
   <tr>
@@ -139,9 +175,9 @@
   </tr>
   </thead>
   <tbody *ngFor="let invite of invites; let i = index">
-  <tr [ngStyle]="{background: i % 2 == 0 ?  'white' : '#398B93'}" (click)="showPlace(invite.latitude, invite.longitude)">
-    <td>{{invite.fighterInviter.name}} {{invite.fighterInviter.surname}}</td>
-    <td>{{invite.fighterInvited.name}} {{invite.fighterInvited.surname}}</td>
+  <tr [ngStyle]="{background: i % 2 == 0 ?  'white' : '#398B93'}">
+    <td (click)="showProfile(invite.fighterInviter.email)">{{invite.fighterInviter.name}} {{invite.fighterInviter.surname}}</td>
+    <td (click)="showProfile(invite.fighterInvited.email)">{{invite.fighterInvited.name}} {{invite.fighterInvited.surname}}</td>
     <td>{{invite.fightStyle}}</td>
     <td>{{invite.date | date: 'dd.MM.yyyy HH:mm'}}</td>
     <td style="text-align: center"><button class="button" style="background-color: #1a8a34; width: 105px" (click)="setFighters(invite)">Upload video</button></td>

@@ -4,8 +4,10 @@
   }
 </style>
 <agm-map [latitude]="latitude" [longitude]="longitude" (mapClick)="placeMarker($event)">
-  <agm-marker *ngFor="let marker of userMarkers" [latitude]="marker.latitude" [longitude]="marker.longitude"></agm-marker>
-  <agm-marker (markerClick)="markerClick(infoWindow)" *ngFor="let marker of markers" [latitude]="marker.latitude" [longitude]="marker.longitude">
+  <agm-marker *ngFor="let marker of userMarkers" [latitude]="marker.latitude"
+              [longitude]="marker.longitude"></agm-marker>
+  <agm-marker (markerClick)="markerClick(infoWindow)" *ngFor="let marker of markers" [latitude]="marker.latitude"
+              [longitude]="marker.longitude">
     <agm-info-window [disableAutoPan]="false" #infoWindow>
 
       <div>
@@ -13,7 +15,10 @@
         {{marker.fightStyle}}
       </div>
       <div>
-        <span class="btn btn-attention pull-right">{{marker.fighterInviter.name}} {{marker.fighterInviter.surname}} vs {{marker.fighterInvited.name}} {{marker.fighterInvited.surname}} <i class="fa fa-angle-double-right"></i></span>
+        <span class="btn btn-attention"><i class="fa fa-angle-double-right" (click)="showProfile(marker.fighterInviter.email)">{{marker.fighterInviter.name}} {{marker.fighterInviter.surname}}</i></span>
+        <br>
+        <span class="btn btn-attention"><i class="fa fa-angle-double-right">vs</i></span><br>
+        <span class="btn btn-attention"><i class="fa fa-angle-double-right" (click)="showProfile(marker.fighterInvited.email)">{{marker.fighterInvited.name}} {{marker.fighterInvited.surname}}</i></span>
       </div>
 
     </agm-info-window>

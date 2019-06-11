@@ -24,7 +24,43 @@
     background-color: #f6f9fb;
   }
 </style>
-<h1 style="font-family: 'Times New Roman';color: #AC0A0A" *ngIf="conversations.length == 0">You have no any conversation, yet</h1>
+<style type="text/scss">
+  .lds-circle {
+    display: inline-block;
+    transform: translateZ(1px);
+  }
+  .lds-circle > div {
+    display: inline-block;
+    width: 51px;
+    height: 51px;
+    margin: 6px;
+    border-radius: 50%;
+    background: #AC0A0A;
+    animation: lds-circle 2.4s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+  }
+  @keyframes lds-circle {
+    0%, 100% {
+      animation-timing-function: cubic-bezier(0.5, 0, 1, 0.5);
+    }
+    0% {
+      transform: rotateY(0deg);
+    }
+    50% {
+      transform: rotateY(1800deg);
+      animation-timing-function: cubic-bezier(0, 0.5, 0.5, 1);
+    }
+    100% {
+      transform: rotateY(3600deg);
+    }
+  }
+</style>
+<div style="align-content: center; width: 100%"  *ngIf="conversations.length == 0 && !isLoading">
+  <h1 style="font-family: 'Times New Roman';color: #AC0A0A" *ngIf="conversations.length == 0">You have no any conversation, yet</h1>
+  <img src="https://cdn.dribbble.com/users/16979/screenshots/183999/v_ipad.png" alt="">
+</div>
+<div *ngIf="isLoading">
+  <div class="lds-circle"><div></div></div><br>
+</div>
 <div *ngFor="let conversation of conversations" id="messagesWindow">
   <div class="row" style="margin: 0" (click)="dialog(conversation.userSender, conversation.userResiver, conversation.titleName)">
     <div class="column1">

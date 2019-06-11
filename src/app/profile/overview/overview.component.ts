@@ -25,7 +25,7 @@ export class OverviewComponent {
   public pieChartType: ChartType = 'pie';
   public pieChartColors = [
     {
-      backgroundColor: ['#546e7a', '#F4511E', '#AC0A0A', '#1a8a34', '#673ab7', '#566375', '#E64A19', '#212121', '#e62727'],
+      backgroundColor: ['#C01B1B', '#4480BD', '#57BD44', '#DED830', '#5104B2', '#566375', '#E64A19', '#212121', '#e62727'],
     },
   ];
   @ViewChild('imageInput') imageInput: ElementRef;

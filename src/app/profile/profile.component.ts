@@ -129,6 +129,7 @@ export class ProfileComponent {
     if (navigate == 'map') {
       let factory = this.componentFactoryResolver.resolveComponentFactory(MapComponent);
       let ref = this.div.createComponent(factory);
+      ref.instance.div = this.div;
       ref.instance.invitationStyle = this.invitationStyle;
       ref.changeDetectorRef.detectChanges();
     }

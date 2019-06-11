@@ -295,7 +295,7 @@
   </datalist>
   <button class="button" (click)="search()"><i class="glyphicon glyphicon-search"></i></button>
 </form>
-<table style="padding-top: 10px; width:100%">
+<table style="padding-top: 10px; width:100%"  *ngIf="!isSearching">
   <thead>
   <tr>
     <th></th>
@@ -322,4 +322,7 @@
     </tr>
   </tbody>
 </table>
+<div *ngIf="isSearching">
+  <div class="lds-circle"><div></div></div><br>
+</div>
 <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" (pageChange)="search()"></ngb-pagination>

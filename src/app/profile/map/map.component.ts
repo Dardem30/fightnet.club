@@ -1,6 +1,7 @@
-import {Component} from '@angular/core';
+import {Component, ComponentFactoryResolver} from '@angular/core';
 import {AppComponent} from '../../app.component';
 import {UserService} from '../../services/userService';
+import {UserProfileComponent} from '../seeProfile/userProfile.component';
 
 @Component({
   selector: 'map-component',
@@ -10,10 +11,12 @@ export class MapComponent {
   latitude = 15;
   longitude = 15;
   invitationStyle;
+  div;
   userMarkers = [];
   markers = [];
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService,
+              private componentFactoryResolver: ComponentFactoryResolver) {
 
   }
 
@@ -36,5 +39,12 @@ export class MapComponent {
   }
   markerClick(infoWindow) {
     infoWindow.open();
+  }
+  showProfile(email: string) {
+    this.div.remove(1);
+    let factory = this.componentFactoryResolver.resolveComponentFactory(UserProfileComponent);
+    let ref = this.div.createComponent(factory);
+    ref.instance.email = email;
+    ref.changeDetectorRef.detectChanges();
   }
 }

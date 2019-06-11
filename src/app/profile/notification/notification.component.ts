@@ -9,12 +9,16 @@ import {MapComponent} from '../map/map.component';
 })
 export class NotificationComponent {
   notifications: UserNotification[] = [];
+  isLoading: boolean = true;
   div;
   constructor(private userService: UserService,
               private componentFactoryResolver: ComponentFactoryResolver) {
   }
   ngOnInit() {
-    this.userService.getNotification(localStorage.getItem('email')).subscribe(notifications => this.notifications = notifications);
+    this.userService.getNotification(localStorage.getItem('email')).subscribe(notifications => {
+      this.notifications = notifications;
+      this.isLoading = false;
+    });
   }
   showPlace(coordinateX, coordinateY) {
     this.div.remove(1);

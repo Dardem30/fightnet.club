@@ -13,6 +13,7 @@ import {ProfileComponent} from '../profile.component';
 })
 export class BookedUsersComponent {
   users: BookedUser[] = [];
+  isLoading: boolean = true;
   div;
   invitationStyle;
   invitationName;
@@ -23,7 +24,10 @@ export class BookedUsersComponent {
   }
 
   ngOnInit() {
-    this.userService.getBookedPersons().subscribe(users => this.users = users);
+    this.userService.getBookedPersons().subscribe(users => {
+      this.users = users;
+      this.isLoading = false;
+    });
   }
   unBookPerson(email) {
     this.userService.unbookUser(email).subscribe(response => this.userService.getBookedPersons().subscribe(users => this.users = users))

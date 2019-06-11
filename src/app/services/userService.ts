@@ -49,25 +49,25 @@ export class UserService {
   }
 
   uploadVideo(file: File, email1, email2, inviteId, style) {
-    // const formdata: FormData = new FormData();
-    // formdata.append('file', file, file.name);
-    // formdata.append('fighterEmail1', email1);
-    // formdata.append('fighterEmail2', email2);
-    // formdata.append('inviteId', inviteId);
-    // formdata.append('style', style);
+    const formdata: FormData = new FormData();
+    formdata.append('file', file, file.name);
+    formdata.append('fighterEmail1', email1);
+    formdata.append('fighterEmail2', email2);
+    formdata.append('inviteId', inviteId);
+    formdata.append('style', style);
 
-    return this.http.post(AppComponent.apiEndpoint + 'user/uploadVideo', {file: file, fighterEmail1: email1, fighterEmail2: email2, inviteId: inviteId, style: style}, {
+    return this.http.post(AppComponent.apiEndpoint + 'user/uploadVideo', formdata, {
       headers: {
         'Authorization': localStorage.getItem('currentUser')
       }
     });
   }
   uploadPhoto(file: File) {
-    // const formdata: FormData = new FormData();
-    // formdata.append('file', file, file.name);
-    // formdata.append('email', localStorage.getItem("email"));
+    const formdata: FormData = new FormData();
+    formdata.append('file', file, file.name);
+    formdata.append('email', localStorage.getItem("email"));
 
-    return this.http.post(AppComponent.apiEndpoint + 'user/uploadPhoto', {file: file, email: localStorage.getItem("email")}, {
+    return this.http.post(AppComponent.apiEndpoint + 'user/uploadPhoto', formdata, {
       headers: {
         'Authorization': localStorage.getItem('currentUser')
       }

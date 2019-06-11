@@ -25,6 +25,7 @@ export class SearchComponent {
   invitationStyle;
   invitationName;
   invitationSurname;
+  isSearching: boolean = true;
   bookedUsers: BookedUser[];
   isLoading = false;
   @ViewChild('bookedPerson') bookedPerson: ElementRef;
@@ -39,12 +40,13 @@ export class SearchComponent {
   ngOnInit() {
     this.utilService.countries().then(countries => this.countries = countries);
     this.userService.getBookedPersons().subscribe(users => {
-      this.bookedUsers = users
+      this.bookedUsers = users;
       this.search();
     });
   }
 
   search() {
+    this.isSearching = true;
     this.model.pageNum = this.page;
     const countryName = this.countryField.nativeElement.value;
     if (countryName != null && countryName != '') {
@@ -55,6 +57,7 @@ export class SearchComponent {
     this.userService.search(this.model).subscribe(users => {
       this.collectionSize = users.count;
       this.users = users.records;
+      this.isSearching = false;
     });
   }
 

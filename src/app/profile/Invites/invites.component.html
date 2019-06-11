@@ -156,7 +156,10 @@
     }
   }
 </style>
-<h1 style="font-family: 'Times New Roman';color: #AC0A0A" *ngIf="invites.length == 0 && !isLoading">You have no any invites, yet</h1>
+<div style="align-content: center; width: 100%"  *ngIf="invites.length == 0 && !isLoading">
+  <h1 style="font-family: 'Times New Roman';color: #AC0A0A">You have no any invites, yet</h1>
+  <img src="https://cdn.dribbble.com/users/16979/screenshots/183999/v_ipad.png" alt="">
+</div>
 <table *ngIf="invites.length != 0" class="container" style="width: 100%">
   <thead>
   <tr>
@@ -176,9 +179,9 @@
     <td (click)="showProfile(user.email)">{{invite.fighterInviter.name}} {{invite.fighterInviter.surname}}</td>
     <td (click)="showProfile(user.email)">{{invite.fightStyle}}</td>
     <td (click)="showProfile(user.email)">{{invite.date | date: 'dd.MM.yyyy HH:mm'}}</td>
-    <td style="text-align: center"><button class="button" style="background-color: #1a8a34; width: 95px" (click)="acceptInvite(invite)">Accept</button></td>
-    <td style="text-align: center"><button class="button" style="background-color: orange; width: 95px" (click)="showPlace(invite.latitude, invite.longitude)">Show place</button></td>
-    <td style="text-align: center"><button class="button" style="width: 95px" (click)="declineInvite(invite.id)">Decline</button></td>
+    <td style="text-align: center"><button class="button" style="height: 80px;background-color: #1a8a34; width: 95px" (click)="acceptInvite(invite)">Accept</button></td>
+    <td style="text-align: center"><button class="button" style="height: 80px;background-color: orange; width: 95px" (click)="showPlace(invite.latitude, invite.longitude)">Show place</button></td>
+    <td style="text-align: center"><button class="button" style="height: 80px;width: 95px" (click)="declineInvite(invite.id)">Decline</button></td>
   </tr>
   </tbody>
 </table>

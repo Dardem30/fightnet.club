@@ -2,6 +2,7 @@ import {Component, ComponentFactoryResolver, ElementRef, ViewChild} from '@angul
 import {UserService} from '../../services/userService';
 import {Invite} from '../../models/invite';
 import {MapComponent} from '../map/map.component';
+import {UserProfileComponent} from '../seeProfile/userProfile.component';
 
 @Component({
   selector: 'fights-component',
@@ -9,6 +10,7 @@ import {MapComponent} from '../map/map.component';
 })
 export class FightsComponent {
   invites: Invite[] = [];
+  isLoading: boolean = true;
   div;
   fighterInviter;
   fighterInvited;
@@ -21,7 +23,10 @@ export class FightsComponent {
   }
 
   ngOnInit() {
-    this.userService.getPlannedFights(localStorage.getItem('email')).subscribe(invites => this.invites = invites);
+    this.userService.getPlannedFights(localStorage.getItem('email')).subscribe(invites => {
+      this.invites = invites;
+      this.isLoading = false;
+    });
   }
 
   showPlace(coordinateX, coordinateY) {
@@ -58,5 +63,13 @@ export class FightsComponent {
     this.inviteId = invite.id;
     this.style = invite.fightStyle;
     (this.file.nativeElement as HTMLElement).click();
+  }
+
+  showProfile(email: string) {
+    this.div.remove(1);
+    let factory = this.componentFactoryResolver.resolveComponentFactory(UserProfileComponent);
+    let ref = this.div.createComponent(factory);
+    ref.instance.email = email;
+    ref.changeDetectorRef.detectChanges();
   }
 }

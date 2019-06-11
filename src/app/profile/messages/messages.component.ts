@@ -9,13 +9,17 @@ import {Message} from '../../models/message';
 })
 export class MessagesComponent implements OnInit{
   div;
+  isLoading: boolean = true;
   conversations: Message[] = [];
 
   constructor(private userService: UserService,
               private componentFactoryResolver: ComponentFactoryResolver) {
   }
   ngOnInit() {
-    this.userService.getConversations(localStorage.getItem("email")).subscribe(conversations => this.conversations = conversations);
+    this.userService.getConversations(localStorage.getItem("email")).subscribe(conversations => {
+      this.conversations = conversations;
+      this.isLoading = false;
+    });
   }
 
   dialog(email1: string, email2: string, titleName: string) {
