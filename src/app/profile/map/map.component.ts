@@ -17,7 +17,12 @@ export class MapComponent {
   div;
   userMarkers = [];
   markers = [];
-  model = {};
+  model = {
+    name: null,
+    startDate: null,
+    endDate: null,
+    fightStyle: null
+  };
 
   constructor(private userService: UserService,
               private componentFactoryResolver: ComponentFactoryResolver) {
