@@ -18,7 +18,8 @@ export class RegistrationComponent {
     surname: null,
     country: null,
     city: null,
-    description: null
+    description: null,
+    preferredKind: null
   };
   error = '';
   countries: Country[];
@@ -39,9 +40,13 @@ export class RegistrationComponent {
     let message = '<ul>';
     let showMessage = false;
     for (const prop in this.model) {
-      if (this.model[prop] == null) {
+      if (this.model[prop] == null || this.model[prop] == '') {
+        if (prop === 'preferredKind') {
+          message += '<li>preferable fight style</li>'
+        } else {
+          message += '<li>' + prop + '</li>'
+        }
         showMessage = true;
-        message += '<li>' + prop + '</li>'
       }
     }
     message += '</ul>';

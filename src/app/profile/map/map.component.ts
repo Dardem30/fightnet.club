@@ -8,12 +8,16 @@ import {UserProfileComponent} from '../seeProfile/userProfile.component';
   templateUrl: './map.component.html'
 })
 export class MapComponent {
+  isSearching: boolean = false;
   latitude = 15;
   longitude = 15;
   invitationStyle;
+  invitationName;
+  invitationSurname;
   div;
   userMarkers = [];
   markers = [];
+  model = {};
 
   constructor(private userService: UserService,
               private componentFactoryResolver: ComponentFactoryResolver) {
@@ -21,10 +25,7 @@ export class MapComponent {
   }
 
   ngOnInit() {
-    this.userService.getMarkers().subscribe(markers => {
-      console.log(markers);
-      this.markers = markers
-    });
+    this.search();
   }
 
   placeMarker(position: any) {
@@ -45,6 +46,17 @@ export class MapComponent {
     let factory = this.componentFactoryResolver.resolveComponentFactory(UserProfileComponent);
     let ref = this.div.createComponent(factory);
     ref.instance.email = email;
+    ref.instance.invitationStyle = this.invitationStyle;
+    ref.instance.div = this.div;
+    ref.instance.invitationName = this.invitationName;
+    ref.instance.invitationSurname = this.invitationSurname;
     ref.changeDetectorRef.detectChanges();
+  }
+  search() {
+    this.isSearching = true;
+    this.userService.getMarkers(this.model).subscribe(markers => {
+      this.markers = markers;
+      this.isSearching = false;
+    });
   }
 }

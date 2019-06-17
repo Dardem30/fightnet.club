@@ -2,6 +2,7 @@ import {Component, ComponentFactoryResolver} from '@angular/core';
 import {UserService} from '../../services/userService';
 import {Invite} from '../../models/invite';
 import {MapComponent} from '../map/map.component';
+import {UserProfileComponent} from '../seeProfile/userProfile.component';
 
 @Component({
   selector: 'invites-component',
@@ -10,6 +11,9 @@ import {MapComponent} from '../map/map.component';
 export class InvitesComponent {
   invites: Invite[] = [];
   div;
+  invitationStyle;
+  invitationName;
+  invitationSurname;
   page: number = 1;
   isLoading: boolean = true;
   collectionSize = 0;
@@ -54,5 +58,16 @@ export class InvitesComponent {
   }
   declineInvite(inviteId) {
     console.log('decline')
+  }
+  showProfile(email: string) {
+    this.div.remove(1);
+    let factory = this.componentFactoryResolver.resolveComponentFactory(UserProfileComponent);
+    let ref = this.div.createComponent(factory);
+    ref.instance.email = email;
+    ref.instance.invitationStyle = this.invitationStyle;
+    ref.instance.div = this.div;
+    ref.instance.invitationName = this.invitationName;
+    ref.instance.invitationSurname = this.invitationSurname;
+    ref.changeDetectorRef.detectChanges();
   }
 }

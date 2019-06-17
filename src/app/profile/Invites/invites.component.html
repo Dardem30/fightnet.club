@@ -175,10 +175,10 @@
   </thead>
   <tbody *ngFor="let invite of invites; let i = index">
   <tr [ngStyle]="{background: i % 2 == 0 ?  'white' : '#e62727'}">
-    <td (click)="showProfile(user.email)" class="profile-userpic"><img height=150 width=150 src="assets/images/noPhoto.jpeg"></td>
-    <td (click)="showProfile(user.email)">{{invite.fighterInviter.name}} {{invite.fighterInviter.surname}}</td>
-    <td (click)="showProfile(user.email)">{{invite.fightStyle}}</td>
-    <td (click)="showProfile(user.email)">{{invite.date | date: 'dd.MM.yyyy HH:mm'}}</td>
+    <td (click)="showProfile(invite.fighterInviter.email)" class="profile-userpic"><img height=150 width=150 src="assets/images/noPhoto.jpeg"></td>
+    <td (click)="showProfile(invite.fighterInviter.email)">{{invite.fighterInviter.name}} {{invite.fighterInviter.surname}}</td>
+    <td (click)="showProfile(invite.fighterInviter.email)">{{invite.fightStyle}}</td>
+    <td (click)="showProfile(invite.fighterInviter.email)">{{invite.date | date: 'dd.MM.yyyy HH:mm'}}</td>
     <td style="text-align: center"><button class="button" style="height: 80px;background-color: #1a8a34; width: 95px" (click)="acceptInvite(invite)">Accept</button></td>
     <td style="text-align: center"><button class="button" style="height: 80px;background-color: orange; width: 95px" (click)="showPlace(invite.latitude, invite.longitude)">Show place</button></td>
     <td style="text-align: center"><button class="button" style="height: 80px;width: 95px" (click)="declineInvite(invite.id)">Decline</button></td>

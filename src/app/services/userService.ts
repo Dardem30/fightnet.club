@@ -96,8 +96,8 @@ export class UserService {
     return this.http.post(AppComponent.apiEndpoint + 'util/acceptInvite', invite);
   }
 
-  getMarkers() {
-    return this.http.get(AppComponent.apiEndpoint + 'util/getMarkers')
+  getMarkers(model) {
+    return this.http.post(AppComponent.apiEndpoint + 'util/getMarkers', model)
       .map((response: Invite[]) => response);
   }
 

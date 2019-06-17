@@ -1,9 +1,13 @@
-import {Component} from '@angular/core';
+import {Component, ComponentFactoryResolver} from '@angular/core';
 import {User} from '../../models/user';
 import {ChartOptions, ChartType} from 'chart.js';
 import {UserService} from '../../services/userService';
 import {Label} from 'ng2-charts';
 import {ProfileComponent} from '../profile.component';
+import {MapComponent} from '../map/map.component';
+import {AppComponent} from '../../app.component';
+import {Invite} from '../../models/invite';
+import {BookedUser} from '../../models/bookedUser';
 
 @Component({
   selector: 'userProfile',
@@ -12,6 +16,10 @@ import {ProfileComponent} from '../profile.component';
 export class UserProfileComponent {
   user: User;
   email: string;
+  invitationStyle;
+  invitationName;
+  invitationSurname;
+  div;
   private countWins: number = 0;
   private countLoses: number = 0;
   public hasNoWins = true;
@@ -27,7 +35,8 @@ export class UserProfileComponent {
     },
   ];
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService,
+              private componentFactoryResolver: ComponentFactoryResolver) {}
   ngOnInit() {
     this.userService.findUserByEmail(this.email).subscribe(user => {
       for (let keyWins in user.wins) {
@@ -50,6 +59,20 @@ export class UserProfileComponent {
       }
       this.user = user
     });
+  }
+  inviteToFight() {
+    this.invitationName.nativeElement.value = this.user.name;
+    this.invitationSurname.nativeElement.value = this.user.surname;
+    delete this.invitationStyle.display;
+    AppComponent.invite = new Invite();
+    const inviter = new BookedUser();
+    inviter.email = localStorage.getItem('email');
+    AppComponent.invite.fighterInviter = inviter;
+    AppComponent.invite.fighterInvited = this.user;
+    this.div.remove(1);
+    let factory = this.componentFactoryResolver.resolveComponentFactory(MapComponent);
+    let ref = this.div.createComponent(factory);
+    ref.changeDetectorRef.detectChanges();
   }
   public pieChartOptions: ChartOptions = {
     responsive: true,

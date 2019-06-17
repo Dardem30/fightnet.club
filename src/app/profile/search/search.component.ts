@@ -30,6 +30,7 @@ export class SearchComponent {
   isLoading = false;
   @ViewChild('bookedPerson') bookedPerson: ElementRef;
   @ViewChild('countryField') countryField: ElementRef;
+  @ViewChild('fightStyleField') fightStyleField: ElementRef;
 
   constructor(private router: Router,
               private userService: UserService,
@@ -54,6 +55,13 @@ export class SearchComponent {
     } else {
       this.model.country = null;
     }
+    const fightStyle = this.fightStyleField.nativeElement.value;
+    if (fightStyle != null && fightStyle != '') {
+      this.model.preferredKind = fightStyle;
+    } else {
+      this.model.preferredKind = null;
+    }
+    console.log(this.model);
     this.userService.search(this.model).subscribe(users => {
       this.collectionSize = users.count;
       this.users = users.records;
@@ -95,6 +103,10 @@ export class SearchComponent {
     let factory = this.componentFactoryResolver.resolveComponentFactory(UserProfileComponent);
     let ref = this.div.createComponent(factory);
     ref.instance.email = email;
+    ref.instance.invitationStyle = this.invitationStyle;
+    ref.instance.div = this.div;
+    ref.instance.invitationName = this.invitationName;
+    ref.instance.invitationSurname = this.invitationSurname;
     ref.changeDetectorRef.detectChanges();
   }
 

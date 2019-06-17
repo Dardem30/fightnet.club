@@ -15,6 +15,9 @@ export class VideosComponent {
   page = 1;
   isSearching: boolean = true;
   collectionSize = 0;
+  invitationStyle;
+  invitationName;
+  invitationSurname;
   videos: Video[];
   model: any = {};
   div;
@@ -127,6 +130,10 @@ export class VideosComponent {
     let factory = this.componentFactoryResolver.resolveComponentFactory(UserProfileComponent);
     let ref = this.div.createComponent(factory);
     ref.instance.email = email;
+    ref.instance.invitationStyle = this.invitationStyle;
+    ref.instance.div = this.div;
+    ref.instance.invitationName = this.invitationName;
+    ref.instance.invitationSurname = this.invitationSurname;
     ref.changeDetectorRef.detectChanges();
   }
 }

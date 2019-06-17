@@ -6,6 +6,7 @@ export class User {
   password: string;
   weight: string;
   growth: string;
+  preferredKind: string;
   name: string;
   surname: string;
   description: string;

@@ -15,6 +15,9 @@ export class FightsComponent {
   div;
   fighterInviter;
   fighterInvited;
+  invitationStyle;
+  invitationName;
+  invitationSurname;
   style;
   @ViewChild('file') file: ElementRef;
   inviteId;
@@ -77,6 +80,10 @@ export class FightsComponent {
     let factory = this.componentFactoryResolver.resolveComponentFactory(UserProfileComponent);
     let ref = this.div.createComponent(factory);
     ref.instance.email = email;
+    ref.instance.invitationStyle = this.invitationStyle;
+    ref.instance.div = this.div;
+    ref.instance.invitationName = this.invitationName;
+    ref.instance.invitationSurname = this.invitationSurname;
     ref.changeDetectorRef.detectChanges();
   }
 }

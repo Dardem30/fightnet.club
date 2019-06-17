@@ -385,31 +385,36 @@
 <hr>
 <div *ngIf="user != null" style="text-align: left; padding-left: 5px">
   {{user.description}}<br><br>
-  <div class="row" style="height: 245px;">
-    <div class="column" style="height: 245px;width: 15%">
+  <div class="row" style="height: 285px; padding-left: 5px">
+    <div class="column" style="height: 285px;width: 18%">
       <p><b>Place of residence:</b></p> <br>
       <p><b>Weight:</b></p> <br>
       <p><b>Growth:</b></p> <br>
+      <p><b>Preferable fight style:</b></p><br>
       <p><b>Wins:</b></p> <br>
       <p><b>Loses:</b></p>
     </div>
-    <div class="column" style="height: 245px;width: 15%">
+    <div class="column" style="height: 285px;width: 23%">
       <p>{{user.country}}, {{user.city}}</p><br>
       <p *ngIf="user.weight != null">{{user.weight}}</p><p *ngIf="user.weight == null">Not specified</p><br>
       <p *ngIf="user.growth != null">{{user.growth}}</p><p *ngIf="user.growth == null">Not specified</p><br>
+      <p *ngIf="user.preferredKind != null">{{user.preferredKind}}</p><p *ngIf="user.preferredKind == null">Not specified</p><br>
       <p>{{countWins}}</p><br>
       <p>{{countLoses}}</p>
     </div>
-    <div class="column" style="height: 245px;width: 10%">
+    <div class="column" style="height: 285px;width: 10%">
       <p><button class="red button" style="margin-top: -100px; margin-bottom:  -100px" onclick="{
   document.getElementById('placeModal').style.display = 'block';
 }" (click)="setupPlace()">Change</button></p><br>
       <p><button class="red button" style="margin-top: -100px; margin-bottom:  -100px" onclick="{
   document.getElementById('widthModal').style.display = 'block';
 }" (click)="setupWidth()">Change</button></p><br>
-      <p><button class="red button" style="margin-top: -100px" onclick="{
+      <p><button class="red button" style="margin-top: -100px; margin-bottom:  -100px" onclick="{
   document.getElementById('grouthModal').style.display = 'block';
-}" (click)="setupGrowth()">Change</button></p>
+}" (click)="setupGrowth()">Change</button></p><br>
+      <p><button class="red button" style="margin-top: -100px; margin-bottom:  -100px" onclick="{
+  document.getElementById('prefferedModal').style.display = 'block';
+}" (click)="setupPrefferable()">Change</button></p>
     </div>
   </div>
 </div>
@@ -490,10 +495,10 @@
   <!-- Modal content -->
   <div class="modal-content" style="width: 25%">
     <div class="modal-header">
-      <h2>Change width</h2>
+      <h2>Change weight</h2>
     </div>
     <div class="modal-body">
-      <input type="number" placeholder="width" id="changeWidth" style="width: 100%">
+      <input type="number" placeholder="weight" id="changeWidth" style="width: 100%">
     </div>
     <div class="modal-footer">
       <button onclick="{
@@ -550,11 +555,42 @@
       </datalist>
     </div>
     <div class="modal-footer">
-      <button onclick="{
-        document.getElementById('placeModal').style.display = 'none';
-      }" (click)="updatePlace()">Save</button>
+      <button (click)="updatePlace()">Save</button>
       <button style="margin-left: 10px" onclick="{
         document.getElementById('placeModal').style.display = 'none';
+      }">Close</button>
+    </div>
+  </div>
+
+</div>
+<div id="prefferedModal" class="modal" *ngIf="user != null">
+
+  <!-- Modal content -->
+  <div class="modal-content" style="width: 25%">
+    <div class="modal-header">
+      <h2>Change preferable fight style</h2>
+    </div>
+    <div class="modal-body">
+      <input list="cFightStyles" class="question" placeholder="Fight style" type="text" id="fightStyles" required autocomplete="on" style="width: 100%">
+      <label for="cFightStyles"><span style="opacity: 0.5">Fight style</span></label>
+      <datalist id="cFightStyles">
+        <option>Aikido</option>
+        <option>Boxing</option>
+        <option>Muay Thai</option>
+        <option>Greco-Roman wrestling</option>
+        <option>Freestyle wrestling</option>
+        <option>Taekwondo</option>
+        <option>Jujutsu</option>
+        <option>Krav Maga</option>
+        <option>Wing Chun</option>
+      </datalist>
+    </div>
+    <div class="modal-footer">
+      <button onclick="{
+        document.getElementById('prefferedModal').style.display = 'none';
+      }" (click)="updatePrefferable()">Save</button>
+      <button style="margin-left: 10px" onclick="{
+        document.getElementById('prefferedModal').style.display = 'none';
       }">Close</button>
     </div>
   </div>

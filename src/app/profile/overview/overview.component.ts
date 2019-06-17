@@ -55,7 +55,7 @@ export class OverviewComponent {
       if (this.hasNoLoses) {
         document.getElementById('loses').style.display = 'none';
       }
-      this.user = user
+      this.user = user;
     });
   }
 
@@ -108,6 +108,11 @@ export class OverviewComponent {
   setupGrowth() {
     (<HTMLInputElement> document.getElementById('changeGrowth')).value = this.user.growth
   }
+  setupPrefferable() {
+    if (this.user.preferredKind != null) {
+      (<HTMLInputElement> document.getElementById('fightStyles')).value = this.user.preferredKind
+    }
+  }
   updateDesctiption() {
     this.user.description = (<HTMLInputElement> document.getElementById('changeDesctiption')).value;
     this.userService.updateUserChangableInfo(this.user);
@@ -120,6 +125,10 @@ export class OverviewComponent {
     this.user.growth = (<HTMLInputElement> document.getElementById('changeGrowth')).value;
     this.userService.updateUserChangableInfo(this.user);
   }
+  updatePrefferable() {
+    this.user.preferredKind = (<HTMLInputElement> document.getElementById('fightStyles')).value;
+    this.userService.updateUserChangableInfo(this.user);
+  }
   updatePlace() {
     const country = (<HTMLInputElement> document.getElementById('country')).value;
     const city = (<HTMLInputElement> document.getElementById('city')).value;
@@ -127,6 +136,14 @@ export class OverviewComponent {
       this.user.country = country;
       this.user.city = city;
       this.userService.updateUserChangableInfo(this.user);
+      document.getElementById('placeModal').style.display = 'none';
+    } else {
+      Swal.fire({
+        title: 'Please, specify your country and city',
+        type: 'error',
+        showConfirmButton: true,
+        width: 600
+      });
     }
   }
 }

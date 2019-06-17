@@ -131,6 +131,8 @@ export class ProfileComponent {
       let ref = this.div.createComponent(factory);
       ref.instance.div = this.div;
       ref.instance.invitationStyle = this.invitationStyle;
+      ref.instance.invitationName = this.invitationName;
+      ref.instance.invitationSurname = this.invitationSurname;
       ref.changeDetectorRef.detectChanges();
     }
     if (navigate == 'overview') {
@@ -160,6 +162,9 @@ export class ProfileComponent {
       let factory = this.componentFactoryResolver.resolveComponentFactory(InvitesComponent);
       let ref = this.div.createComponent(factory);
       ref.instance.div = this.div;
+      ref.instance.invitationStyle = this.invitationStyle;
+      ref.instance.invitationName = this.invitationName;
+      ref.instance.invitationSurname = this.invitationSurname;
       ref.changeDetectorRef.detectChanges();
     }
     if (navigate == 'messages') {
@@ -183,12 +188,18 @@ export class ProfileComponent {
       let factory = this.componentFactoryResolver.resolveComponentFactory(FightsComponent);
       let ref = this.div.createComponent(factory);
       ref.instance.div = this.div;
+      ref.instance.invitationStyle = this.invitationStyle;
+      ref.instance.invitationName = this.invitationName;
+      ref.instance.invitationSurname = this.invitationSurname;
       ref.changeDetectorRef.detectChanges();
     }
     if (navigate == 'videos') {
       let factory = this.componentFactoryResolver.resolveComponentFactory(VideosComponent);
       let ref = this.div.createComponent(factory);
       ref.instance.div = this.div;
+      ref.instance.invitationStyle = this.invitationStyle;
+      ref.instance.invitationName = this.invitationName;
+      ref.instance.invitationSurname = this.invitationSurname;
       ref.changeDetectorRef.detectChanges();
     }
   }
@@ -251,11 +262,23 @@ export class ProfileComponent {
       });
       return;
     }
+    if (new Date() > new Date(this.invitationDate.nativeElement.value)) {
+      Swal.fire({
+        title: 'Date of the meeting should lay in the future',
+        type: 'error',
+        showConfirmButton: true,
+        width: 600
+      });
+      return;
+    }
     AppComponent.invite.fightStyle = this.invitationFightStyle.nativeElement.value;
-    AppComponent.invite.fighterInviter = this.user;
+    const user = new BookedUser();
+    user.email = this.user.email;
+    user.name = this.user.name;
+    user.surname = this.user.surname;
+    AppComponent.invite.fighterInviter = user;
     AppComponent.invite.date = new Date(this.invitationDate.nativeElement.value);
     AppComponent.invite.accepted = false;
-    console.log(AppComponent.invite);
     this.userService.invite().subscribe(
       result => {
         this.invitationStyle = {
@@ -277,6 +300,11 @@ export class ProfileComponent {
         });
       },
     );
+  }
+  closeInvitationForm() {
+    this.invitationStyle = {
+      'display': 'none'
+    };
   }
 
   closeChat() {

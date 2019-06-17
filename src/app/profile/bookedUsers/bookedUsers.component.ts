@@ -52,6 +52,10 @@ export class BookedUsersComponent {
     let factory = this.componentFactoryResolver.resolveComponentFactory(UserProfileComponent);
     let ref = this.div.createComponent(factory);
     ref.instance.email = email;
+    ref.instance.invitationStyle = this.invitationStyle;
+    ref.instance.div = this.div;
+    ref.instance.invitationName = this.invitationName;
+    ref.instance.invitationSurname = this.invitationSurname;
     ref.changeDetectorRef.detectChanges();
   }
   dialog(email: string) {

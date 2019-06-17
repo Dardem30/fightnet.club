@@ -421,6 +421,20 @@
              #surname="ngModel" required/>
     </div>
     <div class="form-item">
+      <input list="fightStyles" placeholder="Preferable fight style" class="form-style" type="text" name="preferredKind" [(ngModel)]="model.preferredKind" #preferredKind="ngModel" required>
+      <datalist id="fightStyles">
+        <option>Aikido</option>
+        <option>Boxing</option>
+        <option>Muay Thai</option>
+        <option>Greco-Roman wrestling</option>
+        <option>Freestyle wrestling</option>
+        <option>Taekwondo</option>
+        <option>Jujutsu</option>
+        <option>Krav Maga</option>
+        <option>Wing Chun</option>
+      </datalist>
+    </div>
+    <div class="form-item">
       <input list="countries" placeholder="Country" class="form-style" type="text"
              (change)="model.style = $event.target.value === '' ? null : onChangeCountry($event.target.value)" name="country"
              id="country" [(ngModel)]="model.country" #country="ngModel" required>
