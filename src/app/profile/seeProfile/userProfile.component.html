@@ -246,16 +246,26 @@
     -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, .2) inset, 5px 0 5px -3px rgba(0, 0, 0, .2) inset;
     box-shadow: 0 0 1px rgba(0, 0, 0, .2) inset, 5px 0 5px -3px rgba(0, 0, 0, .2) inset;
   }
+  .text-focus-in{-webkit-animation:text-focus-in 1s cubic-bezier(.55,.085,.68,.53) both;animation:text-focus-in 1s cubic-bezier(.55,.085,.68,.53) both}
+  @-webkit-keyframes text-focus-in{0%{-webkit-filter:blur(12px);filter:blur(12px);opacity:0}100%{-webkit-filter:blur(0);filter:blur(0);opacity:1}}@keyframes text-focus-in{0%{-webkit-filter:blur(12px);filter:blur(12px);opacity:0}100%{-webkit-filter:blur(0);filter:blur(0);opacity:1}}
+  .scale-in-center{-webkit-animation:scale-in-center .5s cubic-bezier(.25,.46,.45,.94) both;animation:scale-in-center .5s cubic-bezier(.25,.46,.45,.94) both}
+  @-webkit-keyframes scale-in-center{0%{-webkit-transform:scale(0);transform:scale(0);opacity:1}100%{-webkit-transform:scale(1);transform:scale(1);opacity:1}}@keyframes scale-in-center{0%{-webkit-transform:scale(0);transform:scale(0);opacity:1}100%{-webkit-transform:scale(1);transform:scale(1);opacity:1}}
 </style>
+<style type="text/scss">
+  .pixelated {
+    image-rendering: crisp-edges;
+  }
+</style>
+<div class="scale-in-center">
 <div class="row" style="overflow-x:hidden;height: 500px; padding-left: 5px">
-  <div class="column">
+  <div class="column" style="width: 55%">
     <h1 style="text-align: left;font-family: 'Times New Roman';color: #AC0A0A" *ngIf="user != null">{{user.name}} {{user.surname}}</h1>
     <h3 style="text-align: left;font-family: 'Times New Roman';color: #AC0A0A">Description</h3>
     <hr>
     <div *ngIf="user != null" style="text-align: left; padding-left: 5px">
-      {{user.description}}<br><br>
-      <div class="row" style="height: 285px;">
-        <div class="column" style="height: 285px;width: 40%">
+      <p class="text-focus-in">{{user.description}}</p>
+      <div class="row" style="height: 25%; padding-left: 5px">
+        <div class="column" style="height: 25%;width: 40%">
           <p><b>Place of residence:</b></p> <br>
           <p><b>Weight:</b></p> <br>
           <p><b>Growth:</b></p> <br>
@@ -263,7 +273,7 @@
           <p><b>Wins:</b></p> <br>
           <p><b>Loses:</b></p>
         </div>
-        <div class="column" style="height: 285px;width: 60%">
+        <div class="column" style="height: 25%;width: 60%">
           <p>{{user.country}}, {{user.city}}</p><br>
           <p *ngIf="user.weight != null">{{user.weight}}</p><p *ngIf="user.weight == null">Not specified</p><br>
           <p *ngIf="user.growth != null">{{user.growth}}</p><p *ngIf="user.growth == null">Not specified</p><br>
@@ -274,8 +284,8 @@
       </div>
     </div>
   </div>
-  <div class="column">
-    <img width="70%" height="100%" src="assets/images/noPhoto.jpeg"><br>
+  <div class="column" style="width: 45%">
+    <img class="pixelated" width="70%" height="100%" src="assets/images/noPhoto.jpeg"><br>
     <button style="margin-top: 5px;width: 70%"  class="large red button" (click)="dialog()">Message</button><br>
     <button style="margin-top: 5px;width: 70%"  class="large red button" (click)="inviteToFight()">Fight</button>
   </div>
@@ -305,4 +315,5 @@
     </canvas>
     <h3 style="font-family: 'Times New Roman';color: #AC0A0A" *ngIf="hasNoLoses">He has no loses, yet</h3>
   </div>
+</div>
 </div>

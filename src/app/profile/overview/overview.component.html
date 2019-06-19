@@ -347,7 +347,10 @@
       opacity: 1;
     }
   }
-
+  .text-focus-in{-webkit-animation:text-focus-in 1s cubic-bezier(.55,.085,.68,.53) both;animation:text-focus-in 1s cubic-bezier(.55,.085,.68,.53) both}
+  @-webkit-keyframes text-focus-in{0%{-webkit-filter:blur(12px);filter:blur(12px);opacity:0}100%{-webkit-filter:blur(0);filter:blur(0);opacity:1}}@keyframes text-focus-in{0%{-webkit-filter:blur(12px);filter:blur(12px);opacity:0}100%{-webkit-filter:blur(0);filter:blur(0);opacity:1}}
+  .main{-webkit-animation:slide-in-top .15s cubic-bezier(.25,.46,.45,.94) both;animation:slide-in-top .5s cubic-bezier(.25,.46,.45,.94) both}
+  @-webkit-keyframes slide-in-top{0%{-webkit-transform:translateY(-1000px);transform:translateY(-1000px);opacity:0}100%{-webkit-transform:translateY(0);transform:translateY(0);opacity:1}}@keyframes slide-in-top{0%{-webkit-transform:translateY(-1000px);transform:translateY(-1000px);opacity:0}100%{-webkit-transform:translateY(0);transform:translateY(0);opacity:1}}
 </style>
 <style type="text/scss">
   .lds-circle {
@@ -379,30 +382,28 @@
     }
   }
 </style>
+<div class="main">
 <h3 style="text-align: left;font-family: 'Times New Roman';color: #AC0A0A">Description<button class="red button" style="margin-left: 10px" onclick="{
   document.getElementById('desctiptionModal').style.display = 'block';
 }">Change</button></h3>
 <hr>
-<div *ngIf="user != null" style="text-align: left; padding-left: 5px">
-  {{user.description}}<br><br>
-  <div class="row" style="height: 285px; padding-left: 5px">
-    <div class="column" style="height: 285px;width: 18%">
+<div *ngIf="user != null" style="text-align: left; padding-left: 5px;height: 5%">
+  <p class="text-focus-in">{{user.description}}</p>
+  <div class="row" style="height: 5%; padding-left: 5px">
+    <div class="column" style="height: 5%;width: 18%">
       <p><b>Place of residence:</b></p> <br>
       <p><b>Weight:</b></p> <br>
       <p><b>Growth:</b></p> <br>
-      <p><b>Preferable fight style:</b></p><br>
-      <p><b>Wins:</b></p> <br>
-      <p><b>Loses:</b></p>
+      <p><b>Preferable fight style:</b></p>
+
     </div>
-    <div class="column" style="height: 285px;width: 23%">
+    <div class="column" style="height: 5%;width: 23%">
       <p>{{user.country}}, {{user.city}}</p><br>
       <p *ngIf="user.weight != null">{{user.weight}}</p><p *ngIf="user.weight == null">Not specified</p><br>
       <p *ngIf="user.growth != null">{{user.growth}}</p><p *ngIf="user.growth == null">Not specified</p><br>
       <p *ngIf="user.preferredKind != null">{{user.preferredKind}}</p><p *ngIf="user.preferredKind == null">Not specified</p><br>
-      <p>{{countWins}}</p><br>
-      <p>{{countLoses}}</p>
     </div>
-    <div class="column" style="height: 285px;width: 10%">
+    <div class="column" style="height: 5%;width: 10%">
       <p><button class="red button" style="margin-top: -100px; margin-bottom:  -100px" onclick="{
   document.getElementById('placeModal').style.display = 'block';
 }" (click)="setupPlace()">Change</button></p><br>
@@ -422,7 +423,7 @@
 <hr>
 <div class="row">
   <div class="column">
-    <h4 style="font-family: 'Times New Roman';color: #AC0A0A">Wins</h4>
+    <h4 style="font-family: 'Times New Roman';color: #AC0A0A">Wins ({{countWins}})</h4>
     <canvas baseChart style="width: 120px" height="120px" id = 'wins'
             [data]="pieChartDataWins"
             [labels]="pieChartLabelsWins"
@@ -433,7 +434,7 @@
     <h3 style="font-family: 'Times New Roman';color: #AC0A0A" *ngIf="hasNoWins">You have no wins, yet</h3>
   </div>
   <div class="column">
-    <h4 style="font-family: 'Times New Roman';color: #AC0A0A">Loses</h4>
+    <h4 style="font-family: 'Times New Roman';color: #AC0A0A">Loses ({{countLoses}})</h4>
     <canvas baseChart style="width: 120px" height="120px" id = 'loses'
             [data]="pieChartDataLoses"
             [labels]="pieChartLabelsLoses"
@@ -595,4 +596,5 @@
     </div>
   </div>
 
+</div>
 </div>

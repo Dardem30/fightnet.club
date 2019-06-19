@@ -716,6 +716,8 @@
     background-color: red;
     color: white;
   }
+  .main{-webkit-animation:flicker-in-1 2s linear both;animation:flicker-in-1 2s linear both}
+  @-webkit-keyframes flicker-in-1{0%{opacity:0}10%{opacity:0}10.1%{opacity:1}10.2%{opacity:0}20%{opacity:0}20.1%{opacity:1}20.6%{opacity:0}30%{opacity:0}30.1%{opacity:1}30.5%{opacity:1}30.6%{opacity:0}45%{opacity:0}45.1%{opacity:1}50%{opacity:1}55%{opacity:1}55.1%{opacity:0}57%{opacity:0}57.1%{opacity:1}60%{opacity:1}60.1%{opacity:0}65%{opacity:0}65.1%{opacity:1}75%{opacity:1}75.1%{opacity:0}77%{opacity:0}77.1%{opacity:1}85%{opacity:1}85.1%{opacity:0}86%{opacity:0}86.1%{opacity:1}100%{opacity:1}}@keyframes flicker-in-1{0%{opacity:0}10%{opacity:0}10.1%{opacity:1}10.2%{opacity:0}20%{opacity:0}20.1%{opacity:1}20.6%{opacity:0}30%{opacity:0}30.1%{opacity:1}30.5%{opacity:1}30.6%{opacity:0}45%{opacity:0}45.1%{opacity:1}50%{opacity:1}55%{opacity:1}55.1%{opacity:0}57%{opacity:0}57.1%{opacity:1}60%{opacity:1}60.1%{opacity:0}65%{opacity:0}65.1%{opacity:1}75%{opacity:1}75.1%{opacity:0}77%{opacity:0}77.1%{opacity:1}85%{opacity:1}85.1%{opacity:0}86%{opacity:0}86.1%{opacity:1}100%{opacity:1}}
 </style>
 <script>
   document.querySelector("#today").valueAsDate = new Date();
@@ -723,6 +725,7 @@
 <div id="formWrapper">
   <div class="container" style="width: 75%">
     <div class="row profile">
+      <div class="main">
       <div class="col-md-3">
         <div class="profile-sidebar">
           <div class="profile-userpic">
@@ -749,12 +752,12 @@
           </div>
           <div class="profile-usermenu" style="margin-top: 0px">
             <ul class="nav">
-              <li class="active">
+              <li [class]="activeTab == 'overview' ? 'active' : null">
                 <a (click)="changeRoute('overview')">
                   <i class="glyphicon glyphicon-home"></i>
                   Overview </a>
               </li>
-              <li>
+              <li [class]="activeTab == 'messages' ? 'active' : null">
                 <a (click)="changeRoute('messages')">
                   <i class="glyphicon glyphicon-envelope"></i>
                   <span>Messages</span>
@@ -763,7 +766,7 @@
                   </a>
                 </a>
               </li>
-              <li>
+              <li [class]="activeTab == 'notifications' ? 'active' : null">
                 <a (click)="changeRoute('notifications')">
                   <i class="glyphicon glyphicon-bell"></i>
                   <span>Notifications</span>
@@ -772,32 +775,32 @@
                   </a>
                 </a>
               </li>
-              <li>
+              <li [class]="activeTab == 'map' ? 'active' : null">
                 <a (click)="changeRoute('map')">
                   <i class="glyphicon glyphicon-map-marker"></i>
                   Map </a>
               </li>
-              <li>
+              <li [class]="activeTab == 'search' ? 'active' : null">
                 <a (click)="changeRoute('search')">
                   <i class="glyphicon glyphicon-search"></i>
                   Search </a>
               </li>
-              <li>
+              <li [class]="activeTab == 'bookedUsers' ? 'active' : null">
                 <a (click)="changeRoute('bookedUsers')">
                   <i class="glyphicon glyphicon-user"></i>
                   Notebook </a>
               </li>
-              <li>
+              <li [class]="activeTab == 'invites' ? 'active' : null">
                 <a (click)="changeRoute('invites')">
                   <i class="glyphicon glyphicon-fire"></i>
                   Invites </a>
               </li>
-              <li>
+              <li [class]="activeTab == 'fights' ? 'active' : null">
                 <a (click)="changeRoute('fights')">
                   <i class="glyphicon glyphicon-flag"></i>
                   Fights </a>
               </li>
-              <li>
+              <li [class]="activeTab == 'videos' ? 'active' : null">
                 <a (click)="changeRoute('videos')">
                   <i class="glyphicon glyphicon-film"></i>
                   Videos </a>
@@ -805,6 +808,7 @@
             </ul>
           </div>
         </div>
+      </div>
       </div>
       <div class="col-md-9">
         <div class="profile-content">

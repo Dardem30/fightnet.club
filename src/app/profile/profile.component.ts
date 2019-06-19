@@ -1,12 +1,4 @@
-import {
-  Component,
-  ComponentFactoryResolver,
-  ElementRef,
-  HostListener,
-  Input,
-  ViewChild,
-  ViewContainerRef
-} from '@angular/core';
+import {Component, ComponentFactoryResolver, ElementRef, HostListener, Input, ViewChild, ViewContainerRef} from '@angular/core';
 import {UserService} from '../services/userService';
 import {MapComponent} from './map/map.component';
 import {OverviewComponent} from './overview/overview.component';
@@ -37,6 +29,7 @@ import {UserProfileComponent} from './seeProfile/userProfile.component';
 })
 export class ProfileComponent {
   private serverUrl = AppComponent.apiEndpoint + 'socket';
+  private activeTab: string = 'overview';
   isCustomSocketOpened = false;
   public static stompClient;
   public static stompClientComments;
@@ -125,6 +118,7 @@ export class ProfileComponent {
   }
 
   changeRoute(navigate: string): void {
+    this.activeTab = navigate;
     this.div.remove(1);
     if (navigate == 'map') {
       let factory = this.componentFactoryResolver.resolveComponentFactory(MapComponent);

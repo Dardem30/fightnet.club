@@ -276,16 +276,13 @@
 </style>
 <form method="post" style="font-style: normal">
   <input type="text" class="textbox" placeholder="Name" name="name" id="name" [(ngModel)]="model.name"
-         #name="ngModel">
-  <input type="text" class="textbox" placeholder="Surname" name="surname" id="surname" [(ngModel)]="model.surname"
-         #name="ngModel">
+         #name="ngModel" style="width: 45%">
   <input type="text" class="textbox" placeholder="Description" name="description" id="description" [(ngModel)]="model.description"
-         #name="ngModel">
-  <input type="text" class="textbox" placeholder="Keywords (coming soon)">
+         #name="ngModel" style="width: 45%">
   <input type="text" class="textbox" placeholder="Growth" name="height" id="height" [(ngModel)]="model.height"
-         #name="ngModel">
+         #name="ngModel"  style="width: 45%">
   <input type="text" class="textbox" placeholder="Weight" name="width" id="width" [(ngModel)]="model.width"
-         #name="ngModel">
+         #name="ngModel"  style="width: 45%">
   <input placeholder="Preferable fight style" type="text" list="fightStyles" class="textbox" #fightStyleField>
   <datalist id="fightStyles">
     <option>Aikido</option>
