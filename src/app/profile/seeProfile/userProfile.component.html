@@ -252,20 +252,22 @@
     <h1 style="text-align: left;font-family: 'Times New Roman';color: #AC0A0A" *ngIf="user != null">{{user.name}} {{user.surname}}</h1>
     <h3 style="text-align: left;font-family: 'Times New Roman';color: #AC0A0A">Description</h3>
     <hr>
-    <div *ngIf="user != null" style="text-align: left">
+    <div *ngIf="user != null" style="text-align: left; padding-left: 5px">
       {{user.description}}<br><br>
-      <div class="row" style="height: 245px;">
-        <div class="column" style="height: 245px;width: 30%">
+      <div class="row" style="height: 285px;">
+        <div class="column" style="height: 285px;width: 40%">
           <p><b>Place of residence:</b></p> <br>
           <p><b>Weight:</b></p> <br>
           <p><b>Growth:</b></p> <br>
+          <p><b>Preferable fight style:</b></p><br>
           <p><b>Wins:</b></p> <br>
           <p><b>Loses:</b></p>
         </div>
-        <div class="column" style="height: 245px;width: 30%">
+        <div class="column" style="height: 285px;width: 60%">
           <p>{{user.country}}, {{user.city}}</p><br>
           <p *ngIf="user.weight != null">{{user.weight}}</p><p *ngIf="user.weight == null">Not specified</p><br>
           <p *ngIf="user.growth != null">{{user.growth}}</p><p *ngIf="user.growth == null">Not specified</p><br>
+          <p *ngIf="user.preferredKind != null">{{user.preferredKind}}</p><p *ngIf="user.preferredKind == null">Not specified</p><br>
           <p>{{countWins}}</p><br>
           <p>{{countLoses}}</p>
         </div>
