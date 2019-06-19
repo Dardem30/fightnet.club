@@ -1,4 +1,12 @@
-import {Component, ComponentFactoryResolver, ElementRef, HostListener, Input, ViewChild, ViewContainerRef} from '@angular/core';
+import {
+  Component,
+  ComponentFactoryResolver,
+  ElementRef,
+  HostListener,
+  Input,
+  ViewChild,
+  ViewContainerRef
+} from '@angular/core';
 import {UserService} from '../services/userService';
 import {MapComponent} from './map/map.component';
 import {OverviewComponent} from './overview/overview.component';
@@ -29,7 +37,7 @@ import {UserProfileComponent} from './seeProfile/userProfile.component';
 })
 export class ProfileComponent {
   private serverUrl = AppComponent.apiEndpoint + 'socket';
-  private activeTab: string = 'overview';
+  activeTab: string = 'overview';
   isCustomSocketOpened = false;
   public static stompClient;
   public static stompClientComments;

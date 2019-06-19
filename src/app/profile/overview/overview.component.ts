@@ -15,8 +15,8 @@ export class OverviewComponent {
   countries: Country[];
   cities: City[];
   isLoading: boolean = false;
-  private countWins: number = 0;
-  private countLoses: number = 0;
+  public countWins: number = 0;
+  public countLoses: number = 0;
   public hasNoWins = true;
   public hasNoLoses = true;
   public pieChartLabelsWins: Label[] = [];
