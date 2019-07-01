@@ -8,6 +8,8 @@ import {MapComponent} from '../map/map.component';
 import {AppComponent} from '../../app.component';
 import {Invite} from '../../models/invite';
 import {BookedUser} from '../../models/bookedUser';
+import * as enLocalization from '../../../localization/fightnet.en';
+import * as ruLocalization from '../../../localization/fightnet.ru';
 
 @Component({
   selector: 'userProfile',
@@ -20,9 +22,9 @@ export class UserProfileComponent {
   invitationName;
   invitationSurname;
   div;
-  locale;
-  private countWins: number = 0;
-  private countLoses: number = 0;
+  locale = AppComponent.isEnglish ? enLocalization : ruLocalization;
+  public countWins: number = 0;
+  public countLoses: number = 0;
   public hasNoWins = true;
   public hasNoLoses = true;
   public pieChartLabelsWins: Label[] = [];
