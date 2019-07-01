@@ -98,6 +98,7 @@
     text-align: center;
     background: #fff;
     min-height: 460px;
+    -webkit-animation:slide-in-top .8s cubic-bezier(.25,.46,.45,.94) both;animation:slide-in-top .8s cubic-bezier(.25,.46,.45,.94) both
   }
 
   a {
@@ -290,7 +291,40 @@
     outline: 0;
     background-color: #FFF;
   }
-
+  textarea.form-style {
+    color: #8a8a8a;
+    display: block;
+    width: 90%;
+    height: 100px;
+    padding: 5px 5%;
+    border: 1px solid #ccc;
+    -moz-border-radius: 27px;
+    -webkit-border-radius: 27px;
+    border-radius: 27px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    background-color: #fff;
+    font-family: 'HelveticaNeue', 'Arial', sans-serif;
+    letter-spacing: .8px;
+  }
+  textarea {
+    height: auto;
+    max-width: 600px;
+    color: #999;
+    width: 70%;
+    background: #fff;
+    border-radius: 3px;
+    line-height: 2em;
+    border: none;
+    box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    -webkit-transition: height 2s ease;
+    -moz-transition: height 2s ease;
+    -ms-transition: height 2s ease;
+    -o-transition: height 2s ease;
+    transition: height 2s ease;
+  }
   #elem {
     position: absolute;
     -webkit-user-select: none;
@@ -525,6 +559,31 @@
   .show {
     opacity: 1 !important;
   }
+  .navbar {
+    z-index:1000;
+    overflow: hidden;
+    background-color: black;
+    position: fixed;
+    right: 5px;
+    top: 0;
+    width: 13%;
+  }
+
+  .navbar a {
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+  }
+
+  .navbar a:hover {
+    background: #ddd;
+    color: black;
+  }
+
 </style>
 <style type="text/scss">
   .btn {
@@ -716,12 +775,17 @@
     background-color: red;
     color: white;
   }
-  .main{-webkit-animation:flicker-in-1 2s linear both;animation:flicker-in-1 2s linear both}
-  @-webkit-keyframes flicker-in-1{0%{opacity:0}10%{opacity:0}10.1%{opacity:1}10.2%{opacity:0}20%{opacity:0}20.1%{opacity:1}20.6%{opacity:0}30%{opacity:0}30.1%{opacity:1}30.5%{opacity:1}30.6%{opacity:0}45%{opacity:0}45.1%{opacity:1}50%{opacity:1}55%{opacity:1}55.1%{opacity:0}57%{opacity:0}57.1%{opacity:1}60%{opacity:1}60.1%{opacity:0}65%{opacity:0}65.1%{opacity:1}75%{opacity:1}75.1%{opacity:0}77%{opacity:0}77.1%{opacity:1}85%{opacity:1}85.1%{opacity:0}86%{opacity:0}86.1%{opacity:1}100%{opacity:1}}@keyframes flicker-in-1{0%{opacity:0}10%{opacity:0}10.1%{opacity:1}10.2%{opacity:0}20%{opacity:0}20.1%{opacity:1}20.6%{opacity:0}30%{opacity:0}30.1%{opacity:1}30.5%{opacity:1}30.6%{opacity:0}45%{opacity:0}45.1%{opacity:1}50%{opacity:1}55%{opacity:1}55.1%{opacity:0}57%{opacity:0}57.1%{opacity:1}60%{opacity:1}60.1%{opacity:0}65%{opacity:0}65.1%{opacity:1}75%{opacity:1}75.1%{opacity:0}77%{opacity:0}77.1%{opacity:1}85%{opacity:1}85.1%{opacity:0}86%{opacity:0}86.1%{opacity:1}100%{opacity:1}}
+  .main{-webkit-animation:slide-in-top .15s cubic-bezier(.25,.46,.45,.94) both;animation:slide-in-top .5s cubic-bezier(.25,.46,.45,.94) both}
+  @-webkit-keyframes slide-in-top{0%{-webkit-transform:translateY(-1000px);transform:translateY(-1000px);opacity:0}100%{-webkit-transform:translateY(0);transform:translateY(0);opacity:1}}@keyframes slide-in-top{0%{-webkit-transform:translateY(-1000px);transform:translateY(-1000px);opacity:0}100%{-webkit-transform:translateY(0);transform:translateY(0);opacity:1}}
+  @-webkit-keyframes slide-in-top-profile-content{0%{-webkit-transform:translateY(-1000px);transform:translateY(-1000px);opacity:0}100%{-webkit-transform:translateY(0);transform:translateY(0);opacity:1}}@keyframes slide-in-top-profile-content{0%{-webkit-transform:translateY(-1000px);transform:translateY(-1000px);opacity:0}100%{-webkit-transform:translateY(0);transform:translateY(0);opacity:1}}
 </style>
 <script>
   document.querySelector("#today").valueAsDate = new Date();
 </script>
+<div class="navbar">
+  <a (click)="changeLocale('en')"><img style="width: 60px;height: 90px" src="assets/images/englishLocale.jpg" alt=""></a>
+  <a (click)="changeLocale('ru')" style="float: right"><img style="width: 60px;height: 90px" src="assets/images/russianLocale.jpg" alt=""></a>
+</div>
 <div id="formWrapper">
   <div class="container" style="width: 75%">
     <div class="row profile">
@@ -739,7 +803,7 @@
           </div>
 
           <div class="profile-userbuttons">
-            <button type="button" class="btn btn-danger btn-sm" (click)="logout()">Log out</button>
+            <button type="button" class="btn btn-danger btn-sm" (click)="logout()">{{locale.logout}}</button>
             <br>
             <button type="button" class="btn btn-success btn-sm" style="display: none; margin-top: 2px; width: 100%"
                     [ngStyle]="adminStyle" (click)="fileInput.click()">Upload video
@@ -755,12 +819,12 @@
               <li [class]="activeTab == 'overview' ? 'active' : null">
                 <a (click)="changeRoute('overview')">
                   <i class="glyphicon glyphicon-home"></i>
-                  Overview </a>
+                  {{locale.overview}}</a>
               </li>
               <li [class]="activeTab == 'messages' ? 'active' : null">
                 <a (click)="changeRoute('messages')">
                   <i class="glyphicon glyphicon-envelope"></i>
-                  <span>Messages</span>
+                  <span>{{locale.messages}}</span>
                   <a class="notification" *ngIf="unreadedMessages > 0">
                     <span class="badge">{{unreadedMessages}}</span>
                   </a>
@@ -769,7 +833,7 @@
               <li [class]="activeTab == 'notifications' ? 'active' : null">
                 <a (click)="changeRoute('notifications')">
                   <i class="glyphicon glyphicon-bell"></i>
-                  <span>Notifications</span>
+                  <span>{{locale.notifications}}</span>
                   <a class="notification" *ngIf="notifications > 0">
                     <span class="badge">{{notifications}}</span>
                   </a>
@@ -778,32 +842,32 @@
               <li [class]="activeTab == 'map' ? 'active' : null">
                 <a (click)="changeRoute('map')">
                   <i class="glyphicon glyphicon-map-marker"></i>
-                  Map </a>
+                  {{locale.map}} </a>
               </li>
               <li [class]="activeTab == 'search' ? 'active' : null">
                 <a (click)="changeRoute('search')">
                   <i class="glyphicon glyphicon-search"></i>
-                  Search </a>
+                  {{locale.search}} </a>
               </li>
               <li [class]="activeTab == 'bookedUsers' ? 'active' : null">
                 <a (click)="changeRoute('bookedUsers')">
                   <i class="glyphicon glyphicon-user"></i>
-                  Notebook </a>
+                  {{locale.bookedUsers}} </a>
               </li>
               <li [class]="activeTab == 'invites' ? 'active' : null">
                 <a (click)="changeRoute('invites')">
                   <i class="glyphicon glyphicon-fire"></i>
-                  Invites </a>
+                  {{locale.invites}} </a>
               </li>
               <li [class]="activeTab == 'fights' ? 'active' : null">
                 <a (click)="changeRoute('fights')">
                   <i class="glyphicon glyphicon-flag"></i>
-                  Fights </a>
+                  {{locale.fights}} </a>
               </li>
               <li [class]="activeTab == 'videos' ? 'active' : null">
                 <a (click)="changeRoute('videos')">
                   <i class="glyphicon glyphicon-film"></i>
-                  Videos </a>
+                  {{locale.videos}} </a>
               </li>
             </ul>
           </div>
@@ -849,6 +913,9 @@
                 </div>
                 <div class="form-item">
                   <input class="form-style" id="today" type="datetime-local" #invitationDate>
+                </div>
+                <div class="form-item">
+                  <textarea class="form-style" placeholder="Comment" name="commentField" #commentField required></textarea>
                 </div>
                 <div class="form-item">
                   <input type="submit" class="login pull-right" value="Invite" (click)="invite()" style="margin-left: 90px">

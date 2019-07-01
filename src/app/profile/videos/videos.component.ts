@@ -16,6 +16,7 @@ export class VideosComponent {
   isSearching: boolean = true;
   collectionSize = 0;
   invitationStyle;
+  locale;
   invitationName;
   invitationSurname;
   videos: Video[];
@@ -131,6 +132,7 @@ export class VideosComponent {
     let ref = this.div.createComponent(factory);
     ref.instance.email = email;
     ref.instance.invitationStyle = this.invitationStyle;
+    ref.instance.locale = this.locale;
     ref.instance.div = this.div;
     ref.instance.invitationName = this.invitationName;
     ref.instance.invitationSurname = this.invitationSurname;

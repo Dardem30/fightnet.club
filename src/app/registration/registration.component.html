@@ -365,6 +365,8 @@
       transform: rotateY(3600deg);
     }
   }
+  .fade-in{-webkit-animation:fade-in 1.2s cubic-bezier(.39,.575,.565,1.000) both;animation:fade-in 1.2s cubic-bezier(.39,.575,.565,1.000) both}
+  @-webkit-keyframes fade-in{0%{opacity:0}100%{opacity:1}}@keyframes fade-in{0%{opacity:0}100%{opacity:1}}
 </style>
 <script>
   $(document).ready(function () {
@@ -389,7 +391,7 @@
 </script>
 <script src="https://code.jquery.com/jquery-2.1.0.min.js"></script>
 <body>
-<div id="formWrapper">
+<div id="formWrapper" class="fade-in">
 
   <div id="form">
     <div class="logo">

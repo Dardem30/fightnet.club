@@ -275,15 +275,15 @@
   }
 </style>
 <form method="post" style="font-style: normal">
-  <input type="text" class="textbox" placeholder="Name" name="name" id="name" [(ngModel)]="model.name"
+  <input type="text" class="textbox" [placeholder]="locale.name" name="name" id="name" [(ngModel)]="model.name"
          #name="ngModel" style="width: 45%">
-  <input type="text" class="textbox" placeholder="Description" name="description" id="description" [(ngModel)]="model.description"
+  <input type="text" class="textbox" [placeholder]="locale.description" name="description" id="description" [(ngModel)]="model.description"
          #name="ngModel" style="width: 45%">
-  <input type="text" class="textbox" placeholder="Growth" name="height" id="height" [(ngModel)]="model.height"
+  <input type="text" class="textbox" [placeholder]="locale.growth" name="height" id="height" [(ngModel)]="model.height"
          #name="ngModel"  style="width: 45%">
-  <input type="text" class="textbox" placeholder="Weight" name="width" id="width" [(ngModel)]="model.width"
+  <input type="text" class="textbox" [placeholder]="locale.weight" name="width" id="width" [(ngModel)]="model.width"
          #name="ngModel"  style="width: 45%">
-  <input placeholder="Preferable fight style" type="text" list="fightStyles" class="textbox" #fightStyleField>
+  <input [placeholder]="locale.preferableFightStyle" type="text" list="fightStyles" class="textbox" #fightStyleField>
   <datalist id="fightStyles">
     <option>Aikido</option>
     <option>Boxing</option>
@@ -295,14 +295,14 @@
     <option>Krav Maga</option>
     <option>Wing Chun</option>
   </datalist>
-  <input placeholder="Country" type="text" list="countries" class="textbox" (change)="model.style = $event.target.value === '' ? null : onChangeCountry($event.target.value)" required #countryField>
+  <input [placeholder]="locale.country" type="text" list="countries" class="textbox" (change)="model.style = $event.target.value === '' ? null : onChangeCountry($event.target.value)" required #countryField>
   <datalist id="countries">
     <option *ngFor="let country of countries" [value]="country.name">{{country.name}}</option>
   </datalist>
   <div *ngIf="isLoading">
     <div class="lds-circle"><div></div></div><br>
   </div>
-  <input type="text" list="cities" placeholder="City" *ngIf="!isLoading" class="textbox" (change)="model.style = $event.target.value === '' ? null : onChangeCity($event.target.value)" required>
+  <input type="text" list="cities" [placeholder]="locale.city" *ngIf="!isLoading" class="textbox" (change)="model.style = $event.target.value === '' ? null : onChangeCity($event.target.value)" required>
   <datalist id="cities">
     <option *ngFor="let city of cities" [value]="city.name">{{city.name}}</option>
   </datalist>
@@ -312,9 +312,9 @@
   <thead>
   <tr>
     <th></th>
-    <th style="font-style: normal">Name, Surname</th>
-    <th style="font-style: normal">Country, city</th>
-    <th style="font-style: normal">Description</th>
+    <th style="font-style: normal">{{locale.name}}, {{locale.surname}}</th>
+    <th style="font-style: normal">{{locale.country}}, {{locale.city}}</th>
+    <th style="font-style: normal">{{locale.description}}</th>
     <th></th>
     <th></th>
     <th></th>
@@ -326,11 +326,11 @@
       <td (click)="showProfile(user.email)">{{user.name}} {{user.surname}}</td>
       <td (click)="showProfile(user.email)">{{user.country}}, {{user.city}}</td>
       <td (click)="showProfile(user.email)">{{user.description.substr(0, 50)}}...</td>
-      <td><button class="btn btn-default hover" (click)="inviteToFight(user)">Fight</button></td>
-      <td><button class="btn btn-default hover" (click)="dialog(user.email)">Dialog</button></td>
+      <td><button class="btn btn-default hover" (click)="inviteToFight(user)">{{locale.fight}}</button></td>
+      <td><button class="btn btn-default hover" (click)="dialog(user.email)">{{locale.dialog}}</button></td>
       <td>
-        <button class="btn btn-default hover" (click)="bookPerson(user.email)" *ngIf="isPersonBooked(user.email); else bookedPerson">Write down</button>
-        <ng-template #bookedPerson>Tracked</ng-template>
+        <button class="btn btn-default hover" (click)="bookPerson(user.email)" *ngIf="isPersonBooked(user.email); else bookedPerson">{{locale.writeDown}}</button>
+        <ng-template #bookedPerson>{{locale.wroteDown}}</ng-template>
       </td>
     </tr>
   </tbody>

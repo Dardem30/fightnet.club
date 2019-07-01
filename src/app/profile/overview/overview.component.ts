@@ -14,6 +14,7 @@ export class OverviewComponent {
   user: User;
   countries: Country[];
   cities: City[];
+  locale;
   isLoading: boolean = false;
   public countWins: number = 0;
   public countLoses: number = 0;

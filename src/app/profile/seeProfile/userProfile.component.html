@@ -260,41 +260,37 @@
 <div class="row" style="overflow-x:hidden;height: 500px; padding-left: 5px">
   <div class="column" style="width: 55%">
     <h1 style="text-align: left;font-family: 'Times New Roman';color: #AC0A0A" *ngIf="user != null">{{user.name}} {{user.surname}}</h1>
-    <h3 style="text-align: left;font-family: 'Times New Roman';color: #AC0A0A">Description</h3>
+    <h3 style="text-align: left;font-family: 'Times New Roman';color: #AC0A0A">{{locale.description}}</h3>
     <hr>
     <div *ngIf="user != null" style="text-align: left; padding-left: 5px">
       <p class="text-focus-in">{{user.description}}</p>
       <div class="row" style="height: 25%; padding-left: 5px">
         <div class="column" style="height: 25%;width: 40%">
-          <p><b>Place of residence:</b></p> <br>
-          <p><b>Weight:</b></p> <br>
-          <p><b>Growth:</b></p> <br>
-          <p><b>Preferable fight style:</b></p><br>
-          <p><b>Wins:</b></p> <br>
-          <p><b>Loses:</b></p>
+          <p><b>{{locale.placeOfResedence}}:</b></p> <br>
+          <p><b>{{locale.weight}}:</b></p> <br>
+          <p><b>{{locale.growth}}:</b></p> <br>
+          <p><b>{{locale.preferableFightStyle}}:</b></p>
         </div>
         <div class="column" style="height: 25%;width: 60%">
           <p>{{user.country}}, {{user.city}}</p><br>
-          <p *ngIf="user.weight != null">{{user.weight}}</p><p *ngIf="user.weight == null">Not specified</p><br>
-          <p *ngIf="user.growth != null">{{user.growth}}</p><p *ngIf="user.growth == null">Not specified</p><br>
-          <p *ngIf="user.preferredKind != null">{{user.preferredKind}}</p><p *ngIf="user.preferredKind == null">Not specified</p><br>
-          <p>{{countWins}}</p><br>
-          <p>{{countLoses}}</p>
+          <p *ngIf="user.weight != null">{{user.weight}}</p><p *ngIf="user.weight == null">{{locale.notSpectified}}</p><br>
+          <p *ngIf="user.growth != null">{{user.growth}}</p><p *ngIf="user.growth == null">{{locale.notSpectified}}</p><br>
+          <p *ngIf="user.preferredKind != null">{{user.preferredKind}}</p><p *ngIf="user.preferredKind == null">{{locale.notSpectified}}</p>
         </div>
       </div>
     </div>
   </div>
   <div class="column" style="width: 45%">
     <img class="pixelated" width="70%" height="100%" src="assets/images/noPhoto.jpeg"><br>
-    <button style="margin-top: 5px;width: 70%"  class="large red button" (click)="dialog()">Message</button><br>
-    <button style="margin-top: 5px;width: 70%"  class="large red button" (click)="inviteToFight()">Fight</button>
+    <button style="margin-top: 5px;width: 70%"  class="large red button" (click)="dialog()">{{locale.dialog}}</button><br>
+    <button style="margin-top: 5px;width: 70%"  class="large red button" (click)="inviteToFight()">{{locale.fight}}</button>
   </div>
 </div>
-<h3 style="text-align: left;font-family: 'Times New Roman';color: #AC0A0A">Statistics</h3>
+<h3 style="text-align: left;font-family: 'Times New Roman';color: #AC0A0A">{{locale.statistics}}</h3>
 <hr>
 <div class="row">
   <div class="column">
-    <h4 style="font-family: 'Times New Roman';color: #AC0A0A">Wins</h4>
+    <h4 style="font-family: 'Times New Roman';color: #AC0A0A">{{locale.wins}} ({{countWins}})</h4>
     <canvas baseChart style="width: 120px" height="120px" id = 'wins'
             [data]="pieChartDataWins"
             [labels]="pieChartLabelsWins"
@@ -302,10 +298,10 @@
             [options]="pieChartOptions"
             [colors]="pieChartColors">
     </canvas>
-    <h3 style="font-family: 'Times New Roman';color: #AC0A0A" *ngIf="hasNoWins">He has no wins, yet</h3>
+    <h3 style="font-family: 'Times New Roman';color: #AC0A0A" *ngIf="hasNoWins">{{locale.heHaveNoWins}}</h3>
   </div>
   <div class="column">
-    <h4 style="font-family: 'Times New Roman';color: #AC0A0A">Loses</h4>
+    <h4 style="font-family: 'Times New Roman';color: #AC0A0A">{{locale.loses}} ({{countLoses}})</h4>
     <canvas baseChart style="width: 120px" height="120px" id = 'loses'
             [data]="pieChartDataLoses"
             [labels]="pieChartLabelsLoses"
@@ -313,7 +309,7 @@
             [options]="pieChartOptions"
             [colors]="pieChartColors">
     </canvas>
-    <h3 style="font-family: 'Times New Roman';color: #AC0A0A" *ngIf="hasNoLoses">He has no loses, yet</h3>
+    <h3 style="font-family: 'Times New Roman';color: #AC0A0A" *ngIf="hasNoLoses">{{locale.heHaveNoLoses}}</h3>
   </div>
 </div>
 </div>

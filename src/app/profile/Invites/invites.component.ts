@@ -3,6 +3,7 @@ import {UserService} from '../../services/userService';
 import {Invite} from '../../models/invite';
 import {MapComponent} from '../map/map.component';
 import {UserProfileComponent} from '../seeProfile/userProfile.component';
+import {ProfileComponent} from '../profile.component';
 
 @Component({
   selector: 'invites-component',
@@ -14,6 +15,7 @@ export class InvitesComponent {
   invitationStyle;
   invitationName;
   invitationSurname;
+  locale;
   page: number = 1;
   isLoading: boolean = true;
   collectionSize = 0;
@@ -31,6 +33,7 @@ export class InvitesComponent {
     let ref = this.div.createComponent(factory);
     ref.instance.latitude = coordinateX;
     ref.instance.longitude = coordinateY;
+    ref.instance.locale = this.locale;
     ref.instance.userMarkers = [];
     ref.instance.userMarkers.push({latitude: coordinateX, longitude: coordinateY});
     ref.changeDetectorRef.detectChanges();
@@ -39,25 +42,23 @@ export class InvitesComponent {
     invite.fighterInviter = {email: invite.fighterInviter.email, name: invite.fighterInviter.name, surname: invite.fighterInviter.surname};
     invite.fighterInvited = {email: invite.fighterInvited.email, name: invite.fighterInvited.name, surname: invite.fighterInvited.surname};
     invite.accepted = true;
-    this.userService.acceptInvite(invite).subscribe(response => {
-      this.userService.getUserInvites(this.page).subscribe(invites => {
-        this.collectionSize = invites.count;
-        this.invites = invites.records;
-        this.isLoading = false;
-      });
-    });
+    this.userService.acceptInvite(invite).subscribe();
     this.showPlace(invite.latitude, invite.longitude);
   }
   nextPage() {
     this.isLoading = true;
     this.userService.getUserInvites(this.page).subscribe(invites => {
-      this.collectionSize = invites.count;
+      this.collectionSize = (Math.floor(invites.count / 3) + (invites.count % 3 != 0 ? 1 : 0)) * 10;
       this.invites = invites.records;
       this.isLoading = false;
     });
   }
   declineInvite(inviteId) {
-    console.log('decline')
+    this.isLoading = true;
+    this.userService.declineInvite(inviteId).subscribe(result => {
+      this.nextPage();
+      this.isLoading = false;
+    });
   }
   showProfile(email: string) {
     this.div.remove(1);
@@ -66,8 +67,14 @@ export class InvitesComponent {
     ref.instance.email = email;
     ref.instance.invitationStyle = this.invitationStyle;
     ref.instance.div = this.div;
+    ref.instance.locale = this.locale;
     ref.instance.invitationName = this.invitationName;
     ref.instance.invitationSurname = this.invitationSurname;
     ref.changeDetectorRef.detectChanges();
+  }
+  startDialog(email: string) {
+    this.userService.findUserByEmail(email).subscribe(user => {
+      ProfileComponent.toggle(user)
+    });
   }
 }

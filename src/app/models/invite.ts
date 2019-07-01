@@ -9,5 +9,6 @@ export class Invite {
   fightStyle;
   date: Date;
   accepted;
+  comment: string;
   constructor() {}
 }

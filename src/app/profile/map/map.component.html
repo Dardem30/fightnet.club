@@ -86,9 +86,9 @@
   }
 </style>
 <form method="post" style="font-style: normal; width: 100%">
-  <input type="text" class="textbox" placeholder="Name" name="name" id="name" [(ngModel)]="model.name"
+  <input type="text" class="textbox" [placeholder]="locale.name" name="name" id="name" [(ngModel)]="model.name"
          #name="ngModel" style="width: 25%;">
-  <input placeholder="Fight style" type="text" list="fightStyles" class="textbox"  name="fightStyle" id="fightStyle" [(ngModel)]="model.fightStyle"
+  <input [placeholder]="locale.fightStyle" type="text" list="fightStyles" class="textbox"  name="fightStyle" id="fightStyle" [(ngModel)]="model.fightStyle"
          #fightStyle="ngModel" style="width: 25%;">
   <datalist id="fightStyles">
     <option>Aikido</option>
@@ -101,9 +101,9 @@
     <option>Krav Maga</option>
     <option>Wing Chun</option>
   </datalist>
-  <input type="text" onfocus="(this.type='date')" class="textbox" placeholder="Start date" name="startDate" id="startDate" [(ngModel)]="model.startDate"
+  <input type="text" onfocus="(this.type='date')" class="textbox" [placeholder]="locale.dateStart" name="startDate" id="startDate" [(ngModel)]="model.startDate"
          #name="ngModel" style="width: 20%;">
-  <input type="text" onfocus="(this.type='date')" class="textbox" placeholder="End date" name="endDate" id="endDate" [(ngModel)]="model.endDate"
+  <input type="text" onfocus="(this.type='date')" class="textbox" [placeholder]="locale.dateEnd" name="endDate" id="endDate" [(ngModel)]="model.endDate"
          #name="ngModel" style="width: 20%;">
   <button class="button" (click)="search()"><i class="glyphicon glyphicon-search"></i></button>
 </form>

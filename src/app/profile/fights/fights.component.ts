@@ -4,6 +4,7 @@ import {Invite} from '../../models/invite';
 import {MapComponent} from '../map/map.component';
 import {UserProfileComponent} from '../seeProfile/userProfile.component';
 import Swal from "sweetalert2";
+import {ProfileComponent} from '../profile.component';
 
 @Component({
   selector: 'fights-component',
@@ -12,13 +13,17 @@ import Swal from "sweetalert2";
 export class FightsComponent {
   invites: Invite[] = [];
   isLoading: boolean = true;
+  loggedInUserEmail: string = localStorage.getItem('email');
   div;
+  locale;
   fighterInviter;
   fighterInvited;
   invitationStyle;
   invitationName;
   invitationSurname;
   style;
+  page: number = 1;
+  collectionSize = 0;
   @ViewChild('file') file: ElementRef;
   inviteId;
 
@@ -27,8 +32,13 @@ export class FightsComponent {
   }
 
   ngOnInit() {
-    this.userService.getPlannedFights(localStorage.getItem('email')).subscribe(invites => {
-      this.invites = invites;
+    this.nextPage();
+  }
+  nextPage() {
+    this.isLoading = true;
+    this.userService.getPlannedFights(localStorage.getItem('email'), this.page).subscribe(invites => {
+      this.collectionSize = (Math.floor(invites.count / 3) + (invites.count % 3 != 0 ? 1 : 0)) * 10;
+      this.invites = invites.records;
       this.isLoading = false;
     });
   }
@@ -39,17 +49,19 @@ export class FightsComponent {
     let ref = this.div.createComponent(factory);
     ref.instance.latitude = coordinateX;
     ref.instance.longitude = coordinateY;
+    ref.instance.locale = this.locale;
     ref.instance.userMarkers = [];
     ref.instance.userMarkers.push({latitude: coordinateX, longitude: coordinateY});
     ref.changeDetectorRef.detectChanges();
   }
 
   onFileChange(event) {
+    this.isLoading = true;
     let reader = new FileReader();
     let file: File = event.target.files[0];
     if (file.type === 'video/mp4') {
       this.userService.uploadVideo(file, this.fighterInviter, this.fighterInvited, this.inviteId, this.style).subscribe(result => {
-        this.userService.getPlannedFights(localStorage.getItem('email')).subscribe(invites => this.invites = invites);
+        this.nextPage();
         if (result === 'success') {
           alert('Successfully')
         } else {
@@ -83,7 +95,13 @@ export class FightsComponent {
     ref.instance.invitationStyle = this.invitationStyle;
     ref.instance.div = this.div;
     ref.instance.invitationName = this.invitationName;
+    ref.instance.locale = this.locale;
     ref.instance.invitationSurname = this.invitationSurname;
     ref.changeDetectorRef.detectChanges();
+  }
+  startDialog(email: string) {
+    this.userService.findUserByEmail(email).subscribe(user => {
+      ProfileComponent.toggle(user)
+    });
   }
 }

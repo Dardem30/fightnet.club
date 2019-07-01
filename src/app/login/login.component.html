@@ -158,6 +158,8 @@
   input[type="submit"].login:focus {
     outline: none;
   }
+  .fade-in{-webkit-animation:fade-in 1.2s cubic-bezier(.39,.575,.565,1.000) both;animation:fade-in 1.2s cubic-bezier(.39,.575,.565,1.000) both}
+  @-webkit-keyframes fade-in{0%{opacity:0}100%{opacity:1}}@keyframes fade-in{0%{opacity:0}100%{opacity:1}}
 </style>
 <script>
   $(document).ready(function () {
@@ -181,11 +183,11 @@
 </script>
 <script src="https://code.jquery.com/jquery-2.1.0.min.js"></script>
 <body>
-<div id="formWrapper">
+<div id="formWrapper" class="fade-in">
 
   <div id="form" (keyup.enter)="login()">
     <div class="logo">
-      <img src="http://x-lines.ru/letters/i/cyrillicscript/0312/0a0a1a/56/0/e3wsq4dwp31ze.png">
+      <img src="assets/images/logo.png">
     </div>
     <div class="form-item">
       <input type="email" placeholder="Email" name="email" id="email" class="form-style" autocomplete="off" [(ngModel)]="model.email"
@@ -203,7 +205,7 @@
       <p class="pull-left"><a [routerLink]="['registration']">
         <small>Register</small>
       </a></p>
-      <input type="submit" class="login pull-right" (click)="login()" value="Log In" onclick="document.getElementById('indexBody').setAttribute('style', 'background: url(assets/images/fight.jpg) center fixed; background-size: 100% 100%;');">
+      <input type="submit" class="login pull-right" (click)="login()" value="Log In">
       <div class="clear-fix"></div>
     </div>
   </div>

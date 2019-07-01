@@ -349,9 +349,7 @@
   }
   .text-focus-in{-webkit-animation:text-focus-in 1s cubic-bezier(.55,.085,.68,.53) both;animation:text-focus-in 1s cubic-bezier(.55,.085,.68,.53) both}
   @-webkit-keyframes text-focus-in{0%{-webkit-filter:blur(12px);filter:blur(12px);opacity:0}100%{-webkit-filter:blur(0);filter:blur(0);opacity:1}}@keyframes text-focus-in{0%{-webkit-filter:blur(12px);filter:blur(12px);opacity:0}100%{-webkit-filter:blur(0);filter:blur(0);opacity:1}}
-  .main{-webkit-animation:slide-in-top .15s cubic-bezier(.25,.46,.45,.94) both;animation:slide-in-top .5s cubic-bezier(.25,.46,.45,.94) both}
-  @-webkit-keyframes slide-in-top{0%{-webkit-transform:translateY(-1000px);transform:translateY(-1000px);opacity:0}100%{-webkit-transform:translateY(0);transform:translateY(0);opacity:1}}@keyframes slide-in-top{0%{-webkit-transform:translateY(-1000px);transform:translateY(-1000px);opacity:0}100%{-webkit-transform:translateY(0);transform:translateY(0);opacity:1}}
-</style>
+ </style>
 <style type="text/scss">
   .lds-circle {
     display: inline-block;
@@ -382,48 +380,47 @@
     }
   }
 </style>
-<div class="main">
-<h3 style="text-align: left;font-family: 'Times New Roman';color: #AC0A0A">Description<button class="red button" style="margin-left: 10px" onclick="{
+<h3 style="text-align: left;font-family: 'Times New Roman';color: #AC0A0A">{{locale.description}}<button class="red button" style="margin-left: 10px" onclick="{
   document.getElementById('desctiptionModal').style.display = 'block';
 }">Change</button></h3>
 <hr>
 <div *ngIf="user != null" style="text-align: left; padding-left: 5px;height: 5%">
   <p class="text-focus-in">{{user.description}}</p>
   <div class="row" style="height: 5%; padding-left: 5px">
-    <div class="column" style="height: 5%;width: 18%">
-      <p><b>Place of residence:</b></p> <br>
-      <p><b>Weight:</b></p> <br>
-      <p><b>Growth:</b></p> <br>
-      <p><b>Preferable fight style:</b></p>
+    <div class="column" style="height: 5%;width: 23%">
+      <p><b>{{locale.placeOfResedence}}:</b></p> <br>
+      <p><b>{{locale.weight}}:</b></p> <br>
+      <p><b>{{locale.growth}}:</b></p> <br>
+      <p><b>{{locale.preferableFightStyle}}:</b></p>
 
     </div>
     <div class="column" style="height: 5%;width: 23%">
       <p>{{user.country}}, {{user.city}}</p><br>
-      <p *ngIf="user.weight != null">{{user.weight}}</p><p *ngIf="user.weight == null">Not specified</p><br>
-      <p *ngIf="user.growth != null">{{user.growth}}</p><p *ngIf="user.growth == null">Not specified</p><br>
-      <p *ngIf="user.preferredKind != null">{{user.preferredKind}}</p><p *ngIf="user.preferredKind == null">Not specified</p><br>
+      <p *ngIf="user.weight != null">{{user.weight}}</p><p *ngIf="user.weight == null">{{locale.notSpectified}}</p><br>
+      <p *ngIf="user.growth != null">{{user.growth}}</p><p *ngIf="user.growth == null">{{locale.notSpectified}}</p><br>
+      <p *ngIf="user.preferredKind != null">{{user.preferredKind}}</p><p *ngIf="user.preferredKind == null">{{locale.notSpectified}}</p><br>
     </div>
     <div class="column" style="height: 5%;width: 10%">
       <p><button class="red button" style="margin-top: -100px; margin-bottom:  -100px" onclick="{
   document.getElementById('placeModal').style.display = 'block';
-}" (click)="setupPlace()">Change</button></p><br>
+}" (click)="setupPlace()">{{locale.change}}</button></p><br>
       <p><button class="red button" style="margin-top: -100px; margin-bottom:  -100px" onclick="{
   document.getElementById('widthModal').style.display = 'block';
-}" (click)="setupWidth()">Change</button></p><br>
+}" (click)="setupWidth()">{{locale.change}}</button></p><br>
       <p><button class="red button" style="margin-top: -100px; margin-bottom:  -100px" onclick="{
   document.getElementById('grouthModal').style.display = 'block';
-}" (click)="setupGrowth()">Change</button></p><br>
+}" (click)="setupGrowth()">{{locale.change}}</button></p><br>
       <p><button class="red button" style="margin-top: -100px; margin-bottom:  -100px" onclick="{
   document.getElementById('prefferedModal').style.display = 'block';
-}" (click)="setupPrefferable()">Change</button></p>
+}" (click)="setupPrefferable()">{{locale.change}}</button></p>
     </div>
   </div>
 </div>
-<h3 style="text-align: left;font-family: 'Times New Roman';color: #AC0A0A">Statistics</h3>
+<h3 style="text-align: left;font-family: 'Times New Roman';color: #AC0A0A">{{locale.statistics}}</h3>
 <hr>
 <div class="row">
   <div class="column">
-    <h4 style="font-family: 'Times New Roman';color: #AC0A0A">Wins ({{countWins}})</h4>
+    <h4 style="font-family: 'Times New Roman';color: #AC0A0A">{{locale.wins}} ({{countWins}})</h4>
     <canvas baseChart style="width: 120px" height="120px" id = 'wins'
             [data]="pieChartDataWins"
             [labels]="pieChartLabelsWins"
@@ -431,10 +428,10 @@
             [options]="pieChartOptions"
             [colors]="pieChartColors">
     </canvas>
-    <h3 style="font-family: 'Times New Roman';color: #AC0A0A" *ngIf="hasNoWins">You have no wins, yet</h3>
+    <h3 style="font-family: 'Times New Roman';color: #AC0A0A" *ngIf="hasNoWins">{{locale.haveNoWins}}</h3>
   </div>
   <div class="column">
-    <h4 style="font-family: 'Times New Roman';color: #AC0A0A">Loses ({{countLoses}})</h4>
+    <h4 style="font-family: 'Times New Roman';color: #AC0A0A">{{locale.loses}} ({{countLoses}})</h4>
     <canvas baseChart style="width: 120px" height="120px" id = 'loses'
             [data]="pieChartDataLoses"
             [labels]="pieChartLabelsLoses"
@@ -442,12 +439,12 @@
             [options]="pieChartOptions"
             [colors]="pieChartColors">
     </canvas>
-    <h3 style="font-family: 'Times New Roman';color: #AC0A0A" *ngIf="hasNoLoses">You have no loses, yet</h3>
+    <h3 style="font-family: 'Times New Roman';color: #AC0A0A" *ngIf="hasNoLoses">{{locale.haveNoLoses}}</h3>
   </div>
 </div>
-<h3 style="text-align: left;font-family: 'Times New Roman';color: #AC0A0A">Gallery
-  <button style="margin-left: 10px" class="red button" (click)="gallery()">View gallery</button>
-  <button style="margin-left: 10px" class="red button" (click)="imageInput.click()">Upload photo</button></h3>
+<h3 style="text-align: left;font-family: 'Times New Roman';color: #AC0A0A">{{locale.gallery}}
+  <button style="margin-left: 10px" class="red button" (click)="gallery()">{{locale.viewGallery}}</button>
+  <button style="margin-left: 10px" class="red button" (click)="imageInput.click()">{{locale.uploadPhoto}}</button></h3>
 <hr>
 <div class="body" id="gallery">
   <main>
@@ -475,10 +472,10 @@
   <!-- Modal content -->
   <div class="modal-content">
     <div class="modal-header">
-      <h2>Change description</h2>
+      <h2>{{locale.changeDescription}}</h2>
     </div>
     <div class="modal-body" style="height: 250px">
-      <textarea id="changeDesctiption" style="width: 100%; height: 90%" type="text" placeholder="Content">{{user.description}}</textarea>
+      <textarea id="changeDesctiption" style="width: 100%; height: 90%" type="text" [placeholder]="locale.description">{{user.description}}</textarea>
     </div>
     <div class="modal-footer">
       <button onclick="{
@@ -496,10 +493,10 @@
   <!-- Modal content -->
   <div class="modal-content" style="width: 25%">
     <div class="modal-header">
-      <h2>Change weight</h2>
+      <h2>{{locale.changeWeight}}</h2>
     </div>
     <div class="modal-body">
-      <input type="number" placeholder="weight" id="changeWidth" style="width: 100%">
+      <input type="number"  [placeholder]="locale.weight" id="changeWidth" style="width: 100%">
     </div>
     <div class="modal-footer">
       <button onclick="{
@@ -517,10 +514,10 @@
   <!-- Modal content -->
   <div class="modal-content" style="width: 25%">
     <div class="modal-header">
-      <h2>Change growth</h2>
+      <h2>{{locale.changeGrowth}}</h2>
     </div>
     <div class="modal-body">
-      <input id="changeGrowth" type="number" placeholder="growth" style="width: 100%">
+      <input id="changeGrowth" type="number"  [placeholder]="locale.growth" style="width: 100%">
     </div>
     <div class="modal-footer">
       <button onclick="{
@@ -538,10 +535,10 @@
   <!-- Modal content -->
   <div class="modal-content" style="width: 25%">
     <div class="modal-header">
-      <h2>Change growth</h2>
+      <h2>{{locale.changePlace}}</h2>
     </div>
     <div class="modal-body">
-      <input list="countries" class="question" placeholder="Country" type="text" id="country" (change)="onChangeCountry($event.target.value)" required autocomplete="on" style="width: 100%">
+      <input list="countries" class="question"  [placeholder]="locale.country" type="text" id="country" (change)="onChangeCountry($event.target.value)" required autocomplete="on" style="width: 100%">
       <label for="country"><span style="opacity: 0.5">Country</span></label>
       <datalist id="countries">
         <option *ngFor="let country of countries" [value]="country.name">{{country.name}}</option>
@@ -549,7 +546,7 @@
       <div *ngIf="isLoading">
         <div class="lds-circle"><div></div></div><br>
       </div>
-      <input type="text" class="question" placeholder="City" list="cities" id="city" required autocomplete="on" *ngIf="!isLoading" style="width: 100%">
+      <input type="text" class="question"  [placeholder]="locale.city" list="cities" id="city" required autocomplete="on" *ngIf="!isLoading" style="width: 100%">
       <label for="city" *ngIf="!isLoading"><span style="opacity: 0.5">City</span></label>
       <datalist id="cities">
         <option *ngFor="let city of cities" [value]="city.name">{{city.name}}</option>
@@ -569,10 +566,10 @@
   <!-- Modal content -->
   <div class="modal-content" style="width: 25%">
     <div class="modal-header">
-      <h2>Change preferable fight style</h2>
+      <h2>{{locale.changePrefferableFightStyle}}</h2>
     </div>
     <div class="modal-body">
-      <input list="cFightStyles" class="question" placeholder="Fight style" type="text" id="fightStyles" required autocomplete="on" style="width: 100%">
+      <input list="cFightStyles" class="question"  [placeholder]="locale.fightStyle" type="text" id="fightStyles" required autocomplete="on" style="width: 100%">
       <label for="cFightStyles"><span style="opacity: 0.5">Fight style</span></label>
       <datalist id="cFightStyles">
         <option>Aikido</option>
@@ -596,5 +593,4 @@
     </div>
   </div>
 
-</div>
 </div>

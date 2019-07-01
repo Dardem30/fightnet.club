@@ -160,7 +160,7 @@
 </style>
 <form method="post" style="font-style: normal">
   <select class="textbox" (change)="model.style = $event.target.value === '' ? null : $event.target.value" style="width: 45%" required>
-    <option value="" hidden>Fight style</option>
+    <option value="" hidden>{{locale.fightStyle}}</option>
     <option>Aikido</option>
     <option>Boxing</option>
     <option>Muay Thai</option>
@@ -171,7 +171,7 @@
     <option>Krav Maga</option>
     <option>Wing Chun</option>
   </select>
-  <input type="text" class="textbox" placeholder="Name" name="name" id="name" [(ngModel)]="model.name"
+  <input type="text" class="textbox" [placeholder]="locale.name" name="name" id="name" [(ngModel)]="model.name"
          #name="ngModel" style="width: 45%">
   <button class="button" (click)="search()"><i class="glyphicon glyphicon-search"></i></button>
 </form>
@@ -189,7 +189,7 @@
   <br>
   <img src="assets/images/user.jpg" style="height: 30px; width: 30px; margin-right: 5px" (click)="showProfile(video.fighter1.email)">
   <button class="btn btn-default btn-sm" style="background-color: #293239; color: #f6f9fb" (click)="voteForFighter1(video)">{{video.fighter1.name}} {{video.fighter1.surname}} ({{video.votes1.length}})</button>
-  <button class="btn btn-default btn-sm" style="background-color: #293239; color: #f6f9fb" (click)="comments(video)">Comments</button>
+  <button class="btn btn-default btn-sm" style="background-color: #293239; color: #f6f9fb" (click)="comments(video)">{{locale.comments}}</button>
   <button class="btn btn-default btn-sm" style="background-color: #293239; color: #f6f9fb" (click)="voteForFighter2(video)">{{video.fighter2.name}} {{video.fighter2.surname}} ({{video.votes2.length}})</button>
   <img src="assets/images/user.jpg" style="height: 30px; width: 30px; margin-left: 5px"  (click)="showProfile(video.fighter2.email)">
   <hr>

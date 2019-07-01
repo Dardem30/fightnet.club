@@ -15,6 +15,7 @@ export class BookedUsersComponent {
   users: BookedUser[] = [];
   isLoading: boolean = true;
   div;
+  locale;
   invitationStyle;
   invitationName;
   invitationSurname;
@@ -54,6 +55,7 @@ export class BookedUsersComponent {
     ref.instance.email = email;
     ref.instance.invitationStyle = this.invitationStyle;
     ref.instance.div = this.div;
+    ref.instance.locale = this.locale;
     ref.instance.invitationName = this.invitationName;
     ref.instance.invitationSurname = this.invitationSurname;
     ref.changeDetectorRef.detectChanges();

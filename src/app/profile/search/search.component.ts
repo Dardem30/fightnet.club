@@ -22,6 +22,7 @@ export class SearchComponent {
   countries: Country[];
   cities: City[];
   users: User[];
+  locale;
   invitationStyle;
   invitationName;
   invitationSurname;
@@ -105,6 +106,7 @@ export class SearchComponent {
     ref.instance.email = email;
     ref.instance.invitationStyle = this.invitationStyle;
     ref.instance.div = this.div;
+    ref.instance.locale = this.locale;
     ref.instance.invitationName = this.invitationName;
     ref.instance.invitationSurname = this.invitationSurname;
     ref.changeDetectorRef.detectChanges();

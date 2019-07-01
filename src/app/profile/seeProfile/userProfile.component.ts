@@ -20,6 +20,7 @@ export class UserProfileComponent {
   invitationName;
   invitationSurname;
   div;
+  locale;
   private countWins: number = 0;
   private countLoses: number = 0;
   public hasNoWins = true;

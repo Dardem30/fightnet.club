@@ -22,6 +22,8 @@ import {VideosComponent} from './videos/videos.component';
 import {Message} from '../models/message';
 import {Stomp} from '@stomp/stompjs';
 import * as SockJS from 'sockjs-client';
+import * as enLocalization from 'src/localization/fightnet.en';
+import * as ruLocalization from 'src/localization/fightnet.ru';
 import {SocketService} from '../services/socketService';
 import {Comment} from '../models/comment';
 import {Video} from '../models/video';
@@ -39,6 +41,7 @@ export class ProfileComponent {
   private serverUrl = AppComponent.apiEndpoint + 'socket';
   activeTab: string = 'overview';
   isCustomSocketOpened = false;
+  locale = {};
   public static stompClient;
   public static stompClientComments;
   public static stompClientNotifications;
@@ -66,6 +69,7 @@ export class ProfileComponent {
     'display': 'none'
   };
   file: File;
+  currentComponent;
   @ViewChild('fileInput') fileInput: ElementRef;
   @ViewChild('imageInput') imageInput: ElementRef;
   @ViewChild('div', {read: ViewContainerRef}) div;
@@ -74,6 +78,7 @@ export class ProfileComponent {
   @ViewChild('invitationSurname') invitationSurname;
   @ViewChild('invitationFightStyle') invitationFightStyle;
   @ViewChild('invitationDate') invitationDate;
+  @ViewChild('commentField') commentField;
   @Input() textMessage = '';
   @Input() textComment = '';
   messageComponent: MessagesComponent;
@@ -99,10 +104,13 @@ export class ProfileComponent {
       AppComponent.user = user;
       this.initializeWebSocketConnectionForNotifications();
       this.initializeWebSocketConnectionForMessages();
+      this.locale = AppComponent.isEnglish ? enLocalization : ruLocalization;
+      let factory = this.componentFactoryResolver.resolveComponentFactory(OverviewComponent);
+      let ref = this.div.createComponent(factory);
+      ref.instance.locale = this.locale;
+      ref.changeDetectorRef.detectChanges();
+      this.currentComponent = ref;
     });
-    let factory = this.componentFactoryResolver.resolveComponentFactory(OverviewComponent);
-    let ref = this.div.createComponent(factory);
-    ref.changeDetectorRef.detectChanges();
     this.userService.getBookedPersons().subscribe(users => this.users = users);
   }
 
@@ -133,13 +141,16 @@ export class ProfileComponent {
       let ref = this.div.createComponent(factory);
       ref.instance.div = this.div;
       ref.instance.invitationStyle = this.invitationStyle;
+      ref.instance.locale = this.locale;
       ref.instance.invitationName = this.invitationName;
       ref.instance.invitationSurname = this.invitationSurname;
       ref.changeDetectorRef.detectChanges();
+      this.currentComponent = ref;
     }
     if (navigate == 'overview') {
       let factory = this.componentFactoryResolver.resolveComponentFactory(OverviewComponent);
       let ref = this.div.createComponent(factory);
+      ref.instance.locale = this.locale;
       ref.changeDetectorRef.detectChanges();
     }
     if (navigate == 'search') {
@@ -147,9 +158,11 @@ export class ProfileComponent {
       let ref = this.div.createComponent(factory);
       ref.instance.div = this.div;
       ref.instance.invitationStyle = this.invitationStyle;
+      ref.instance.locale = this.locale;
       ref.instance.invitationName = this.invitationName;
       ref.instance.invitationSurname = this.invitationSurname;
       ref.changeDetectorRef.detectChanges();
+      this.currentComponent = ref;
     }
     if (navigate == 'bookedUsers') {
       let factory = this.componentFactoryResolver.resolveComponentFactory(BookedUsersComponent);
@@ -157,17 +170,21 @@ export class ProfileComponent {
       ref.instance.div = this.div;
       ref.instance.invitationStyle = this.invitationStyle;
       ref.instance.invitationName = this.invitationName;
+      ref.instance.locale = this.locale;
       ref.instance.invitationSurname = this.invitationSurname;
       ref.changeDetectorRef.detectChanges();
+      this.currentComponent = ref;
     }
     if (navigate == 'invites') {
       let factory = this.componentFactoryResolver.resolveComponentFactory(InvitesComponent);
       let ref = this.div.createComponent(factory);
       ref.instance.div = this.div;
       ref.instance.invitationStyle = this.invitationStyle;
+      ref.instance.locale = this.locale;
       ref.instance.invitationName = this.invitationName;
       ref.instance.invitationSurname = this.invitationSurname;
       ref.changeDetectorRef.detectChanges();
+      this.currentComponent = ref;
     }
     if (navigate == 'messages') {
       this.unreadedMessages = 0;
@@ -177,6 +194,7 @@ export class ProfileComponent {
       ref.instance.div = this.div;
       this.messageComponent = ref.instance;
       ref.changeDetectorRef.detectChanges();
+      this.currentComponent = ref;
     }
     if (navigate == 'notifications') {
       this.notifications = 0;
@@ -185,6 +203,7 @@ export class ProfileComponent {
       let ref = this.div.createComponent(factory);
       ref.instance.div = this.div;
       ref.changeDetectorRef.detectChanges();
+      this.currentComponent = ref;
     }
     if (navigate == 'fights') {
       let factory = this.componentFactoryResolver.resolveComponentFactory(FightsComponent);
@@ -192,8 +211,10 @@ export class ProfileComponent {
       ref.instance.div = this.div;
       ref.instance.invitationStyle = this.invitationStyle;
       ref.instance.invitationName = this.invitationName;
+      ref.instance.locale = this.locale;
       ref.instance.invitationSurname = this.invitationSurname;
       ref.changeDetectorRef.detectChanges();
+      this.currentComponent = ref;
     }
     if (navigate == 'videos') {
       let factory = this.componentFactoryResolver.resolveComponentFactory(VideosComponent);
@@ -201,8 +222,10 @@ export class ProfileComponent {
       ref.instance.div = this.div;
       ref.instance.invitationStyle = this.invitationStyle;
       ref.instance.invitationName = this.invitationName;
+      ref.instance.locale = this.locale;
       ref.instance.invitationSurname = this.invitationSurname;
       ref.changeDetectorRef.detectChanges();
+      this.currentComponent = ref;
     }
   }
 
@@ -279,6 +302,7 @@ export class ProfileComponent {
     user.name = this.user.name;
     user.surname = this.user.surname;
     AppComponent.invite.fighterInviter = user;
+    AppComponent.invite.comment = this.commentField.nativeElement.value;
     AppComponent.invite.date = new Date(this.invitationDate.nativeElement.value);
     AppComponent.invite.accepted = false;
     this.userService.invite().subscribe(
@@ -530,5 +554,15 @@ export class ProfileComponent {
       ref.instance.email = email;
       ref.changeDetectorRef.detectChanges();
     }
+  }
+  changeLocale(locale: string) {
+    if (locale == 'en') {
+      AppComponent.isEnglish = true;
+      this.locale = enLocalization;
+    } else {
+      AppComponent.isEnglish = false;
+      this.locale = ruLocalization;
+    }
+    this.currentComponent.instance.locale = this.locale;
   }
 }

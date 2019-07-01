@@ -106,9 +106,9 @@ export class UserService {
       .map((response: UserNotification[]) => response);
   }
 
-  getPlannedFights(email: string) {
-    return this.http.post(AppComponent.apiEndpoint + 'util/getPlannedFights', {email: email})
-      .map((response: Invite[]) => response);
+  getPlannedFights(email: string, page: number) {
+    return this.http.post(AppComponent.apiEndpoint + 'util/getPlannedFights', {email: email, page: page})
+      .map((response: SearchResponse<Invite>) => response);
   }
 
   uploadVideoAdmin(file: File) {
@@ -178,5 +178,11 @@ export class UserService {
 
   updateUserChangableInfo(user: User) {
     this.http.post(AppComponent.apiEndpoint + 'util/updateChangableInfoToUser', user).subscribe();
+  }
+
+  declineInvite(inviteId: any) {
+    const formdata: FormData = new FormData();
+    formdata.append('inviteId', inviteId);
+    return this.http.post(AppComponent.apiEndpoint + 'util/declineInvite', formdata);
   }
 }

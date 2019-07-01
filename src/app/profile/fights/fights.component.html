@@ -125,6 +125,76 @@
     cursor: pointer;
     border-radius: 50%;
   }
+  @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600);
+  .promos {
+    width: 100%;
+    margin-top: 25px;
+    background-color: #292b2e;
+  }
+  .promo {
+    width: 25%;
+    background: #0F1012;
+    color: #f9f9f9;
+    float: left;
+    -webkit-animation:slide-in-right .5s cubic-bezier(.25,.46,.45,.94) both;animation:slide-in-right .5s cubic-bezier(.25,.46,.45,.94) both
+  }
+  .deal {
+    padding: 10px 0 0 0;
+  }
+  .deal span {
+    display: block;
+    text-align: center;
+  }
+  .deal span:first-of-type {
+    font-size: 23px;
+  }
+  .deal span:last-of-type {
+    font-size: 13px;
+  }
+  .promo .price {
+    display: block;
+    width: 250px;
+    background: #292b2e;
+    margin: 15px 0 10px 0;
+    text-align: center;
+    font-size: 23px;
+    padding: 17px 0 17px 0;
+  }
+  .promo:hover {
+    transform: scale(2); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+  }
+  ul {
+    display: block;
+    margin: 20px 0 10px 0;
+    padding: 0;
+    list-style-type: none;
+    text-align: center;
+    color: #999999;
+  }
+  li {
+    display: block;
+    margin: 10px 0 0 0;
+  }
+  button {
+    border: none;
+    border-radius: 40px;
+    background: #292b2e;
+    color: #f9f9f9;
+    padding: 10px 37px;
+    margin: 10px 0 20px 60px;
+  }
+  .scale {
+    transform: scale(1.5);
+    box-shadow: 0 0 4px 1px rgba(20, 20, 20, 0.8);
+  }
+  .hoveredButton {
+    background: #64AAA4;
+  }
+  .scale .price {
+    color: #64AAA4;
+  }
+  @-webkit-keyframes slide-in-right{0%{-webkit-transform:translateX(1000px);transform:translateX(1000px);opacity:0}100%{-webkit-transform:translateX(0);transform:translateX(0);opacity:1}}@keyframes slide-in-right{0%{-webkit-transform:translateX(1000px);transform:translateX(1000px);opacity:0}100%{-webkit-transform:translateX(0);transform:translateX(0);opacity:1}}
+
 </style>
 <style type="text/scss">
   .lds-circle {
@@ -160,29 +230,56 @@
   <h1 style="font-family: 'Times New Roman';color: #AC0A0A">You have no any planned fights, yet</h1>
   <img src="https://cdn.dribbble.com/users/16979/screenshots/183999/v_ipad.png" alt="">
 </div>
-<div *ngIf="isLoading">
-  <div class="lds-circle"><div></div></div><br>
+<!--<table *ngIf="invites.length != 0" class="container" style="width: 100%">-->
+  <!--<thead>-->
+  <!--<tr>-->
+    <!--<th>{{locale.inviter}}</th>-->
+    <!--<th>{{locale.invited}}</th>-->
+    <!--<th>{{locale.style}}</th>-->
+    <!--<th></th>-->
+    <!--<th></th>-->
+    <!--<th></th>-->
+  <!--</tr>-->
+  <!--</thead>-->
+  <!--<tbody *ngFor="let invite of invites; let i = index">-->
+  <!--<tr [ngStyle]="{background: i % 2 == 0 ?  'white' : '#398B93'}">-->
+    <!--<td (click)="showProfile(invite.fighterInviter.email)">{{invite.fighterInviter.name}} {{invite.fighterInviter.surname}}</td>-->
+    <!--<td (click)="showProfile(invite.fighterInvited.email)">{{invite.fighterInvited.name}} {{invite.fighterInvited.surname}}</td>-->
+    <!--<td>{{invite.fightStyle}}</td>-->
+    <!--<td>{{invite.date | date: 'dd.MM.yyyy HH:mm'}}</td>-->
+    <!--<td style="text-align: center"><button class="button" style="background-color: #1a8a34; width: 105px" (click)="setFighters(invite)">{{locale.uploadVideo}}</button></td>-->
+    <!--<td style="text-align: center"><button class="button" style="background-color: orange; width: 105px" (click)="showPlace(invite.latitude, invite.longitude)">{{locale.showPlace}}</button></td>-->
+  <!--</tr>-->
+  <!--</tbody>-->
+<!--</table>-->
+<div *ngIf="invites.length != 0" style="padding: 0">
+  <div class="promos" style="width: 104%; height: 540px;margin-left: -20px">
+    <div class="promo" *ngFor="let invite of invites; let i = index" [id]="'inviteRecord' + i" onmouseover="{this.classList.add('scale')}" onmouseleave="this.classList.remove('scale')" style="width: 33.3%;height: 100%">
+      <div class="deal" (click)="showProfile(invite.fighterInviter.email)">
+        <span>{{invite.fighterInviter.email == loggedInUserEmail ? invite.fighterInvited.name : invite.fighterInviter.name}} </span>
+        <span>{{invite.fighterInviter.email == loggedInUserEmail ? invite.fighterInvited.surname : invite.fighterInviter.surname}}</span>
+      </div>
+      <span class="price" style="width: 100%; height: 95px" (click)="showProfile(invite.fighterInviter.email)">{{invite.fightStyle}} on {{invite.date | date: 'dd.MM.yyyy HH:mm'}}</span>
+      <ul class="features" (click)="showProfile(invite.fighterInviter.email)">
+        <li><img height=150 width=150 src="assets/images/noPhoto.jpeg"></li>
+      </ul>
+      <div class="deal" style="overflow-y: auto;height: 65px" (click)="showProfile(invite.fighterInviter.email)">
+        <span style="font-size: 17px;">{{invite.comment}}</span>
+      </div>
+      <div style="margin-top: 5px; width: 310px">
+        <button onmouseover="{this.classList.add('hoveredButton')}" onmouseleave="this.classList.remove('hoveredButton')" style="float: left;margin-left: 3px; margin-bottom: 5px" (click)="setFighters(invite)">{{locale.uploadVideo}}</button>
+      </div>
+      <br>
+      <div style="width: 100%;overflow: hidden">
+        <button style="width: 180px; margin: 0;float: left;margin-left: 3px" onmouseover="{this.classList.add('hoveredButton')}" onmouseleave="this.classList.remove('hoveredButton')" (click)="showPlace(invite.latitude, invite.longitude)">{{locale.showPlace}}</button>
+        <button style="margin: 0;float: right;margin-right: 3px" onmouseover="{this.classList.add('hoveredButton')}" onmouseleave="this.classList.remove('hoveredButton')" (click)="startDialog(invite.fighterInviter.email)">{{locale.dialog}}</button><br>
+      </div>
+    </div>
+  </div>
 </div>
-<table *ngIf="invites.length != 0" class="container" style="width: 100%">
-  <thead>
-  <tr>
-    <th>Inviter</th>
-    <th>Invited</th>
-    <th>Style</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-  </thead>
-  <tbody *ngFor="let invite of invites; let i = index">
-  <tr [ngStyle]="{background: i % 2 == 0 ?  'white' : '#398B93'}">
-    <td (click)="showProfile(invite.fighterInviter.email)">{{invite.fighterInviter.name}} {{invite.fighterInviter.surname}}</td>
-    <td (click)="showProfile(invite.fighterInvited.email)">{{invite.fighterInvited.name}} {{invite.fighterInvited.surname}}</td>
-    <td>{{invite.fightStyle}}</td>
-    <td>{{invite.date | date: 'dd.MM.yyyy HH:mm'}}</td>
-    <td style="text-align: center"><button class="button" style="background-color: #1a8a34; width: 105px" (click)="setFighters(invite)">Upload video</button></td>
-    <td style="text-align: center"><button class="button" style="background-color: orange; width: 105px" (click)="showPlace(invite.latitude, invite.longitude)">Show place</button></td>
-  </tr>
-  </tbody>
-</table>
+  <div *ngIf="isLoading">
+    <div class="lds-circle"><div></div></div><br>
+  </div>
+<ngb-pagination *ngIf="invites.length != 0" [collectionSize]="collectionSize" [(page)]="page" (pageChange)="nextPage()"></ngb-pagination>
+
 <input type="file" (change)="onFileChange($event)" #file style="display: none" accept=".3g2,.3gp,.3gpp,.asf,.avi,.dat,.divx,.dv,.f4v,.flv,.gif,.m2ts,.m4v,.mkv,.mod,.mov,.mp4,.mpe,.mpeg,.mpeg4,.mpg,.mts,.nsv,.ogm,.ogv,.qt,.tod,.ts,.vob,.wmv">

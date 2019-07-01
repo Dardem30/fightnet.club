@@ -14,6 +14,7 @@ export class MapComponent {
   invitationStyle;
   invitationName;
   invitationSurname;
+  locale;
   div;
   userMarkers = [];
   markers = [];
@@ -52,6 +53,7 @@ export class MapComponent {
     let ref = this.div.createComponent(factory);
     ref.instance.email = email;
     ref.instance.invitationStyle = this.invitationStyle;
+    ref.instance.locale = this.locale;
     ref.instance.div = this.div;
     ref.instance.invitationName = this.invitationName;
     ref.instance.invitationSurname = this.invitationSurname;
