@@ -322,7 +322,7 @@
   </thead>
   <tbody *ngFor="let user of users">
     <tr>
-      <td (click)="showProfile(user.email)" class="profile-userpic"><img height=150 width=150 [src]="user == null || user.mainPhoto == null ? 'assets/images/noPhoto.jpeg' : user.mainPhoto"></td>
+      <td (click)="showProfile(user.email)" class="profile-userpic"><img height=150 width=150 [src]="user == null || user.mainPhoto == null ? 'assets/images/noPhoto.jpeg' : user.mainPhoto + accessTokenFacebook"></td>
       <td (click)="showProfile(user.email)">{{user.name}} {{user.surname}}</td>
       <td (click)="showProfile(user.email)">{{user.country}}, {{user.city}}</td>
       <td (click)="showProfile(user.email)">{{user.description.substr(0, 50)}}...</td>

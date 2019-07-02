@@ -793,7 +793,7 @@
       <div class="col-md-3">
         <div class="profile-sidebar">
           <div class="profile-userpic">
-            <img [src]="user == null || user.mainPhoto == null ? 'assets/images/noPhoto.jpeg' : user.mainPhoto">
+            <img [src]="user == null || user.mainPhoto == null ? 'assets/images/noPhoto.jpeg' : user.mainPhoto + accessTokenFacebook">
           </div>
 
           <div class="profile-usertitle">

@@ -185,4 +185,8 @@ export class UserService {
     formdata.append('inviteId', inviteId);
     return this.http.post(AppComponent.apiEndpoint + 'util/declineInvite', formdata);
   }
+
+  getFacebookAccessToken() {
+    return this.http.get(AppComponent.apiEndpoint + 'util/getFacebookAccessToken', {responseType: 'text'})
+  }
 }

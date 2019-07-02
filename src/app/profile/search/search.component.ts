@@ -16,6 +16,7 @@ import {AppComponent} from '../../app.component';
 })
 export class SearchComponent {
   model: any = {};
+  public accessTokenFacebook: string;
   page = 1;
   collectionSize = 0;
   div;
@@ -40,6 +41,7 @@ export class SearchComponent {
   }
 
   ngOnInit() {
+    this.userService.getFacebookAccessToken().subscribe(result => this.accessTokenFacebook = result);
     this.utilService.countries().then(countries => this.countries = countries);
     this.userService.getBookedPersons().subscribe(users => {
       this.bookedUsers = users;
@@ -130,6 +132,7 @@ export class SearchComponent {
     this.div.remove(1);
     let factory = this.componentFactoryResolver.resolveComponentFactory(MapComponent);
     let ref = this.div.createComponent(factory);
+    ref.instance.locale = this.locale;
     ref.changeDetectorRef.detectChanges();
   }
 }

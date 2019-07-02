@@ -37,9 +37,9 @@ export class FightsComponent {
   nextPage() {
     this.isLoading = true;
     this.userService.getPlannedFights(localStorage.getItem('email'), this.page).subscribe(invites => {
+      this.isLoading = false;
       this.collectionSize = (Math.floor(invites.count / 3) + (invites.count % 3 != 0 ? 1 : 0)) * 10;
       this.invites = invites.records;
-      this.isLoading = false;
     });
   }
 
@@ -61,7 +61,6 @@ export class FightsComponent {
     let file: File = event.target.files[0];
     if (file.type === 'video/mp4') {
       this.userService.uploadVideo(file, this.fighterInviter, this.fighterInvited, this.inviteId, this.style).subscribe(result => {
-        this.nextPage();
         if (result === 'success') {
           alert('Successfully')
         } else {
@@ -73,6 +72,8 @@ export class FightsComponent {
         type: 'success',
         showConfirmButton: true,
         width: 600
+      }).then(() => {
+        this.nextPage();
       });
     } else {
       alert('Wrong file format')
