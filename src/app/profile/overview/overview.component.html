@@ -447,18 +447,9 @@
   <button style="margin-left: 10px" class="red button" (click)="imageInput.click()">{{locale.uploadPhoto}}</button></h3>
 <hr>
 <div class="body" id="gallery">
-  <main>
-    <figure class="rellax">
-      <img src="https://source.unsplash.com/aiyBwbrWWlo" alt="Me coding">
-      <figcaption class="rellax" data-rellax-speed="1">Me coding</figcaption>
-    </figure>
-    <figure class="rellax">
-      <img src="https://source.unsplash.com/EaJm0ZfO84U" alt="Bronte Beach, Australia">
-      <figcaption class="rellax" data-rellax-speed="1">Bronte Beach, Australia</figcaption>
-    </figure>
-    <figure class="rellax">
-      <img src="https://source.unsplash.com/e9rkZKjdlSc" alt="The moon">
-      <figcaption class="rellax" data-rellax-speed="1">The moon</figcaption>
+  <main *ngIf="user != null">
+    <figure class="rellax" *ngFor="let photo of user.photos; let i=index">
+      <img [src]="photo + accessTokenFacebook" (click)="makeMainPhoto(i)">
     </figure>
   </main>
 </div>

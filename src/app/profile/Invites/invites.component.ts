@@ -12,6 +12,7 @@ import {ProfileComponent} from '../profile.component';
 export class InvitesComponent {
   invites: Invite[] = [];
   div;
+  public accessTokenFacebook: string;
   invitationStyle;
   invitationName;
   invitationSurname;
@@ -25,6 +26,7 @@ export class InvitesComponent {
   }
 
   ngOnInit() {
+    this.userService.getFacebookAccessToken().subscribe(result => this.accessTokenFacebook = result);
     this.nextPage();
   }
   showPlace(coordinateX, coordinateY) {
@@ -50,6 +52,7 @@ export class InvitesComponent {
     this.userService.getUserInvites(this.page).subscribe(invites => {
       this.collectionSize = (Math.floor(invites.count / 3) + (invites.count % 3 != 0 ? 1 : 0)) * 10;
       this.invites = invites.records;
+      console.log(this.invites)
       this.isLoading = false;
     });
   }

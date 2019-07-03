@@ -13,6 +13,7 @@ import {ProfileComponent} from '../profile.component';
 })
 export class BookedUsersComponent {
   users: BookedUser[] = [];
+  public accessTokenFacebook: string;
   isLoading: boolean = true;
   div;
   locale;
@@ -25,6 +26,7 @@ export class BookedUsersComponent {
   }
 
   ngOnInit() {
+    this.userService.getFacebookAccessToken().subscribe(result => this.accessTokenFacebook = result);
     this.userService.getBookedPersons().subscribe(users => {
       this.users = users;
       this.isLoading = false;

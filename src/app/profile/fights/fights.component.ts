@@ -11,9 +11,9 @@ import {ProfileComponent} from '../profile.component';
   templateUrl: './fights.component.html'
 })
 export class FightsComponent {
+  public accessTokenFacebook: string;
   invites: Invite[] = [];
   isLoading: boolean = true;
-  loggedInUserEmail: string = localStorage.getItem('email');
   div;
   locale;
   fighterInviter;
@@ -35,11 +35,20 @@ export class FightsComponent {
     this.nextPage();
   }
   nextPage() {
+    this.userService.getFacebookAccessToken().subscribe(result => this.accessTokenFacebook = result);
     this.isLoading = true;
+    const email = localStorage.getItem("email");
     this.userService.getPlannedFights(localStorage.getItem('email'), this.page).subscribe(invites => {
       this.isLoading = false;
       this.collectionSize = (Math.floor(invites.count / 3) + (invites.count % 3 != 0 ? 1 : 0)) * 10;
       this.invites = invites.records;
+      for (let invite of this.invites) {
+        if (invite.fighterInviter.email == email) {
+          invite.isInviter = true;
+        } else {
+          invite.isInviter = false;
+        }
+      }
     });
   }
 

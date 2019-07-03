@@ -29,36 +29,7 @@ export class VideosComponent {
   }
 
   ngOnInit() {
-    this.userService.searchVideo(this.model).subscribe(videos => {
-      this.collectionSize = videos.count;
-      this.videos = videos.records;
-      for (let video of this.videos) {
-        video.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl('https://www.facebook.com/plugins/video.php?href=' + video.url + '/');
-        if (video.votes1 != null) {
-          for (let user of video.votes1) {
-            if (user.email == localStorage.getItem('email')) {
-              video.votedForFirstFighter = true;
-              break;
-            }
-          }
-        } else {
-          video.votes1 = [];
-        }
-        if (video.votes2 != null) {
-          if (video.votedForFirstFighter == null) {
-            for (let user of video.votes2) {
-              if (user.email == localStorage.getItem('email')) {
-                video.votedForSecondFighter = true;
-                break;
-              }
-            }
-          }
-        } else {
-          video.votes2 = [];
-        }
-      }
-      this.isSearching = false;
-    });
+    this.search();
   }
 
   voteForFighter1(video: Video) {
@@ -123,6 +94,31 @@ export class VideosComponent {
     this.userService.searchVideo(this.model).subscribe(videos => {
       this.collectionSize = videos.count;
       this.videos = videos.records;
+      for (let video of this.videos) {
+        video.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl('https://www.facebook.com/plugins/video.php?href=' + video.url + '/');
+        if (video.votes1 != null) {
+          for (let user of video.votes1) {
+            if (user.email == localStorage.getItem('email')) {
+              video.votedForFirstFighter = true;
+              break;
+            }
+          }
+        } else {
+          video.votes1 = [];
+        }
+        if (video.votes2 != null) {
+          if (video.votedForFirstFighter == null) {
+            for (let user of video.votes2) {
+              if (user.email == localStorage.getItem('email')) {
+                video.votedForSecondFighter = true;
+                break;
+              }
+            }
+          }
+        } else {
+          video.votes2 = [];
+        }
+      }
       this.isSearching = false;
     });
   }

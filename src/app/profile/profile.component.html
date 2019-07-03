@@ -941,7 +941,7 @@
   <div class="chat" id="chat">
     <div class="chat-history" #chatHistory [scrollTop]="chatHistory.scrollHeight">
       <div class="chat-message clearfix" *ngFor="let message of messages" id="chatHistory">
-        <img [src]="message.photo == null ? 'assets/images/noPhoto.jpeg' : message.photo"  alt="" width="32" height="32" (click)="openProfile(message.email)">
+        <img [src]="message.photo == null ? 'assets/images/noPhoto.jpeg' : message.photo + accessTokenFacebook"  alt="" width="32" height="32" (click)="openProfile(message.email)">
         <div class="chat-message-content clearfix" style="word-wrap: break-word">
           <span class="chat-time">{{message.date | date: 'HH:mm'}}</span>
           <h5 [style.font-weight]="message.isYou == true ? '700' : 'normal'" [style.color]="message.isYou == true ? 'red' : 'black'">{{message.userSender}}</h5>
@@ -968,7 +968,7 @@
   <div class="chat" id="chatComments">
     <div class="chat-history" #commentsHistory [scrollTop]="commentsHistory.scrollHeight">
       <div class="chat-message clearfix" *ngFor="let comment of commentsToShow">
-        <img [src]="comment.photo == null ? 'assets/images/noPhoto.jpeg' : comment.photo"  alt="" width="32" height="32" (click)="openProfile(comment.email)">
+        <img [src]="comment.photo == 'null' ? 'assets/images/noPhoto.jpeg' : comment.photo  + accessTokenFacebook"  alt="" width="32" height="32" (click)="openProfile(comment.email)">
         <div class="chat-message-content clearfix" style="word-wrap: break-word">
           <span class="chat-time">{{comment.date | date: 'HH:mm'}}</span>
           <h5 [style.font-weight]="comment == null || comment.isYou == true ? '700' : 'normal'" [style.color]="comment.isYou == true ? 'red' : 'black'">{{comment.userFullName}}</h5>

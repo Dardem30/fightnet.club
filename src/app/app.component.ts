@@ -13,8 +13,8 @@ export class AppComponent {
   public static invite: Invite;
   public static isEnglish: boolean = true;
   public static fighter2Email;
-  public static apiEndpoint = 'https://fightnet.herokuapp.com/';
-  //public static apiEndpoint = 'http://localhost:8080/';
+  //public static apiEndpoint = 'https://fightnet.herokuapp.com/';
+  public static apiEndpoint = 'http://localhost:8080/';
   constructor(private http: HttpClient) {
     this.http.get('http://ip-api.com/json').subscribe((result: {country:string}) => {
       const country = result.country;

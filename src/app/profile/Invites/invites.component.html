@@ -224,12 +224,34 @@
       transform: rotateY(3600deg);
     }
   }
+  .script {
+    font-family: "Seaweed Script";
+    color: #AC0A0A;
+    text-align: center;
+    font-size: 40px;
+    position: relative;
+    margin:0;
+  }
+  .script span {
+    background-color: white;
+    padding: 0 0.3em;
+  }
+  .script:before {
+    content:"";
+    display: block;
+    position: absolute;
+    z-index:-1;
+    top: 50%;
+    width: 100%;
+    border-bottom: 3px solid #AC0A0A;
+  }
 </style>
 <div style="align-content: center; width: 100%"  *ngIf="invites.length == 0 && !isLoading">
   <h1 style="font-family: 'Times New Roman';color: #AC0A0A">You have no any invites, yet</h1>
   <img src="https://cdn.dribbble.com/users/16979/screenshots/183999/v_ipad.png" alt="">
 </div>
 <div *ngIf="invites.length != 0" style="padding: 0">
+  <p class="script"><span>{{locale.invites}}</span></p>
 <div class="promos" style="width: 104%; height: 535px;margin-left: -20px">
   <div class="promo" *ngFor="let invite of invites; let i = index" [id]="'inviteRecord' + i" onmouseover="{this.classList.add('scale')}" onmouseleave="this.classList.remove('scale')" style="width: 33.3%;height: 100%">
     <div class="deal" (click)="showProfile(invite.fighterInviter.email)">
@@ -238,7 +260,7 @@
     </div>
     <span class="price" style="width: 100%" (click)="showProfile(invite.fighterInviter.email)">{{invite.fightStyle}} on {{invite.date | date: 'dd.MM.yyyy HH:mm'}}</span>
     <ul class="features" (click)="showProfile(invite.fighterInviter.email)">
-      <li><img height=150 width=150 src="assets/images/noPhoto.jpeg"></li>
+      <li><img height=150 width=150 [src]="invite.fighterInviter.mainPhoto == null ? 'assets/images/noPhoto.jpeg' : invite.fighterInviter.mainPhoto + accessTokenFacebook"></li>
     </ul>
     <div class="deal" style="overflow-y: auto;height: 65px" (click)="showProfile(invite.fighterInviter.email)">
       <span style="font-size: 17px;">{{invite.comment}}</span>

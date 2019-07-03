@@ -9,6 +9,7 @@ import {Message} from '../../models/message';
 })
 export class MessagesComponent implements OnInit{
   div;
+  public accessTokenFacebook: string;
   isLoading: boolean = true;
   conversations: Message[] = [];
 
@@ -16,6 +17,7 @@ export class MessagesComponent implements OnInit{
               private componentFactoryResolver: ComponentFactoryResolver) {
   }
   ngOnInit() {
+    this.userService.getFacebookAccessToken().subscribe(result => this.accessTokenFacebook = result);
     this.userService.getConversations(localStorage.getItem("email")).subscribe(conversations => {
       this.conversations = conversations;
       this.isLoading = false;

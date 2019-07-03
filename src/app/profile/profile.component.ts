@@ -388,6 +388,7 @@ export class ProfileComponent {
     if (this.textMessage != null && this.textMessage != '') {
       const message: Message = new Message();
       message.text = this.textMessage;
+      message.photo = this.user.mainPhoto;
       message.userSender = this.user.email;
       message.userResiver = this.getDialogUser().email;
       this.textMessage = '';
@@ -457,12 +458,15 @@ export class ProfileComponent {
         }
         if (com.email == this.user.email) {
           com.email = null;
+          com.photo = this.user.mainPhoto;
           com.isYou = true;
         }
       }
       this.userService.getCommentsPhotos(emails).subscribe(result => {
         for (const com of this.commentsToShow) {
-          com.photo = result[com.email];
+          if (com.email != null) {
+            com.photo = result[com.email];
+          }
         }
       });
       this.initializeWebSocketConnectionForComments();
@@ -488,6 +492,7 @@ export class ProfileComponent {
       video.url = ProfileComponent.videoId;
       comment.text = this.textComment;
       comment.email = this.user.email;
+      comment.photo = this.user.mainPhoto;
       comment.video = video;
       comment.userFullName = this.user.name + ' ' + this.user.surname;
       for (let uComment of this.commentsToShow) {
@@ -504,6 +509,7 @@ export class ProfileComponent {
       const comment = JSON.parse(commentJson.body);
       if (comment.email = this.user.email) {
         comment.email = null;
+        comment.photo = this.user.mainPhoto;
         comment.isYou = true;
       }
       this.commentsToShow.push(comment)

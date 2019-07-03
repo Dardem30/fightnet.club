@@ -189,4 +189,8 @@ export class UserService {
   getFacebookAccessToken() {
     return this.http.get(AppComponent.apiEndpoint + 'util/getFacebookAccessToken', {responseType: 'text'})
   }
+
+  makeMainPhoto(email: string, indexOfPhoto: number) {
+    return this.http.post(AppComponent.apiEndpoint + 'util/makeMainPhoto', {email: email, indexOfPhoto: indexOfPhoto});
+  }
 }

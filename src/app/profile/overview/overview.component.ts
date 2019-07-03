@@ -16,6 +16,7 @@ export class OverviewComponent {
   cities: City[];
   locale;
   isLoading: boolean = false;
+  public accessTokenFacebook: string;
   public countWins: number = 0;
   public countLoses: number = 0;
   public hasNoWins = true;
@@ -37,6 +38,7 @@ export class OverviewComponent {
   }
 
   ngOnInit() {
+    this.userService.getFacebookAccessToken().subscribe(result => this.accessTokenFacebook = result);
     this.userService.findUserByEmail(localStorage.getItem('email')).subscribe(user => {
       for (let keyWins in user.wins) {
         this.hasNoWins = false;
@@ -146,5 +148,9 @@ export class OverviewComponent {
         width: 600
       });
     }
+  }
+
+  makeMainPhoto(indexOfPhoto: number) {
+    this.userService.makeMainPhoto(this.user.email, indexOfPhoto).subscribe(result => window.location.reload());
   }
 }

@@ -10,5 +10,6 @@ export class Invite {
   date: Date;
   accepted;
   comment: string;
+  isInviter: boolean;
   constructor() {}
 }

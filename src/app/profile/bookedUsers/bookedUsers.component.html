@@ -175,7 +175,7 @@
   </thead>
   <tbody *ngFor="let user of users; let i = index">
   <tr [ngStyle]="{background: i % 2 == 0 ?  'white' : '#398B93'}">
-    <td (click)="showProfile(user.email)" class="profile-userpic"><img height=150 width=150 src="assets/images/noPhoto.jpeg"></td>
+    <td (click)="showProfile(user.email)" class="profile-userpic"><img height=150 width=150 [src]="user.mainPhoto == null ? 'assets/images/noPhoto.jpeg' : user.mainPhoto + accessTokenFacebook"></td>
     <td (click)="showProfile(user.email)">{{user.name}} {{user.surname}}</td>
     <td style="text-align: center"><button class="button" style="background-color: #1a8a34; width: 105px" (click)="inviteToFight(user)">{{locale.fight}}</button></td>
     <td style="text-align: center"><button class="button" style="background-color: orange; width: 105px" (click)="dialog(user.email)">{{locale.dialog}}</button></td>
