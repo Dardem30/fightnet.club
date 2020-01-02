@@ -47,11 +47,15 @@ export class MobileVideosComponent {
   }
 
   ngOnInit() {
-    console.log(localStorage.getItem('mobileUser'));
-    this.user = JSON.parse(localStorage.getItem('mobileUser'));
-   // this.accessTokenFacebook = this.user.accessTokenFacebook;
-    this.accessTokenFacebook = this.user.accessTokenFacebook;
-    this.search();
+    const me =this;
+    setTimeout(function () {
+      console.log(localStorage.getItem('mobileUser'));
+      this.user = JSON.parse(localStorage.getItem('mobileUser'));
+      alert(this.user.accessTokenFacebook);
+      this.accessTokenFacebook = this.user.accessTokenFacebook;
+      this.search();
+    }, 2000);
+
   }
   @HostListener('window:beforeunload', ['$event'])
   unloadHandler(event) {
