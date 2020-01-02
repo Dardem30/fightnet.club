@@ -1,0 +1,359 @@
+<style>
+  body {
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    font-family: 'Roboto', Tahoma, Arial, sans-serif;
+    line-height: 1.5;
+    font-size: 13px;
+  }
+  form {
+    width: 100%;
+    outline: 0;
+    float: left;
+    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+  }
+  #live-chat-comments {
+    bottom: 0;
+    font-size: 12px;
+    left: 24px;
+    position: fixed;
+    width: 40%;
+    opacity: 0;
+    transition: .5s ease-in-out all;
+  }
+
+  #live-chat-comments header {
+    background: #293239;
+    border-radius: 5px 5px 0 0;
+    color: #fff;
+    cursor: pointer;
+    padding: 12px 14px;
+  }
+
+  #live-chat-comments h4:before {
+    background: #1a8a34;
+    border-radius: 50%;
+    content: "";
+    display: inline-block;
+    height: 8px;
+    margin: 0 8px 0 0;
+    width: 8px;
+  }
+
+  #live-chat-comments h4 {
+    font-size: 12px;
+  }
+
+  #live-chat-comments h5 {
+    font-size: 10px;
+  }
+
+  #live-chat-comments form {
+    padding: 24px;
+  }
+  .clearfix {
+    *zoom: 1;
+  }
+
+  /* For IE 6/7 */
+  .clearfix:before, .clearfix:after {
+    content: "";
+    display: table;
+  }
+
+  .clearfix:after {
+    clear: both;
+  }
+  #live-chat-comments input[type="text"] {
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 6.5px;
+    outline: none;
+  }
+  .chat-message-counter {
+    background: #e62727;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    display: none;
+    font-size: 12px;
+    font-weight: bold;
+    height: 28px;
+    left: 0;
+    line-height: 28px;
+    margin: -15px 0 0 -15px;
+    position: absolute;
+    text-align: center;
+    top: 0;
+    width: 28px;
+  }
+
+  .chat-close {
+    background: #1b2126;
+    border-radius: 50%;
+    color: #e62727;
+    display: block;
+    float: right;
+    font-size: 10px;
+    height: 16px;
+    line-height: 16px;
+    margin: 2px 0 0 0;
+    text-align: center;
+    width: 16px;
+  }
+
+  .chat {
+    background: #fff;
+    -webkit-transition: all 1s ease-in-out;
+    transition: all 1s ease-in-out;
+  }
+
+  .chat-history {
+    height: 452px;
+    padding: 8px 24px;
+    overflow-y: scroll;
+  }
+
+  .chat-message {
+    margin: 16px 0;
+  }
+
+  .chat-message img {
+    border-radius: 50%;
+    float: left;
+  }
+
+  .chat-message-content {
+    margin-left: 56px;
+  }
+
+  .chat-time {
+    float: right;
+    font-size: 10px;
+  }
+
+  .chat-feedback {
+    font-style: italic;
+    margin: 0 0 0 80px;
+  }
+  .show {
+    opacity: 1 !important;
+  }
+  form > .textbox {
+    outline: 0;
+    height: 42px;
+    width: 45%;
+    line-height: 42px;
+    padding: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+    color: #212121;
+    border: 0;
+    float: left;
+    -webkit-border-radius: 4px 0 0 4px;
+    border-radius: 4px 0 0 4px;
+  }
+
+  form > .textbox:focus {
+    outline: 0;
+    background-color: #FFF;
+  }
+
+  form > .button {
+    outline: 0;
+    background: none;
+    background-color: rgba(38, 50, 56, 0.8);
+    float: left;
+    height: 42px;
+    width: 10%;
+    text-align: center;
+    line-height: 42px;
+    border: 0;
+    color: #FFF;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: 16px;
+    text-rendering: auto;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    -webkit-transition: background-color .4s ease;
+    transition: background-color .4s ease;
+    -webkit-border-radius: 0 4px 4px 0;
+    border-radius: 0 4px 4px 0;
+  }
+
+  form > .button:hover {
+    background-color: rgba(0, 150, 136, 0.8);
+  }
+  select:required:invalid {
+    color: gray;
+  }
+
+  .dot {
+    height: 15px;
+    width: 15px;
+    background-color: #AC0A0A;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  /* setup tooltips */
+  .tooltip {
+    position: relative;
+  }
+  .tooltip:before,
+  .tooltip:after {
+    display: block;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+  }
+  .tooltip:after {
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid rgba(0,0,0,.75);
+    border-left: 6px solid transparent;
+    content: '';
+    height: 0;
+    top: 20px;
+    left: 20px;
+    width: 0;
+  }
+  .tooltip:before {
+    background: rgba(0,0,0,.75);
+    border-radius: 2px;
+    color: #fff;
+    content: attr(data-title);
+    font-size: 14px;
+    padding: 6px 10px;
+    top: 26px;
+    white-space: nowrap;
+  }
+
+  /* the animations */
+  /* fade */
+  .tooltip.fade:after,
+  .tooltip.fade:before {
+    transform: translate3d(0,-10px,0);
+    transition: all .15s ease-in-out;
+  }
+  .tooltip.fade:hover:after,
+  .tooltip.fade:hover:before {
+    opacity: 1;
+    transform: translate3d(0,0,0);
+  }
+
+  .profile-userpic img {
+    float: none;
+    margin: 0 auto;
+    display: inline-block;
+    width: 50%;
+    height: 50%;
+    -webkit-border-radius: 50% !important;
+    -moz-border-radius: 50% !important;
+    border-radius: 50% !important;
+  }
+  .comment-buttons {
+    border: none;
+    color: white;
+    padding: 9px 16px;
+    font-size: 12px;
+    text-align: center;
+    background-color: #555555;
+    text-decoration: none;
+    display: inline-block;
+    margin: 4px 2px;
+    cursor: pointer;
+  }
+
+</style>
+<style type="text/scss">
+  .lds-circle {
+    display: inline-block;
+    transform: translateZ(1px);
+  }
+  .lds-circle > div {
+    display: inline-block;
+    width: 51px;
+    height: 51px;
+    margin: 6px;
+    border-radius: 50%;
+    background: #673ab7;
+    animation: lds-circle 2.4s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+  }
+  @keyframes lds-circle {
+    0%, 100% {
+      animation-timing-function: cubic-bezier(0.5, 0, 1, 0.5);
+    }
+    0% {
+      transform: rotateY(0deg);
+    }
+    50% {
+      transform: rotateY(1800deg);
+      animation-timing-function: cubic-bezier(0, 0.5, 0.5, 1);
+    }
+    100% {
+      transform: rotateY(3600deg);
+    }
+  }
+</style>
+<form method="post" style="font-style: normal; background-color: white; margin-bottom: 15px">
+  <select class="textbox" (change)="model.style = $event.target.value === '' ? null : $event.target.value" required>
+    <option value="" hidden>{{locale.fightStyle}}</option>
+    <option>Aikido</option>
+    <option>Boxing</option>
+    <option>Muay Thai</option>
+    <option>Greco-Roman wrestling</option>
+    <option>Freestyle wrestling</option>
+    <option>Taekwondo</option>
+    <option>Jujutsu</option>
+    <option>Krav Maga</option>
+    <option>Wing Chun</option>
+  </select>
+  <input type="text" class="textbox" [placeholder]="locale.name" name="name" id="name" [(ngModel)]="model.name"
+         #name="ngModel">
+  <button class="button" (click)="search()">Search</button>
+</form>
+<div *ngIf="!isSearching" style="text-align: center">
+  <div *ngFor = "let video of videos" class="profile-userpic">
+    <iframe
+      [src]="video.safeUrl"
+      width="560" height="315"
+      style="border:none;overflow:hidden"
+      scrolling="no" frameborder="0" allowTransparency="true" allowFullScreen="true"></iframe>
+    <br>
+    <button class="comment-buttons" (click)="voteForFighter1(video)">{{video.fighter1.name}} {{video.fighter1.surname}} ({{video.votes1.length}})</button>
+    <button class="comment-buttons" style="margin-bottom: 15px; margin-left: 10px; margin-right: 10px" (click)="toggleCommentsDialog(video)">{{locale.comments}}</button>
+    <button class="comment-buttons" (click)="voteForFighter2(video)">{{video.fighter2.name}} {{video.fighter2.surname}} ({{video.votes2.length}})</button>
+  </div>
+</div>
+<div *ngIf="isSearching">
+  <div class="lds-circle"><div></div></div><br>
+</div>
+<div id="live-chat-comments" [class.show]="checkOpenComments()">
+  <header class="clearfix" (click)="slideToggle('comments')">
+    <a class="chat-close" (click)="closeComments()">x</a>
+    <h4>Comments</h4>
+    <span class="chat-message-counter">3</span>
+  </header>
+  <div class="chat" id="chatComments">
+    <div class="chat-history" #commentsHistory [scrollTop]="commentsHistory.scrollHeight">
+      <div class="chat-message clearfix" *ngFor="let comment of commentsToShow">
+        <img [src]="comment.photo == 'null' ? 'assets/images/noPhoto.jpeg' : comment.photo  + accessTokenFacebook"  alt="" width="32" height="32">
+        <div class="chat-message-content clearfix" style="word-wrap: break-word">
+          <span class="chat-time">{{comment.date | date: 'HH:mm'}}</span>
+          <h5 [style.font-weight]="comment == null || comment.isYou == true ? '700' : 'normal'" [style.color]="comment.isYou == true ? 'red' : 'black'">{{comment.userFullName}}</h5>
+          <p>{{comment.text}}</p>
+        </div>
+        <hr>
+      </div>
+    </div>
+    <fieldset>
+      <input type="text" placeholder="Type your message…" style="width: 88%" (keyup.enter)="sendComment()" (input)="textComment = $event.target.value" [value]="textComment" autofocus>
+      <button (click)="sendComment()" class="comment-buttons" style="width: 10%">
+        Send
+      </button>
+      <input type="hidden">
+    </fieldset>
+  </div>
+</div>
+<ngb-pagination [collectionSize]="collectionSize" [(page)]="page" (pageChange)="search()"></ngb-pagination>

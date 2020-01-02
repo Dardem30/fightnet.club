@@ -106,7 +106,7 @@
 <div style="overflow-x: hidden;height: 600px;margin-bottom: 0px" #history [scrollTop]="history.scrollHeight">
   <div *ngFor="let message of messages">
     <div [class]="message.userSender == email ? 'container' : 'container darker'">
-      <img src="assets/images/noPhoto.jpeg" alt="Avatar" [class]="message.userSender == email ? 'left' : 'right'" (click)="openProfile()">
+      <img [src]="message.photo == null ? 'assets/images/noPhoto.jpeg' : message.photo + accessTokenFacebook" alt="Avatar" [class]="message.userSender == email ? 'left' : 'right'" (click)="openProfile()">
       <span [class]="message.userSender == email ? 'time-right' : 'time-left'">{{message.date | date: 'dd.MM.yyyy HH:mm'}}</span>
       <div style="width: 90%; word-wrap: break-word" [style.text-align]="message.userSender == email ? 'left' : 'right'"  [class]="message.userSender == email ? 'time-left' : 'time-right'">
         <p>{{message.text}}</p>

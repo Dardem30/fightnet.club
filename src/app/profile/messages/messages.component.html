@@ -62,7 +62,7 @@
   <div class="lds-circle"><div></div></div><br>
 </div>
 <div *ngFor="let conversation of conversations" id="messagesWindow">
-  <div class="row" style="margin: 0" (click)="dialog(conversation.userSender, conversation.userResiver, conversation.titleName)">
+  <div class="row" style="margin: 0" (click)="dialog(conversation.userSender, conversation.userResiver, conversation.titleName, conversation.photo)">
     <div class="column1">
       <div class="profile-userpic">
         <img [src]="conversation.photo == null ? 'assets/images/noPhoto.jpeg' : conversation.photo + accessTokenFacebook">

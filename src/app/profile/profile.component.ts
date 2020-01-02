@@ -103,6 +103,7 @@ export class ProfileComponent {
         }
       }
       this.user = user;
+      console.log(this.user);
       AppComponent.user = user;
       this.initializeWebSocketConnectionForNotifications();
       this.initializeWebSocketConnectionForMessages();
@@ -415,7 +416,7 @@ export class ProfileComponent {
     ProfileComponent.stompClient = Stomp.over(ws);
     let that = this;
     ProfileComponent.stompClient.connect({
-      'Authorization': localStorage.getItem('currentUser')
+              'Authorization': localStorage.getItem('currentUser')
     }, function () {
       that.openSocket();
     });

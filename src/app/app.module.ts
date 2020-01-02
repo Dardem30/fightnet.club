@@ -30,12 +30,14 @@ import {SocketService} from './services/socketService';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {MessagesComponent} from './profile/messages/messages.component';
 import {DialogComponent} from './profile/messages/dialog/dialog.component';
+import {MobileVideosComponent} from "./mobile/mobileVideos.component";
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
   {path: 'registration', component: RegistrationComponent},
   {path: 'confirmCode/:email', component: ConfirmCodeComponent},
-  {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]}
+  {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
+  {path: 'mobileVideos', component: MobileVideosComponent}
 ];
 
 @NgModule({
@@ -50,6 +52,7 @@ const routes: Routes = [
     SearchComponent,
     BookedUsersComponent,
     InvitesComponent,
+    MobileVideosComponent,
     NotificationComponent,
     FightsComponent,
     VideosComponent,

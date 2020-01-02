@@ -24,11 +24,13 @@ export class MessagesComponent implements OnInit{
     });
   }
 
-  dialog(email1: string, email2: string, titleName: string) {
+  dialog(email1: string, email2: string, titleName: string, photo: string) {
     this.div.remove(1);
     const ref = this.div.createComponent(this.componentFactoryResolver.resolveComponentFactory(DialogComponent));
     ref.instance.div = this.div;
     ref.instance.email = email1 === localStorage.getItem("email") ? email2 : email1;
+    ref.instance.userPhoto = photo;
+    ref.instance.accessTokenFacebook = this.accessTokenFacebook;
     ref.changeDetectorRef.detectChanges();
   }
   setConvestaions() {

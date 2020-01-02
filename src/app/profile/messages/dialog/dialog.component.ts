@@ -19,6 +19,8 @@ export class DialogComponent implements OnInit, OnDestroy {
   messages: Message[];
   convMessage = '';
   div;
+  userPhoto;
+  accessTokenFacebook;
 
   constructor(private userService: UserService,
               private socketService: SocketService,
@@ -28,7 +30,15 @@ export class DialogComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.userService.getDialog(localStorage.getItem('email'), this.email).subscribe(messages => {
+      for (let index in messages) {
+        if (messages[index].userSender === AppComponent.user.email) {
+          messages[index].photo = AppComponent.user.mainPhoto;
+        } else {
+          messages[index].photo = this.userPhoto;
+        }
+      }
       this.messages = messages;
+      console.log(this.messages);
     });
     let ws = new SockJS(this.serverUrl);
     DialogComponent.stompClient = Stomp.over(ws);
